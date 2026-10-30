@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -17,6 +17,8 @@ const fragmentShader = /* glsl */ `
   varying vec2 vUv;
   uniform float uTime;
   uniform vec2 uResolution;
+  uniform vec2 uMouse;
+  uniform float uScroll;
   uniform vec3 uColorA;
   uniform vec3 uColorB;
   uniform vec3 uColorBg;
@@ -52,21 +54,24 @@ const fragmentShader = /* glsl */ `
     float aspect = uResolution.x / uResolution.y;
     vec2 p = (uv - 0.5) * vec2(aspect, 1.0);
 
-    float t = uTime * 0.045;
-    float n1 = fbm(p * 1.6 + vec2(t, -t * 0.7));
-    float n2 = fbm(p * 2.4 - vec2(t * 0.5, t));
-    float field = fbm(p * 1.1 + vec2(n1, n2) * 1.2 + t * 0.3);
+    p += uMouse * 0.14;
+    p.y += uScroll * 0.4;
 
-    float dist = length(p + vec2(0.15, 0.08));
-    float glow = smoothstep(1.1, 0.0, dist) * 0.9;
+    float t = uTime * 0.09;
+    float n1 = fbm(p * 1.6 + vec2(t, -t * 0.7) + uMouse * 0.25);
+    float n2 = fbm(p * 2.4 - vec2(t * 0.5, t) - uMouse * 0.15);
+    float field = fbm(p * 1.1 + vec2(n1, n2) * 1.3 + t * 0.45);
+
+    float dist = length(p + vec2(0.15, 0.08) - uMouse * 0.25);
+    float glow = smoothstep(1.15 + uScroll * 0.35, 0.0, dist) * 0.95;
 
     vec3 col = uColorBg;
-    col = mix(col, uColorA, clamp(field * 1.7, 0.0, 1.0));
-    col = mix(col, uColorB, clamp(glow * n2 * 2.1, 0.0, 1.0));
-    col += uColorA * glow * 0.35;
+    col = mix(col, uColorA, clamp(field * 1.85, 0.0, 1.0));
+    col = mix(col, uColorB, clamp(glow * n2 * 2.3, 0.0, 1.0));
+    col += uColorA * glow * 0.4;
 
     float vignette = smoothstep(1.3, 0.3, length(p));
-    col *= mix(0.75, 1.0, vignette);
+    col *= mix(0.7, 1.0, vignette);
 
     float grain = (hash(uv * uResolution.xy + uTime) - 0.5) * 0.03;
     col += grain;
@@ -75,7 +80,13 @@ const fragmentShader = /* glsl */ `
   }
 `;
 
-function GradientField() {
+function GradientField({
+  mouseRef,
+  scrollRef,
+}: {
+  mouseRef: React.RefObject<{ x: number; y: number }>;
+  scrollRef: React.RefObject<number>;
+}) {
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const { size } = useThree();
 
@@ -83,6 +94,8 @@ function GradientField() {
     () => ({
       uTime: { value: 0 },
       uResolution: { value: new THREE.Vector2(size.width, size.height) },
+      uMouse: { value: new THREE.Vector2(0, 0) },
+      uScroll: { value: 0 },
       uColorA: { value: new THREE.Color("#5b3bff") },
       uColorB: { value: new THREE.Color("#22d3ee") },
       uColorBg: { value: new THREE.Color("#05050a") },
@@ -91,11 +104,16 @@ function GradientField() {
     []
   );
 
+  /* eslint-disable react-hooks/immutability -- mutating shader uniform values in place is the standard three.js/r3f pattern, not React state */
   useFrame((_state, delta) => {
-    // eslint-disable-next-line react-hooks/immutability -- mutating a shader uniform value in place is the standard three.js/r3f pattern, not React state
+    const lerp = Math.min(delta * 2.5, 1);
     uniforms.uTime.value += delta;
     uniforms.uResolution.value.set(size.width, size.height);
+    uniforms.uMouse.value.x += (mouseRef.current.x - uniforms.uMouse.value.x) * lerp;
+    uniforms.uMouse.value.y += (mouseRef.current.y - uniforms.uMouse.value.y) * lerp;
+    uniforms.uScroll.value += (scrollRef.current - uniforms.uScroll.value) * lerp;
   });
+  /* eslint-enable react-hooks/immutability */
 
   return (
     <mesh frustumCulled={false}>
@@ -113,6 +131,33 @@ function GradientField() {
 }
 
 export default function HeroScene() {
+  const mouseRef = useRef({ x: 0, y: 0 });
+  const scrollRef = useRef(0);
+
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const handlePointerMove = (e: PointerEvent) => {
+      mouseRef.current = {
+        x: (e.clientX / window.innerWidth) * 2 - 1,
+        y: -((e.clientY / window.innerHeight) * 2 - 1),
+      };
+    };
+    const handleScroll = () => {
+      scrollRef.current = Math.min(window.scrollY / window.innerHeight, 1.4);
+    };
+
+    if (!reduced) {
+      window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    }
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <Canvas
       orthographic
@@ -121,7 +166,7 @@ export default function HeroScene() {
       frameloop="always"
       gl={{ antialias: false, powerPreference: "high-performance", preserveDrawingBuffer: true }}
     >
-      <GradientField />
+      <GradientField mouseRef={mouseRef} scrollRef={scrollRef} />
     </Canvas>
   );
 }

@@ -38,7 +38,18 @@ export default function Hero() {
           { opacity: 0, y: 16, duration: 0.6, stagger: 0.08 },
           "-=0.4"
         )
-        .from(".hero-meta", { opacity: 0, duration: 0.8 }, "-=0.3");
+        .from(".hero-meta", { opacity: 0, duration: 0.8 }, "-=0.3")
+        .from(".hero-scrollcue", { opacity: 0, y: -10, duration: 0.8 }, "-=0.5");
+
+      if (window.innerWidth >= 768) {
+        gsap.to(".hero-scrollcue-dot", {
+          y: 16,
+          duration: 1.3,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+        });
+      }
     },
     { scope: rootRef }
   );
@@ -53,12 +64,12 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg/80" />
       </div>
 
-      <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-6 pt-32 pb-16 sm:px-10">
+      <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-6 pt-28 pb-16 sm:px-10 sm:pt-24">
         <p className="hero-eyebrow font-mono text-xs uppercase tracking-[0.3em] text-muted">
           Web &middot; Automations &middot; Backend &middot; Apps
         </p>
 
-        <h1 className="mt-6 text-[13vw] font-semibold leading-[0.95] tracking-tight sm:text-[8vw] lg:text-[6.4vw]">
+        <h1 className="mt-5 max-w-5xl text-[14vw] font-semibold leading-[0.92] tracking-tight sm:text-[8vw] lg:text-[6.2vw]">
           <span className="hero-line block overflow-hidden">
             <span className="block">We build</span>
           </span>
@@ -70,14 +81,14 @@ export default function Hero() {
           </span>
         </h1>
 
-        <p className="hero-sub mt-8 max-w-xl text-lg text-muted sm:text-xl">
+        <p className="hero-sub mt-7 max-w-lg text-lg text-muted sm:text-xl">
           CAIDE is a web development studio for teams who want their stack
           designed, automated, and shipped by people who actually write the
           code &mdash; design, backend, apps, and the automations that tie it
           all together.
         </p>
 
-        <div className="mt-10 flex flex-wrap items-center gap-4">
+        <div className="mt-9 flex flex-wrap items-center gap-4">
           <a
             href="#contact"
             className="hero-cta group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-fg px-7 py-3.5 text-sm font-semibold text-bg transition-transform duration-300 hover:scale-[1.03]"
@@ -94,12 +105,21 @@ export default function Hero() {
             See how we work
           </a>
         </div>
+
+        <div className="hero-scrollcue pointer-events-none absolute right-6 bottom-0 hidden flex-col items-center gap-3 sm:right-10 md:flex">
+          <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted [writing-mode:vertical-rl]">
+            Scroll
+          </span>
+          <span className="relative h-10 w-px overflow-hidden bg-line">
+            <span className="hero-scrollcue-dot absolute inset-x-0 top-0 h-3 w-px bg-accent-2" />
+          </span>
+        </div>
       </div>
 
       <div className="hero-meta mx-auto flex w-full max-w-6xl items-center justify-between border-t border-line px-6 py-5 text-xs text-muted sm:px-10">
         <span>Kryptyk / AP Division</span>
-        <span className="hidden sm:inline">Scroll to explore</span>
-        <span>Est. 2026</span>
+        <span className="hidden sm:inline">Est. 2026</span>
+        <span>CAIDE &reg;</span>
       </div>
     </section>
   );
