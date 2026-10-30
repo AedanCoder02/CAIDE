@@ -61,11 +61,12 @@ const fragmentShader = /* glsl */ `
     float glow = smoothstep(1.1, 0.0, dist) * 0.9;
 
     vec3 col = uColorBg;
-    col = mix(col, uColorA, clamp(field * 1.3, 0.0, 1.0));
-    col = mix(col, uColorB, clamp(glow * n2 * 1.6, 0.0, 1.0));
+    col = mix(col, uColorA, clamp(field * 1.7, 0.0, 1.0));
+    col = mix(col, uColorB, clamp(glow * n2 * 2.1, 0.0, 1.0));
+    col += uColorA * glow * 0.35;
 
     float vignette = smoothstep(1.3, 0.3, length(p));
-    col *= mix(0.55, 1.0, vignette);
+    col *= mix(0.75, 1.0, vignette);
 
     float grain = (hash(uv * uResolution.xy + uTime) - 0.5) * 0.03;
     col += grain;

@@ -60,7 +60,7 @@ export default function Services() {
     <section
       id="services"
       ref={sectionRef}
-      className="border-b border-line bg-bg px-6 py-28 sm:px-10"
+      className="border-b border-line bg-bg/72 px-6 py-28 sm:px-10"
     >
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -77,7 +77,7 @@ export default function Services() {
           {SERVICES.map((service) => (
             <div
               key={service.title}
-              className="service-card group relative flex min-h-[260px] translate-y-10 flex-col justify-between bg-bg-elevated p-7 opacity-0 transition-colors duration-300 hover:bg-bg-elevated-2 lg:col-span-1 sm:[&:nth-child(5)]:col-span-2 lg:[&:nth-child(5)]:col-span-1"
+              className="service-card group relative flex min-h-[260px] translate-y-10 flex-col justify-between bg-bg-elevated/75 p-7 opacity-0 transition-colors duration-300 hover:bg-bg-elevated-2/85 lg:col-span-1 sm:[&:nth-child(5)]:col-span-2 lg:[&:nth-child(5)]:col-span-1"
               onPointerMove={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
                 e.currentTarget.style.setProperty("--x", `${e.clientX - rect.left}px`);

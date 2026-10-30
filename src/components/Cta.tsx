@@ -32,7 +32,7 @@ export default function Cta() {
     <section
       id="contact"
       ref={sectionRef}
-      className="relative overflow-hidden border-b border-line bg-bg px-6 py-32 text-center sm:px-10"
+      className="relative overflow-hidden border-b border-line bg-bg/70 px-6 py-32 text-center sm:px-10"
     >
       <div
         aria-hidden

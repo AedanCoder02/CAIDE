@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 import SmoothScroll from "@/lib/SmoothScroll";
+import AmbientBackground from "@/components/AmbientBackground";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,9 +27,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body id="top" className="min-h-full bg-bg text-fg">
-        <div className="noise-overlay" />
-        <SmoothScroll>{children}</SmoothScroll>
+      <body id="top" className="min-h-full text-fg">
+        <AmbientBackground />
+        <div className="relative z-10">
+          <div className="noise-overlay" />
+          <SmoothScroll>{children}</SmoothScroll>
+        </div>
       </body>
     </html>
   );

@@ -50,7 +50,7 @@ export default function Hero() {
     >
       <div className="absolute inset-0 -z-10">
         <HeroScene />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg/80" />
       </div>
 
       <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-6 pt-32 pb-16 sm:px-10">

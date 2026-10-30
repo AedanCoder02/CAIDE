@@ -84,7 +84,7 @@ export default function Process() {
     <section
       id="process"
       ref={sectionRef}
-      className="relative overflow-hidden border-b border-line bg-bg-elevated px-6 py-28 sm:px-10 md:min-h-screen"
+      className="relative overflow-hidden border-b border-line bg-bg-elevated/72 px-6 py-28 sm:px-10 md:min-h-screen"
     >
       <div className="mx-auto flex h-full max-w-6xl flex-col md:min-h-[70vh] md:justify-center">
         <div className="flex items-end justify-between gap-6">

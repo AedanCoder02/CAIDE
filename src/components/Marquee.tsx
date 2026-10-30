@@ -33,7 +33,7 @@ export default function Marquee() {
   const row = [...ITEMS, ...ITEMS];
 
   return (
-    <div className="overflow-hidden border-b border-line bg-bg-elevated py-5">
+    <div className="overflow-hidden border-b border-line bg-bg-elevated/85 py-5">
       <div ref={trackRef} className="flex w-max items-center gap-10 whitespace-nowrap">
         {[...row, ...row].map((item, i) => (
           <span
