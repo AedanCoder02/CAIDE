@@ -1,8 +1,10 @@
 import type { NextConfig } from "next";
 
-// GitHub Pages serves this repo from a /caide subpath and can only serve a
-// static export, so the GitHub Actions workflow builds with GITHUB_PAGES=true.
-// A Vercel deploy (full SSR/dynamic features) uses the default config below.
+// GitHub Pages serves this repo from a /CAIDE subpath (exact case — the repo's
+// canonical name is uppercase, and GitHub Pages paths are case-sensitive) and
+// can only serve a static export, so the GitHub Actions workflow builds with
+// GITHUB_PAGES=true. A Vercel deploy (full SSR/dynamic features) uses the
+// default config below.
 const isGithubPages = process.env.GITHUB_PAGES === "true";
 
 const nextConfig: NextConfig = {
@@ -10,8 +12,8 @@ const nextConfig: NextConfig = {
   ...(isGithubPages
     ? {
         output: "export" as const,
-        basePath: "/caide",
-        assetPrefix: "/caide",
+        basePath: "/CAIDE",
+        assetPrefix: "/CAIDE",
         trailingSlash: true,
         images: { unoptimized: true },
       }
