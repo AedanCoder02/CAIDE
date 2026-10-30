@@ -42,17 +42,21 @@ export default function Process() {
       const track = trackRef.current;
       if (!track) return;
 
-      const getDistance = () => track.scrollWidth - track.parentElement!.clientWidth;
+      // Measured once, before the pin is created. Recomputing this inside
+      // `end`/`onUpdate` on every ScrollTrigger refresh caused a runaway
+      // feedback loop (the pin-spacer's own height change re-triggered a
+      // refresh, which re-measured a larger distance, which grew the
+      // spacer again), ballooning the pinned scroll distance to 40,000px+.
+      const distance = track.scrollWidth - window.innerWidth;
 
       const st = ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: () => `+=${getDistance() + window.innerHeight * 0.4}`,
+        end: `+=${distance + window.innerHeight * 0.4}`,
         pin: true,
         scrub: 1,
-        invalidateOnRefresh: true,
         onUpdate: (self) => {
-          gsap.set(track, { x: -self.progress * getDistance() });
+          gsap.set(track, { x: -self.progress * distance });
           const idx = Math.min(STEPS.length - 1, Math.floor(self.progress * STEPS.length));
           const bars = sectionRef.current?.querySelectorAll<HTMLElement>(".process-bar");
           bars?.forEach((bar, i) => {
