@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import Particles from "./Particles";
 
 const HeroScene = dynamic(() => import("./HeroScene"), { ssr: false });
 
@@ -43,11 +44,12 @@ export default function Hero() {
     >
       <div className="absolute inset-0 -z-10">
         <HeroScene />
+        <Particles colors={["#ffffff", "#a5f3fc", "#c4b5fd"]} density={0.35} speed={0.08} size={[0.4, 1.4]} />
         <div className="absolute inset-0 bg-gradient-to-r from-bg/75 via-bg/25 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-bg" />
       </div>
 
-      <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-6 pt-28 pb-16 sm:px-10 sm:pt-24">
+      <div className="wrap relative flex flex-1 flex-col justify-center pt-28 pb-16 sm:pt-24">
         <p className="hero-eyebrow inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.25em] text-fg/80 backdrop-blur-sm">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent-5 shadow-[0_0_10px_#10b981]" />
           Software engineering studio
@@ -82,10 +84,10 @@ export default function Hero() {
             </span>
           </a>
           <a
-            href="#approach"
+            href="#work"
             className="hero-cta inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-7 py-3.5 text-sm font-semibold text-fg backdrop-blur-sm transition-colors duration-300 hover:border-fg/40"
           >
-            Improve an existing project
+            See the work
           </a>
         </div>
 
@@ -110,7 +112,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="hero-meta mx-auto flex w-full max-w-6xl items-center justify-between border-t border-white/10 px-6 py-5 text-xs text-muted sm:px-10">
+      <div className="hero-meta wrap flex items-center justify-between border-t border-white/10 py-5 text-xs text-muted">
         <span>Kryptyk / AP Division</span>
         <span className="hidden sm:inline">New builds &middot; Upgrades &middot; Rescues</span>
         <span>Est. 2026</span>

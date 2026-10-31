@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import Particles from "./Particles";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,7 +22,7 @@ const COLUMNS = [
   {
     title: "Studio",
     links: [
-      { href: "#approach", label: "How we engage" },
+      { href: "#work", label: "Selected work" },
       { href: "#process", label: "Process" },
       { href: "#stack", label: "Toolkit" },
       { href: "#contact", label: "Contact" },
@@ -55,7 +56,7 @@ export default function Footer() {
   );
 
   return (
-    <footer ref={footerRef} className="relative overflow-hidden bg-[#030308] px-6 pt-20 sm:px-10">
+    <footer ref={footerRef} className="relative overflow-hidden bg-[#030308] pt-20">
       <div
         aria-hidden
         className="light-sweep absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent"
@@ -67,7 +68,9 @@ export default function Footer() {
         style={{ background: "radial-gradient(ellipse, rgba(124,92,255,0.3), rgba(34,211,238,0.1) 50%, transparent 70%)" }}
       />
 
-      <div className="relative mx-auto max-w-6xl">
+      <Particles colors={["#ffffff", "#a78bfa"]} density={0.25} speed={0.06} size={[0.4, 1.2]} />
+
+      <div className="wrap relative">
         <div className="grid gap-12 border-b border-white/[0.08] pb-14 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr]">
           <div className="footer-reveal">
             <span className="font-mono text-lg font-semibold tracking-[0.2em]">CAIDE</span>
@@ -109,8 +112,8 @@ export default function Footer() {
         </div>
       </div>
 
-      <div aria-hidden className="relative mx-auto mt-10 max-w-7xl select-none overflow-hidden">
-        <p className="footer-word text-shimmer translate-y-[18%] text-center text-[27vw] font-semibold leading-none tracking-tighter opacity-80 lg:text-[20rem]">
+      <div aria-hidden className="relative mt-10 select-none overflow-hidden">
+        <p className="footer-word text-shimmer translate-y-[18%] text-center text-[27vw] font-semibold leading-none tracking-tighter opacity-80">
           CAIDE
         </p>
       </div>

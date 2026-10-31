@@ -6,7 +6,7 @@ import { useGSAP } from "@gsap/react";
 
 const LINKS = [
   { href: "#services", label: "Services" },
-  { href: "#approach", label: "Approach" },
+  { href: "#work", label: "Work" },
   { href: "#process", label: "Process" },
   { href: "#stack", label: "Toolkit" },
 ];
@@ -31,7 +31,7 @@ export default function Nav() {
       ref={navRef}
       className="fixed inset-x-0 top-0 z-50 border-b border-line bg-bg/70 backdrop-blur-md"
     >
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 sm:px-10">
+      <nav className="wrap flex items-center justify-between py-4">
         <a href="#top" className="font-mono text-sm font-semibold tracking-[0.2em]">
           CAIDE
         </a>

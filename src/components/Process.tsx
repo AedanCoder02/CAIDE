@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import Particles from "./Particles";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -45,7 +46,7 @@ export default function Process() {
 
       // Measured once before pinning: recomputing on every refresh fed back into
       // the pin-spacer height and grew it without bound.
-      const distance = track.scrollWidth - window.innerWidth;
+      const distance = track.scrollWidth - (track.parentElement?.clientWidth ?? window.innerWidth);
 
       const st = ScrollTrigger.create({
         trigger: sectionRef.current,
@@ -72,7 +73,7 @@ export default function Process() {
     <section
       id="process"
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#03101a] px-6 py-28 sm:px-10 md:min-h-screen"
+      className="relative overflow-hidden bg-[#03101a] py-28 md:min-h-screen"
     >
       <div aria-hidden className="line-grid pointer-events-none absolute inset-0 opacity-60 [mask-image:linear-gradient(to_bottom,transparent,#000_30%,#000_70%,transparent)]" />
       <div
@@ -81,7 +82,9 @@ export default function Process() {
         style={{ background: "radial-gradient(ellipse, rgba(34,211,238,0.18), transparent 70%)" }}
       />
 
-      <div className="relative mx-auto flex h-full max-w-6xl flex-col md:min-h-[80vh] md:justify-center">
+      <Particles colors={["#22d3ee", "#67e8f9", "#ffffff"]} mode="rise" density={0.45} speed={0.35} size={[0.5, 1.8]} />
+
+      <div className="wrap relative flex h-full flex-col md:min-h-[80vh] md:justify-center">
         <div>
           <span className="font-mono text-xs uppercase tracking-[0.3em] text-accent-2">Process</span>
           <h2 className="mt-3 text-4xl font-semibold tracking-tight sm:text-6xl">
@@ -115,7 +118,7 @@ export default function Process() {
                 <div
                   key={step.n}
                   data-active={i === 0 ? "true" : "false"}
-                  className="process-card group relative w-[58vw] max-w-xl flex-shrink-0 overflow-hidden rounded-2xl border border-white/[0.08] bg-[#061722]/80 p-10 transition-[border-color,box-shadow] duration-500 data-[active=true]:border-accent-2/50 data-[active=true]:shadow-[0_0_60px_-10px_rgba(34,211,238,0.45)] lg:p-12"
+                  className="process-card group relative w-[58vw] max-w-xl flex-shrink-0 2xl:max-w-2xl overflow-hidden rounded-2xl border border-white/[0.08] bg-[#061722]/80 p-10 transition-[border-color,box-shadow] duration-500 data-[active=true]:border-accent-2/50 data-[active=true]:shadow-[0_0_60px_-10px_rgba(34,211,238,0.45)] lg:p-12"
                 >
                   <span
                     aria-hidden

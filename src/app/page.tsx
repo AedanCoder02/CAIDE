@@ -2,7 +2,7 @@ import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
 import Services from "@/components/Services";
-import Approach from "@/components/Approach";
+import Portfolio from "@/components/Portfolio";
 import Process from "@/components/Process";
 import Stack from "@/components/Stack";
 import Cta from "@/components/Cta";
@@ -16,7 +16,7 @@ export default function Home() {
         <Hero />
         <Marquee />
         <Services />
-        <Approach />
+        <Portfolio />
         <Process />
         <Stack />
         <Cta />

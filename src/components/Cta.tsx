@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import Particles from "./Particles";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,7 +32,7 @@ export default function Cta() {
     <section
       id="contact"
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#05030f] px-6 pt-36 pb-48 text-center sm:px-10 sm:pt-44 sm:pb-56"
+      className="relative overflow-hidden bg-[#05030f] pt-36 pb-48 text-center sm:pt-44 sm:pb-56"
     >
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <span
@@ -47,6 +48,7 @@ export default function Cta() {
           style={beam({ "--spot-color": "rgba(236,72,153,0.5)", "--spot-from": "16deg", "--spot-to": "-12deg", "--spot-speed": "9.5s" })}
         />
         <div className="grid-floor" />
+        <Particles colors={["#ffffff", "#c4b5fd", "#22d3ee", "#f472b6"]} mode="rise" density={0.6} speed={0.45} size={[0.6, 2]} />
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#05030f] to-transparent" />
         <div
           className="absolute left-1/2 top-1/2 h-[22rem] w-[44rem] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
@@ -54,7 +56,7 @@ export default function Cta() {
         />
       </div>
 
-      <div className="relative">
+      <div className="wrap relative">
         <p className="cta-reveal font-mono text-xs uppercase tracking-[0.3em] text-accent-2">
           Let&apos;s build
         </p>

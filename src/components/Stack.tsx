@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import Particles from "./Particles";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -81,9 +82,10 @@ export default function Stack() {
         className="pointer-events-none absolute left-1/2 top-1/2 h-[30rem] w-[70rem] -translate-x-1/2 -translate-y-1/2 blur-3xl"
         style={{ background: "radial-gradient(ellipse, rgba(236,72,153,0.2), rgba(245,158,11,0.08) 45%, transparent 70%)" }}
       />
+      <Particles colors={["#ec4899", "#f59e0b", "#f9a8d4"]} density={0.45} speed={0.14} link={110} size={[0.5, 1.7]} />
       <div aria-hidden className="dot-grid pointer-events-none absolute inset-0 opacity-50 [mask-image:radial-gradient(ellipse_at_center,#000_10%,transparent_65%)]" />
 
-      <div className="relative mx-auto max-w-6xl px-6 sm:px-10">
+      <div className="wrap relative">
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-accent-3">Toolkit</span>
         <h2 className="mt-4 max-w-2xl text-4xl font-semibold tracking-tight sm:text-6xl">
           Modern tools, chosen for the job.
@@ -103,7 +105,7 @@ export default function Stack() {
         </div>
       </div>
 
-      <div className="relative mx-auto mt-16 max-w-6xl px-6 sm:px-10">
+      <div className="wrap relative mt-16">
         <div className="stack-cats grid gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-4">
           {CATEGORIES.map((c) => (
             <div key={c.label} className="stack-cat bg-[#0d0614] p-6">
