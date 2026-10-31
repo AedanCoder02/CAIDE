@@ -6,8 +6,9 @@ import { useGSAP } from "@gsap/react";
 
 const LINKS = [
   { href: "#services", label: "Services" },
+  { href: "#approach", label: "Approach" },
   { href: "#process", label: "Process" },
-  { href: "#contact", label: "Contact" },
+  { href: "#stack", label: "Toolkit" },
 ];
 
 export default function Nav() {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -17,11 +17,6 @@ const fragmentShader = /* glsl */ `
   varying vec2 vUv;
   uniform float uTime;
   uniform vec2 uResolution;
-  uniform vec2 uMouse;
-  uniform float uScroll;
-  uniform vec3 uColorA;
-  uniform vec3 uColorB;
-  uniform vec3 uColorBg;
 
   float hash(vec2 p) {
     return fract(sin(dot(p, vec2(41.3, 289.1))) * 43758.5453);
@@ -39,79 +34,83 @@ const fragmentShader = /* glsl */ `
   }
 
   float fbm(vec2 p) {
-    float value = 0.0;
-    float amplitude = 0.55;
+    float v = 0.0;
+    float a = 0.5;
     for (int i = 0; i < 5; i++) {
-      value += amplitude * noise(p);
-      p *= 2.05;
-      amplitude *= 0.55;
+      v += a * noise(p);
+      p *= 2.03;
+      a *= 0.5;
     }
-    return value;
+    return v;
+  }
+
+  vec3 palette(float t) {
+    vec3 violet = vec3(0.486, 0.361, 1.0);
+    vec3 cyan = vec3(0.133, 0.827, 0.933);
+    vec3 magenta = vec3(0.925, 0.282, 0.6);
+    t = fract(t);
+    if (t < 0.333) return mix(violet, cyan, t / 0.333);
+    if (t < 0.666) return mix(cyan, magenta, (t - 0.333) / 0.333);
+    return mix(magenta, violet, (t - 0.666) / 0.334);
   }
 
   void main() {
     vec2 uv = vUv;
     float aspect = uResolution.x / uResolution.y;
     vec2 p = (uv - 0.5) * vec2(aspect, 1.0);
+    float t = uTime * 0.16;
 
-    p += uMouse * 0.14;
-    p.y += uScroll * 0.4;
+    vec3 col = vec3(0.012, 0.012, 0.03);
 
-    float t = uTime * 0.09;
-    float n1 = fbm(p * 1.6 + vec2(t, -t * 0.7) + uMouse * 0.25);
-    float n2 = fbm(p * 2.4 - vec2(t * 0.5, t) - uMouse * 0.15);
-    float field = fbm(p * 1.1 + vec2(n1, n2) * 1.3 + t * 0.45);
+    // Three aurora curtains drifting and folding over each other.
+    for (int i = 0; i < 3; i++) {
+      float fi = float(i);
+      float warp = fbm(vec2(p.x * 1.1 + t * (0.55 + fi * 0.25), fi * 3.7 + t * 0.35));
+      float y = p.y - (0.22 - fi * 0.2)
+        - (warp - 0.5) * 0.85
+        - sin(p.x * 1.8 + t * 1.6 + fi * 2.1) * 0.09;
+      float band = exp(-pow(y * (4.2 + fi * 1.8), 2.0));
+      float curtain = smoothstep(0.0, 0.35, y + 0.35) * exp(-max(y, 0.0) * 2.5);
+      float streaks = 0.45 + 0.55 * fbm(vec2(p.x * 11.0 + t * 2.4 + fi * 5.0, y * 2.0));
+      vec3 c = palette(fi * 0.33 + p.x * 0.12 + t * 0.08);
+      col += c * (band * 0.9 + curtain * 0.25) * streaks * (0.75 - fi * 0.15);
+    }
 
-    float dist = length(p + vec2(0.15, 0.08) - uMouse * 0.25);
-    float glow = smoothstep(1.15 + uScroll * 0.35, 0.0, dist) * 0.95;
+    // Light shafts falling from above.
+    float shafts = pow(fbm(vec2(p.x * 2.6 - t * 0.4, t * 0.15)), 3.0);
+    col += vec3(0.38, 0.32, 0.95) * shafts * smoothstep(-0.7, 0.6, p.y) * 0.55;
 
-    vec3 col = uColorBg;
-    col = mix(col, uColorA, clamp(field * 1.85, 0.0, 1.0));
-    col = mix(col, uColorB, clamp(glow * n2 * 2.3, 0.0, 1.0));
-    col += uColorA * glow * 0.4;
+    // Low horizon glow.
+    col += vec3(0.28, 0.12, 0.62) * exp(-pow((p.y + 0.6) * 2.6, 2.0)) * 0.55;
 
-    float vignette = smoothstep(1.3, 0.3, length(p));
-    col *= mix(0.7, 1.0, vignette);
+    // Occasional bright pulse travelling along the main curtain.
+    float pulse = exp(-pow((p.x - mod(t * 1.4, aspect * 1.6) + aspect * 0.8) * 2.2, 2.0));
+    col += vec3(0.6, 0.9, 1.0) * pulse * exp(-pow((p.y - 0.18) * 5.0, 2.0)) * 0.35;
 
-    float grain = (hash(uv * uResolution.xy + uTime) - 0.5) * 0.03;
-    col += grain;
+    col *= smoothstep(1.45, 0.25, length(p * vec2(0.75, 1.0)));
+    col = 1.0 - exp(-col * 1.5);
+    col += (hash(uv * uResolution + uTime) - 0.5) * 0.022;
 
     gl_FragColor = vec4(col, 1.0);
   }
 `;
 
-function GradientField({
-  mouseRef,
-  scrollRef,
-}: {
-  mouseRef: React.RefObject<{ x: number; y: number }>;
-  scrollRef: React.RefObject<number>;
-}) {
-  const materialRef = useRef<THREE.ShaderMaterial>(null);
+function Aurora() {
   const { size } = useThree();
 
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
       uResolution: { value: new THREE.Vector2(size.width, size.height) },
-      uMouse: { value: new THREE.Vector2(0, 0) },
-      uScroll: { value: 0 },
-      uColorA: { value: new THREE.Color("#5b3bff") },
-      uColorB: { value: new THREE.Color("#22d3ee") },
-      uColorBg: { value: new THREE.Color("#05050a") },
     }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- uniforms object must stay referentially stable across resizes; size is applied via mutation in useFrame below
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- uniforms object must stay referentially stable; size is applied via mutation in useFrame
     []
   );
 
   /* eslint-disable react-hooks/immutability -- mutating shader uniform values in place is the standard three.js/r3f pattern, not React state */
   useFrame((_state, delta) => {
-    const lerp = Math.min(delta * 2.5, 1);
-    uniforms.uTime.value += delta;
+    uniforms.uTime.value += Math.min(delta, 0.1);
     uniforms.uResolution.value.set(size.width, size.height);
-    uniforms.uMouse.value.x += (mouseRef.current.x - uniforms.uMouse.value.x) * lerp;
-    uniforms.uMouse.value.y += (mouseRef.current.y - uniforms.uMouse.value.y) * lerp;
-    uniforms.uScroll.value += (scrollRef.current - uniforms.uScroll.value) * lerp;
   });
   /* eslint-enable react-hooks/immutability */
 
@@ -119,7 +118,6 @@ function GradientField({
     <mesh frustumCulled={false}>
       <planeGeometry args={[2, 2]} />
       <shaderMaterial
-        ref={materialRef}
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
         uniforms={uniforms}
@@ -131,42 +129,28 @@ function GradientField({
 }
 
 export default function HeroScene() {
-  const mouseRef = useRef({ x: 0, y: 0 });
-  const scrollRef = useRef(0);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    const handlePointerMove = (e: PointerEvent) => {
-      mouseRef.current = {
-        x: (e.clientX / window.innerWidth) * 2 - 1,
-        y: -((e.clientY / window.innerHeight) * 2 - 1),
-      };
-    };
-    const handleScroll = () => {
-      scrollRef.current = Math.min(window.scrollY / window.innerHeight, 1.4);
-    };
-
-    if (!reduced) {
-      window.addEventListener("pointermove", handlePointerMove, { passive: true });
-    }
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("scroll", handleScroll);
-    };
+    const el = wrapRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
   return (
-    <Canvas
-      orthographic
-      camera={{ position: [0, 0, 1], zoom: 1 }}
-      dpr={[1, 1.75]}
-      frameloop="always"
-      gl={{ antialias: false, powerPreference: "high-performance", preserveDrawingBuffer: true }}
-    >
-      <GradientField mouseRef={mouseRef} scrollRef={scrollRef} />
-    </Canvas>
+    <div ref={wrapRef} className="absolute inset-0">
+      <Canvas
+        orthographic
+        camera={{ position: [0, 0, 1], zoom: 1 }}
+        dpr={[1, 1.5]}
+        frameloop={visible ? "always" : "never"}
+        gl={{ antialias: false, powerPreference: "high-performance", preserveDrawingBuffer: true }}
+      >
+        <Aurora />
+      </Canvas>
+    </div>
   );
 }

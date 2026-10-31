@@ -3,11 +3,13 @@
 :root {
   --bg: #05050a;
   --bg-elevated: #0c0c14;
-  --bg-elevated-2: #11111c;
   --fg: #f3f3f7;
   --muted: #8d8da0;
   --accent: #7c5cff;
   --accent-2: #22d3ee;
+  --accent-3: #ec4899;
+  --accent-4: #f59e0b;
+  --accent-5: #10b981;
   --line: rgba(255, 255, 255, 0.09);
 }
 
@@ -18,6 +20,9 @@
   --color-muted: var(--muted);
   --color-accent: var(--accent);
   --color-accent-2: var(--accent-2);
+  --color-accent-3: var(--accent-3);
+  --color-accent-4: var(--accent-4);
+  --color-accent-5: var(--accent-5);
   --color-line: var(--line);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -45,10 +50,25 @@ body {
 }
 
 .text-gradient {
-  background-image: linear-gradient(95deg, var(--fg) 0%, var(--fg) 45%, var(--accent-2) 70%, var(--accent) 100%);
+  background-image: linear-gradient(95deg, var(--fg) 0%, var(--fg) 40%, var(--accent-2) 65%, var(--accent) 100%);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
+}
+
+.text-shimmer {
+  background-image: linear-gradient(100deg, #7c5cff 0%, #22d3ee 25%, #f3f3f7 40%, #ec4899 60%, #7c5cff 80%, #22d3ee 100%);
+  background-size: 250% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: shimmer 9s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -250% 0;
+  }
 }
 
 .noise-overlay {
@@ -59,6 +79,150 @@ body {
   opacity: 0.05;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Light travelling around a card's border. Per-card color/speed via --beam-color / --beam-speed. */
+@property --beam-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.beam-border {
+  position: relative;
+  isolation: isolate;
+}
+
+.beam-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 1.5px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--beam-angle),
+    transparent 0deg,
+    transparent 200deg,
+    var(--beam-color, #7c5cff) 300deg,
+    #ffffff 340deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: beam-spin var(--beam-speed, 7s) linear infinite;
+  pointer-events: none;
+}
+
+.beam-border::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--beam-angle),
+    transparent 0deg,
+    transparent 220deg,
+    var(--beam-color, #7c5cff) 330deg,
+    transparent 360deg
+  );
+  filter: blur(22px);
+  opacity: 0.55;
+  animation: beam-spin var(--beam-speed, 7s) linear infinite;
+  pointer-events: none;
+}
+
+@keyframes beam-spin {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
+.dot-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.line-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Perspective floor that scrolls toward the viewer. */
+.grid-floor {
+  position: absolute;
+  left: -50%;
+  right: -50%;
+  bottom: -2px;
+  height: 55%;
+  background-image:
+    linear-gradient(rgba(124, 92, 255, 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 92, 255, 0.5) 1px, transparent 1px);
+  background-size: 64px 64px;
+  transform: perspective(420px) rotateX(62deg);
+  transform-origin: bottom center;
+  -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 85%);
+  mask-image: linear-gradient(to top, #000 0%, transparent 85%);
+  animation: grid-move 2.4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes grid-move {
+  to {
+    background-position: 0 64px;
+  }
+}
+
+/* Stage-light beam swinging from above. */
+.spot-beam {
+  position: absolute;
+  top: -10%;
+  width: 34rem;
+  height: 120%;
+  transform-origin: top center;
+  background: linear-gradient(to bottom, var(--spot-color, rgba(124, 92, 255, 0.55)), transparent 75%);
+  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+  filter: blur(24px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: spot-sway var(--spot-speed, 9s) ease-in-out infinite alternate;
+}
+
+@keyframes spot-sway {
+  from {
+    transform: rotate(var(--spot-from, -14deg));
+  }
+  to {
+    transform: rotate(var(--spot-to, 14deg));
+  }
+}
+
+/* Horizontal light streak sweeping across a divider line. */
+.light-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.light-sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 30%;
+  background: linear-gradient(90deg, transparent, var(--sweep-color, #22d3ee), transparent);
+  animation: sweep 4.5s ease-in-out infinite;
+}
+
+@keyframes sweep {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(450%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

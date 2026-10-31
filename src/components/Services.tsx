@@ -7,31 +7,85 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SERVICES = [
+type Service = {
+  title: string;
+  desc: string;
+  tags: string[];
+  color: string;
+  span: string;
+  speed: string;
+  icon: React.ReactNode;
+};
+
+const icon = (d: string) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+    <path d={d} />
+  </svg>
+);
+
+const SERVICES: Service[] = [
   {
-    index: "01",
-    title: "Web Design",
-    desc: "Interfaces that move, convert, and feel like the product you're actually building — not a template with your logo on it.",
+    title: "Web Development",
+    desc: "Marketing sites, dashboards, and full web platforms in Next.js and TypeScript. Fast, accessible, animated where it earns it, and built to be maintained after launch.",
+    tags: ["Next.js", "React", "TypeScript", "Shopify"],
+    color: "#7c5cff",
+    span: "lg:col-span-2",
+    speed: "8s",
+    icon: icon("M3 5h18v14H3zM3 9h18M7 7h.01M10 7h.01"),
   },
   {
-    index: "02",
     title: "Automations",
-    desc: "n8n, Telegram bots, and backend glue that removes the manual steps between your tools so your team stops doing them by hand.",
+    desc: "n8n workflows, Telegram bots, and scheduled jobs that remove the manual steps between your tools.",
+    tags: ["n8n", "Bots", "Cron", "Webhooks"],
+    color: "#22d3ee",
+    span: "",
+    speed: "6s",
+    icon: icon("M13 2 4 14h7l-1 8 9-12h-7z"),
   },
   {
-    index: "03",
-    title: "Backend Engineering",
-    desc: "APIs, databases, and infrastructure on Railway and Vercel built to hold up under real traffic, not just a demo.",
+    title: "Backend & APIs",
+    desc: "APIs, databases, auth, and queues designed for real traffic, not a demo.",
+    tags: ["Node", "Postgres", "REST", "Auth"],
+    color: "#10b981",
+    span: "",
+    speed: "7s",
+    icon: icon("M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3zM4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"),
   },
   {
-    index: "04",
+    title: "Integrations",
+    desc: "Connect payments, CRMs, storefronts, messaging, and AI models so your systems talk to each other.",
+    tags: ["Stripe", "Shopify", "CRMs", "LLMs"],
+    color: "#ec4899",
+    span: "",
+    speed: "9s",
+    icon: icon("M8 12h8M9 7H7a5 5 0 0 0 0 10h2M15 7h2a5 5 0 0 1 0 10h-2"),
+  },
+  {
     title: "App Development",
-    desc: "Next.js web apps and the mobile companions that go with them, shipped end to end.",
+    desc: "Web apps and their mobile companions, shipped end to end with the backend behind them.",
+    tags: ["PWA", "Mobile", "Realtime"],
+    color: "#f59e0b",
+    span: "",
+    speed: "6.5s",
+    icon: icon("M8 2h8a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zM11 18h2"),
   },
   {
-    index: "05",
-    title: "Tech Solutions",
-    desc: "Shopify builds, integrations, and the one-off technical problems that don't fit a neat category but still need solving.",
+    title: "DevOps & Infrastructure",
+    desc: "CI/CD, environments, monitoring, and deploys on Vercel, Railway, and Docker.",
+    tags: ["CI/CD", "Vercel", "Railway", "Docker"],
+    color: "#22d3ee",
+    span: "",
+    speed: "8.5s",
+    icon: icon("M12 2 3 7v10l9 5 9-5V7zM3 7l9 5 9-5M12 12v10"),
+  },
+  {
+    title: "Audits, Refactors & Rescues",
+    desc: "Already have a codebase? We audit it, fix what is slow or fragile, migrate what is outdated, and take over stalled projects so they actually ship.",
+    tags: ["Code audit", "Performance", "Migration", "Takeover"],
+    color: "#7c5cff",
+    span: "sm:col-span-2",
+    speed: "7.5s",
+    icon: icon("M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"),
   },
 ];
 
@@ -40,17 +94,23 @@ export default function Services() {
 
   useGSAP(
     () => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.set(".service-card", { opacity: 1, y: 0 });
+        return;
+      }
+      gsap.from(".services-head", {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        ease: "expo.out",
+        stagger: 0.1,
+        scrollTrigger: { trigger: sectionRef.current, start: "top 75%", once: true },
+      });
       ScrollTrigger.batch(".service-card", {
-        start: "top 85%",
+        start: "top 88%",
         once: true,
         onEnter: (els) =>
-          gsap.to(els, {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            ease: "expo.out",
-            stagger: 0.1,
-          }),
+          gsap.to(els, { opacity: 1, y: 0, duration: 0.8, ease: "expo.out", stagger: 0.08 }),
       });
     },
     { scope: sectionRef }
@@ -60,45 +120,79 @@ export default function Services() {
     <section
       id="services"
       ref={sectionRef}
-      className="border-b border-line bg-bg/72 px-6 py-28 sm:px-10"
+      className="relative overflow-hidden bg-[#06050f] px-6 py-28 sm:px-10 sm:py-36"
     >
-      <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <h2 className="max-w-md text-4xl font-semibold tracking-tight sm:text-5xl">
-            One studio, every layer of the stack.
-          </h2>
-          <p className="max-w-sm text-muted">
-            We don&apos;t hand you off between five agencies. Design, backend,
-            automation, and apps come from the same team that ships them.
+      <div aria-hidden className="dot-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,#000_20%,transparent_70%)]" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-[-12rem] h-[30rem] w-[60rem] -translate-x-1/2 rounded-full blur-3xl"
+        style={{ background: "radial-gradient(ellipse, rgba(124,92,255,0.35), transparent 70%)" }}
+      />
+
+      <div className="relative mx-auto max-w-6xl">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <span className="services-head font-mono text-xs uppercase tracking-[0.3em] text-accent">
+              What we do
+            </span>
+            <h2 className="services-head mt-4 max-w-xl text-4xl font-semibold tracking-tight sm:text-6xl">
+              The full toolkit of a{" "}
+              <span className="text-shimmer">software engineer.</span>
+            </h2>
+          </div>
+          <p className="services-head max-w-sm text-fg/60">
+            One team across the whole stack. No handoffs between five agencies,
+            no gaps between the frontend, the backend, and the glue that
+            connects them.
           </p>
         </div>
 
-        <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
-          {SERVICES.map((service) => (
+        <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {SERVICES.map((s) => (
             <div
-              key={service.title}
-              className="service-card group relative flex min-h-[260px] translate-y-10 flex-col justify-between bg-bg-elevated/75 p-7 opacity-0 transition-colors duration-300 hover:bg-bg-elevated-2/85 lg:col-span-1 sm:[&:nth-child(5)]:col-span-2 lg:[&:nth-child(5)]:col-span-1"
+              key={s.title}
+              className={`service-card beam-border group translate-y-10 rounded-2xl opacity-0 ${s.span}`}
+              style={{ ["--beam-color" as string]: s.color, ["--beam-speed" as string]: s.speed }}
               onPointerMove={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
                 e.currentTarget.style.setProperty("--x", `${e.clientX - rect.left}px`);
                 e.currentTarget.style.setProperty("--y", `${e.clientY - rect.top}px`);
               }}
             >
-              <span className="font-mono text-xs text-muted">{service.index}</span>
-              <div>
-                <h3 className="text-xl font-semibold">{service.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted">
-                  {service.desc}
-                </p>
+              <div className="relative flex h-full min-h-[250px] flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.07] bg-[#0b0a18]/90 p-7">
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-25 blur-3xl transition-opacity duration-500 group-hover:opacity-50"
+                  style={{ background: s.color }}
+                />
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{
+                    background: `radial-gradient(260px circle at var(--x,50%) var(--y,50%), ${s.color}26, transparent 70%)`,
+                  }}
+                />
+                <div
+                  className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-white/10"
+                  style={{ color: s.color, boxShadow: `0 0 24px ${s.color}40`, background: `${s.color}14` }}
+                >
+                  {s.icon}
+                </div>
+                <div className="relative mt-10">
+                  <h3 className="text-xl font-semibold">{s.title}</h3>
+                  <p className="mt-3 max-w-lg text-sm leading-relaxed text-fg/60">{s.desc}</p>
+                  <ul className="mt-5 flex flex-wrap gap-2">
+                    {s.tags.map((t) => (
+                      <li
+                        key={t}
+                        className="rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.15em] text-fg/55"
+                      >
+                        {t}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                style={{
-                  background:
-                    "radial-gradient(240px circle at var(--x,50%) var(--y,50%), rgba(124,92,255,0.12), transparent 70%)",
-                }}
-              />
             </div>
           ))}
         </div>
