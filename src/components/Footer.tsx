@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Particles from "./Particles";
+import SiteLink from "./SiteLink";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -23,14 +24,14 @@ const COLUMNS = [
     title: "Studio",
     links: [
       { href: "#work", label: "Selected work" },
-      { href: "#process", label: "Process" },
+      { href: "#systems", label: "Live systems" },
       { href: "#stack", label: "Toolkit" },
       { href: "#contact", label: "Contact" },
     ],
   },
 ];
 
-export default function Footer() {
+export default function Footer({ home = true }: { home?: boolean }) {
   const footerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -93,9 +94,9 @@ export default function Footer() {
               <ul className="mt-5 space-y-3 text-sm">
                 {col.links.map((link) => (
                   <li key={link.label}>
-                    <a href={link.href} className="text-fg/70 transition-colors hover:text-fg">
+                    <SiteLink href={link.href} home={home} className="text-fg/70 transition-colors hover:text-fg">
                       {link.label}
-                    </a>
+                    </SiteLink>
                   </li>
                 ))}
               </ul>
@@ -105,6 +106,11 @@ export default function Footer() {
 
         <div className="footer-reveal mt-8 flex flex-col items-center justify-between gap-4 text-xs text-fg/45 sm:flex-row">
           <span>&copy; 2026 CAIDE. Kryptyk / AP Division.</span>
+          <nav aria-label="Legal" className="flex items-center gap-5">
+            <SiteLink href="/privacy" className="transition-colors hover:text-fg">Privacy</SiteLink>
+            <SiteLink href="/terms" className="transition-colors hover:text-fg">Terms</SiteLink>
+            <SiteLink href="/cookies" className="transition-colors hover:text-fg">Cookies</SiteLink>
+          </nav>
           <a href="#top" className="inline-flex items-center gap-1.5 transition-colors hover:text-fg">
             Back to top
             <span aria-hidden>&uarr;</span>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -72,33 +72,45 @@ const PROJECTS: Project[] = [
   },
 ];
 
-const host = (url: string) => new URL(url).host;
 
 export default function Portfolio() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
 
   useGSAP(
     () => {
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      gsap.utils.toArray<HTMLImageElement>(".work-shot").forEach((img) => {
-        const start = () => {
+      const desktop = window.matchMedia("(min-width: 1024px)").matches;
+      const cards = gsap.utils.toArray<HTMLElement>(".work-card");
+
+      // Each preview scrolls through its site once, and only after the card has
+      // settled into place. Covered cards stay idle.
+      cards.forEach((card, i) => {
+        const img = card.querySelector<HTMLImageElement>(".work-shot");
+        let played = false;
+        const play = () => {
+          if (played || reduced || !img) return;
           const frame = img.parentElement;
-          if (!frame) return;
-          const dist = img.offsetHeight - frame.clientHeight;
-          if (dist <= 0 || reduced) return;
-          gsap.to(img, {
-            y: -dist,
-            duration: dist / 55,
-            ease: "sine.inOut",
-            repeat: -1,
-            yoyo: true,
-            repeatDelay: 1.5,
-            delay: 1,
-          });
+          const dist = frame ? img.offsetHeight - frame.clientHeight : 0;
+          if (dist <= 0) return;
+          played = true;
+          const d = gsap.utils.clamp(5, 12, dist / 160);
+          gsap
+            .timeline({ delay: 0.4 })
+            .to(img, { y: -dist, duration: d, ease: "power1.inOut" })
+            .to(img, { y: 0, duration: d * 0.45, ease: "power2.inOut" }, "+=1.2");
         };
-        if (img.complete) start();
-        else img.addEventListener("load", start, { once: true });
+        ScrollTrigger.create({
+          trigger: card,
+          start: desktop ? "top 10%" : "top 55%",
+          onEnter: () => {
+            setActive(i);
+            if (img && !img.complete) img.addEventListener("load", play, { once: true });
+            else play();
+          },
+          onLeaveBack: () => setActive(Math.max(0, i - 1)),
+        });
       });
 
       if (reduced) return;
@@ -190,6 +202,7 @@ export default function Portfolio() {
             <article
               key={p.name}
               className="work-card lg:sticky lg:top-[9vh] lg:h-[84vh] lg:min-h-[600px] lg:[&:not(:last-child)]:mb-[40vh]"
+              data-active={i === active}
               style={{ zIndex: i + 1 }}
             >
               <div
@@ -207,7 +220,7 @@ export default function Portfolio() {
                     className="pointer-events-none absolute -bottom-48 right-0 h-[30rem] w-[50rem] opacity-25 blur-3xl"
                     style={{ background: `radial-gradient(ellipse, ${p.color}, transparent 70%)` }}
                   />
-                  <Particles colors={[p.color, "#ffffff"]} density={0.35} speed={0.25} mode="rise" size={[0.5, 1.6]} />
+                  <Particles colors={[p.color, "#ffffff"]} density={0.35} speed={0.25} mode="rise" size={[0.5, 1.6]} active={i === active} />
 
                   <div className="relative order-2 flex flex-col justify-between p-7 sm:p-10 lg:order-1 lg:p-14">
                     <div className="work-text flex items-center justify-between font-mono text-xs uppercase tracking-[0.25em] text-fg/50">
@@ -268,7 +281,7 @@ export default function Portfolio() {
                           <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
                           <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
                           <span className="ml-4 flex-1 truncate rounded-md bg-white/[0.06] px-3 py-1 text-center font-mono text-[11px] text-fg/55">
-                            {host(p.url)}
+                            {p.name}
                           </span>
                         </div>
                         <div className="absolute inset-x-0 bottom-0 top-10 overflow-hidden">

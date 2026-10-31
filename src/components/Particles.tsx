@@ -14,6 +14,8 @@ type Props = {
   mode?: "float" | "rise";
   size?: [number, number];
   className?: string;
+  /** false pauses the animation loop (e.g. when covered by another layer) */
+  active?: boolean;
 };
 
 type P = { x: number; y: number; vx: number; vy: number; r: number; c: string; t: number; tw: number };
@@ -26,8 +28,11 @@ export default function Particles({
   mode = "float",
   size = [0.6, 1.8],
   className = "",
+  active = true,
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const activeRef = useRef(active);
+  const syncRef = useRef<() => void>(() => {});
   const colorKey = colors.join("|");
   const [sizeMin, sizeMax] = size;
 
@@ -133,10 +138,15 @@ export default function Particles({
     ro.observe(canvas);
     resize();
 
+    const sync = () => {
+      cancelAnimationFrame(raf);
+      if (visible && activeRef.current && !reduced) raf = requestAnimationFrame(step);
+    };
+    syncRef.current = sync;
+
     const io = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
-      cancelAnimationFrame(raf);
-      if (visible && !reduced) raf = requestAnimationFrame(step);
+      sync();
     });
     io.observe(canvas);
 
@@ -146,6 +156,11 @@ export default function Particles({
       io.disconnect();
     };
   }, [colorKey, density, speed, link, mode, sizeMin, sizeMax]);
+
+  useEffect(() => {
+    activeRef.current = active;
+    syncRef.current();
+  }, [active]);
 
   return <canvas ref={canvasRef} aria-hidden className={`pointer-events-none absolute inset-0 h-full w-full ${className}`} />;
 }

@@ -3,7 +3,7 @@ import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
 import Services from "@/components/Services";
 import Portfolio from "@/components/Portfolio";
-import Process from "@/components/Process";
+import Systems from "@/components/Systems";
 import Stack from "@/components/Stack";
 import Cta from "@/components/Cta";
 import Footer from "@/components/Footer";
@@ -17,7 +17,7 @@ export default function Home() {
         <Marquee />
         <Services />
         <Portfolio />
-        <Process />
+        <Systems />
         <Stack />
         <Cta />
       </main>
