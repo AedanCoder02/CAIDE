@@ -47,8 +47,8 @@ const de: Dict = {
     alt: "Website von {name}",
     items: [
       { kind: "E-Commerce · Techwear", desc: "Onlineshop für ein taktisches Techwear-Label. Die AW-25-Kollektion, Produktkatalog und Warenkorb in einer terminalgrünen HUD-Ästhetik für den urbanen Alltag.", tags: ["Onlineshop", "Marke", "Katalog"] },
-      { kind: "Digitale Publikation", desc: "Redaktionelle Plattform rund um Miss Universe: Journalismus mit KI-Unterstützung und menschlicher Kuratierung, Magazin-Layout, Live-Ticker und mehrsprachiges Lesen.", tags: ["Redaktion", "Mehrsprachig", "KI-gestützt"] },
-      { kind: "Kosmetikstudio · Madrid", desc: "Website für ein Kosmetikstudio in Madrid mit maßgeschneiderten Gesichtsbehandlungen, Kobido-Massage und botanischen Ritualen. Ruhig, editorial und darauf ausgelegt, die Buchung zu gewinnen.", tags: ["Buchungen", "Marke", "Beauty"] },
+      { kind: "Reisebüro · Venezuela", desc: "Website für ein venezolanisches Reisebüro, das Reisen nach Maß plant: Rundreisen, Flüge und Unterkünfte im In- und Ausland, mit persönlichem Berater und WhatsApp von der Idee bis zur Rückkehr.", tags: ["Reisen", "Anfragen", "WhatsApp"] },
+      { kind: "Reisebüro & Akademie", desc: "Zwei Unternehmen auf einer Website: ein Reisebüro und eine IATA-zertifizierte Tourismusschule. Kurskatalog, News, Anmeldung und Kontakt, geführt von einer CEO mit 35 Jahren Branchenerfahrung.", tags: ["Kurse", "Anmeldung", "Reisen"] },
       { kind: "Erklärseite · Cloud Computing", desc: "Cloud Computing verständlich erklärt: IaaS, PaaS, SaaS, globale Regionen und automatische Skalierung, mit kräftigen Prisma-Visuals und Antworten in klarer Sprache.", tags: ["Erklärung", "Animation", "Bildung"] },
       { kind: "Lernplattform", desc: "Lernportal für neue Technologien: Kurse zu KI, Blockchain, IoT und Web3 vom Einstieg bis zum Profi, mit Anmeldung für über tausend Lernende.", tags: ["Kurse", "Anmeldung", "Bildung"] },
     ],

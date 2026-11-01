@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Particles from "./Particles";
+import ServiceDemo from "./ServiceDemo";
 import { useT } from "@/i18n/LangProvider";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -106,7 +107,7 @@ export default function Services() {
     <section
       id="services"
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#06050f] py-20 lg:flex lg:min-h-screen lg:flex-col lg:justify-center lg:py-24"
+      className="relative overflow-hidden bg-[#06050f] py-20 lg:flex lg:h-[100svh] lg:min-h-[560px] lg:flex-col lg:justify-center lg:pt-[clamp(4.5rem,9vh,6rem)] lg:pb-[clamp(1.25rem,3.5vh,3rem)]"
     >
       <div aria-hidden className="dot-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,#000_20%,transparent_70%)]" />
       <div
@@ -117,66 +118,83 @@ export default function Services() {
 
       <Particles colors={["#7c5cff", "#a78bfa", "#22d3ee"]} density={0.5} speed={0.12} size={[0.5, 1.6]} />
 
-      <div className="wrap relative w-full">
+      <div className="wrap relative flex w-full flex-col lg:min-h-0 lg:flex-1">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <span className="services-head font-mono text-xs uppercase tracking-[0.3em] text-accent">
               {t.eyebrow}
             </span>
-            <h2 className="services-head mt-4 max-w-xl text-4xl font-semibold tracking-tight sm:text-6xl xl:max-w-none">
+            <h2 className="services-head mt-3 max-w-xl text-4xl font-semibold tracking-tight sm:text-6xl lg:text-[clamp(2.25rem,min(5.8vh,3.7vw),4.5rem)] xl:max-w-none">
               {t.h2[0]}{" "}
               <span className="text-shimmer">{t.h2[1]}</span>
             </h2>
           </div>
-          <p className="services-head max-w-sm text-fg/60">
+          <p className="services-head max-w-sm text-fg/60 lg:text-[clamp(0.8rem,1.9vh,1rem)]">
             {t.blurb}
           </p>
         </div>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:mt-10 xl:grid-cols-4">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:mt-[clamp(1rem,3vh,2.5rem)] lg:min-h-0 lg:flex-1 lg:grid-cols-4 lg:grid-rows-2 lg:gap-[clamp(0.6rem,1.6vh,1rem)]">
           {SERVICES.map((s, i) => (
-            <div
-              key={i}
-              className={`service-card beam-border group translate-y-10 rounded-2xl opacity-0 ${s.span}`}
-              style={{ ["--beam-color" as string]: s.color, ["--beam-speed" as string]: s.speed }}
-              onPointerMove={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                e.currentTarget.style.setProperty("--x", `${e.clientX - rect.left}px`);
-                e.currentTarget.style.setProperty("--y", `${e.clientY - rect.top}px`);
-              }}
-            >
-              <div className="relative flex h-full min-h-[230px] flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.07] bg-[#0b0a18]/90 p-7 xl:min-h-[250px]">
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-25 blur-3xl transition-opacity duration-500 group-hover:opacity-50"
-                  style={{ background: s.color }}
-                />
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                  style={{
-                    background: `radial-gradient(260px circle at var(--x,50%) var(--y,50%), ${s.color}26, transparent 70%)`,
-                  }}
-                />
-                <div
-                  className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-white/10"
-                  style={{ color: s.color, boxShadow: `0 0 24px ${s.color}40`, background: `${s.color}14` }}
-                >
-                  {s.icon}
-                </div>
-                <div className="relative mt-8">
-                  <h3 className="text-xl font-semibold">{s.title}</h3>
-                  <p className="mt-3 max-w-lg text-sm leading-relaxed text-fg/60">{s.desc}</p>
-                  <ul className="mt-5 flex flex-wrap gap-2">
-                    {s.tags.map((tag) => (
-                      <li
-                        key={tag}
-                        className="rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.15em] text-fg/55"
-                      >
-                        {tag}
-                      </li>
-                    ))}
-                  </ul>
+            <div key={i} className={`service-card translate-y-10 opacity-0 lg:min-h-0 ${s.span}`}>
+              <div
+                className="svc-tilt beam-border group h-full rounded-2xl"
+                style={{ ["--beam-color" as string]: s.color, ["--beam-speed" as string]: s.speed }}
+                onPointerMove={(e) => {
+                  const el = e.currentTarget;
+                  const r = el.getBoundingClientRect();
+                  const x = (e.clientX - r.left) / r.width;
+                  const y = (e.clientY - r.top) / r.height;
+                  el.style.setProperty("--x", `${x * 100}%`);
+                  el.style.setProperty("--y", `${y * 100}%`);
+                  if (e.pointerType !== "mouse") return;
+                  el.dataset.tilting = "";
+                  el.style.setProperty("--rx", `${(0.5 - y) * 9}deg`);
+                  el.style.setProperty("--ry", `${(x - 0.5) * 11}deg`);
+                }}
+                onPointerLeave={(e) => {
+                  const el = e.currentTarget;
+                  delete el.dataset.tilting;
+                  el.style.setProperty("--rx", "0deg");
+                  el.style.setProperty("--ry", "0deg");
+                }}
+              >
+                <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.07] bg-[#0b0a18]/90 p-6 lg:p-[clamp(0.9rem,2.2vh,1.75rem)]">
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-25 blur-3xl transition-opacity duration-500 group-hover:opacity-60"
+                    style={{ background: s.color }}
+                  />
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    style={{
+                      background: `radial-gradient(320px circle at var(--x,50%) var(--y,50%), ${s.color}2e, transparent 70%)`,
+                    }}
+                  />
+                  <div className="relative flex items-start justify-between gap-3 [transform:translateZ(30px)]">
+                    <div
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 transition-transform duration-500 group-hover:scale-110"
+                      style={{ color: s.color, boxShadow: `0 0 24px ${s.color}40`, background: `${s.color}14` }}
+                    >
+                      {s.icon}
+                    </div>
+                    <ServiceDemo kind={i} color={s.color} />
+                  </div>
+                  <div className="relative mt-6 lg:mt-2 [transform:translateZ(20px)]">
+                    <h3 className="text-xl font-semibold lg:text-[clamp(1rem,2.3vh,1.25rem)]">{s.title}</h3>
+                    <p className="mt-2 max-w-lg text-sm leading-relaxed text-fg/60 lg:text-[clamp(0.75rem,1.55vh,0.875rem)]">{s.desc}</p>
+                    <ul className="mt-4 flex flex-wrap gap-2 lg:mt-[clamp(0.5rem,1vh,1.25rem)] lg:flex-nowrap lg:overflow-hidden lg:[mask-image:linear-gradient(90deg,#000_85%,transparent)] [@media(min-width:1024px)_and_(max-height:640px)]:hidden">
+                      {s.tags.map((tag) => (
+                        <li
+                          key={tag}
+                          className="shrink-0 rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.15em] text-fg/55"
+                        >
+                          {tag}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>

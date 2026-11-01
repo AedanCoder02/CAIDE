@@ -47,8 +47,8 @@ const it: Dict = {
     alt: "Sito web di {name}",
     items: [
       { kind: "E-commerce · Techwear", desc: "Negozio online per un marchio di techwear tattico. La collezione AW-25, il catalogo e il carrello, con un'estetica HUD verde terminale pensata per la città.", tags: ["Negozio online", "Marchio", "Catalogo"] },
-      { kind: "Pubblicazione digitale", desc: "Piattaforma editoriale su Miss Universo: giornalismo spinto dall'IA e curato da persone, impaginazione da rivista, notizie in diretta e lettura in più lingue.", tags: ["Editoriale", "Multilingue", "Con IA"] },
-      { kind: "Centro estetico · Madrid", desc: "Sito per un centro estetico di Madrid con trattamenti viso su misura, massaggio kobido e rituali botanici. Calmo, editoriale e pensato per ottenere la prenotazione.", tags: ["Prenotazioni", "Marchio", "Bellezza"] },
+      { kind: "Agenzia di viaggi · Venezuela", desc: "Sito per un'agenzia venezuelana che organizza viaggi su misura: circuiti via terra, biglietti e alloggi in patria e all'estero, con un consulente dedicato e WhatsApp dall'inizio alla fine.", tags: ["Viaggi", "Contatti", "WhatsApp"] },
+      { kind: "Agenzia di viaggi e accademia", desc: "Due attività in un solo sito: agenzia di viaggi e scuola di turismo certificata IATA. Catalogo corsi, novità, iscrizioni e contatti, guidati da una CEO con 35 anni nel settore.", tags: ["Corsi", "Iscrizioni", "Viaggi"] },
       { kind: "Divulgazione · Cloud computing", desc: "Il cloud spiegato con chiarezza: IaaS, PaaS, SaaS, regioni globali e scalabilità automatica, con grafiche prismatiche e risposte in parole semplici.", tags: ["Divulgazione", "Animazione", "Formazione"] },
       { kind: "Piattaforma di formazione", desc: "Portale di formazione sulle tecnologie emergenti: corsi di IA, blockchain, IoT e Web3 dal livello base all'avanzato, con iscrizioni per oltre mille studenti.", tags: ["Corsi", "Iscrizioni", "Formazione"] },
     ],

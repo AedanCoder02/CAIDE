@@ -47,8 +47,8 @@ const ptBR: Dict = {
     alt: "Site de {name}",
     items: [
       { kind: "E-commerce · Moda técnica", desc: "Loja online para uma marca de moda técnica tática. A coleção AW-25, o catálogo e o carrinho, com uma estética HUD verde terminal feita para a cidade.", tags: ["Loja online", "Marca", "Catálogo"] },
-      { kind: "Publicação digital", desc: "Plataforma editorial sobre o Miss Universo: jornalismo movido por IA e com curadoria humana, layout de revista, notícias ao vivo e leitura em vários idiomas.", tags: ["Editorial", "Multilíngue", "Com IA"] },
-      { kind: "Estúdio de beleza · Madri", desc: "Site para um estúdio de estética em Madri com tratamentos faciais sob medida, massagem kobido e rituais botânicos. Calmo, editorial e pensado para fechar a reserva.", tags: ["Reservas", "Marca", "Beleza"] },
+      { kind: "Agência de viagens · Venezuela", desc: "Site para uma agência venezuelana que monta viagens sob medida: roteiros terrestres, passagens e hospedagem no país e no exterior, com um consultor exclusivo e WhatsApp do começo ao fim.", tags: ["Viagens", "Captação", "WhatsApp"] },
+      { kind: "Agência de viagens e escola", desc: "Dois negócios em um só site: agência de viagens e escola de turismo com certificação IATA. Catálogo de cursos, novidades, matrículas e contato, liderados por uma CEO com 35 anos no setor.", tags: ["Cursos", "Matrículas", "Viagens"] },
       { kind: "Explicativo · Computação em nuvem", desc: "A nuvem explicada com clareza: IaaS, PaaS, SaaS, regiões globais e escala automática, com visuais prismáticos e respostas em linguagem simples.", tags: ["Explicativo", "Animação", "Educação"] },
       { kind: "Plataforma de ensino", desc: "Portal de aprendizado sobre tecnologias emergentes: cursos de IA, blockchain, IoT e Web3 do básico ao avançado, com matrícula para mais de mil alunos.", tags: ["Cursos", "Matrícula", "Educação"] },
     ],

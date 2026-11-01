@@ -88,16 +88,8 @@ const en = {
         desc: "Storefront for a tactical techwear label. The AW-25 collection, product catalog, and cart, wrapped in a terminal-green HUD aesthetic built for urban operators.",
         tags: ["Online store", "Brand", "Catalog"],
       },
-      {
-        kind: "Digital publication",
-        desc: "Editorial platform covering Miss Universe: journalism powered by AI and curated by humans, with a magazine-grade layout, live ticker, and multilingual reading.",
-        tags: ["Editorial", "Multilingual", "AI-assisted"],
-      },
-      {
-        kind: "Beauty studio · Madrid",
-        desc: "Site for a Madrid aesthetics studio offering tailored facials, kobido massage, and botanical rituals. Calm, editorial, and built around getting the booking.",
-        tags: ["Bookings", "Brand", "Beauty"],
-      },
+      { kind: "Travel agency · Venezuela", desc: "Site for a Venezuelan travel agency that plans tailor-made trips: land circuits, flights, and stays at home and abroad, each with a dedicated advisor and a WhatsApp line from first idea to return.", tags: ["Travel", "Lead capture", "WhatsApp"] },
+      { kind: "Travel agency & academy", desc: "Two businesses in one site: a travel agency and an IATA-certified tourism school. Course catalog, news, enrollment, and contact forms, led by a CEO with 35 years in the industry.", tags: ["Courses", "Enrollment", "Travel"] },
       {
         kind: "Explainer · Cloud computing",
         desc: "Cloud computing explained clearly: IaaS, PaaS, SaaS, global regions, and auto-scaling, told through bold prismatic visuals and plain-language answers.",

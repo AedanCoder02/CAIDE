@@ -47,8 +47,8 @@ const fr: Dict = {
     alt: "Site web de {name}",
     items: [
       { kind: "E-commerce · Techwear", desc: "Boutique en ligne pour une marque de techwear tactique. La collection AW-25, le catalogue et le panier, dans une esthétique HUD vert terminal pensée pour la ville.", tags: ["Boutique en ligne", "Marque", "Catalogue"] },
-      { kind: "Média numérique", desc: "Plateforme éditoriale consacrée à Miss Univers : un journalisme porté par l'IA et choisi par des humains, une mise en page de magazine, un fil en direct et une lecture multilingue.", tags: ["Éditorial", "Multilingue", "Assisté par IA"] },
-      { kind: "Institut de beauté · Madrid", desc: "Site d'un institut d'esthétique madrilène : soins du visage sur mesure, massage kobido et rituels botaniques. Calme, éditorial, et pensé pour obtenir la réservation.", tags: ["Réservations", "Marque", "Beauté"] },
+      { kind: "Agence de voyages · Venezuela", desc: "Site d'une agence vénézuélienne qui conçoit des voyages sur mesure : circuits terrestres, billets et hébergement au pays comme à l'étranger, avec un conseiller dédié et WhatsApp du début à la fin.", tags: ["Voyages", "Prospects", "WhatsApp"] },
+      { kind: "Agence de voyages et académie", desc: "Deux activités sur un seul site : une agence de voyages et une école de tourisme certifiée IATA. Catalogue de formations, actualités, inscriptions et contact, dirigés par une CEO forte de 35 ans d'expérience.", tags: ["Formations", "Inscriptions", "Voyages"] },
       { kind: "Pédagogie · Cloud computing", desc: "Le cloud expliqué clairement : IaaS, PaaS, SaaS, régions mondiales et mise à l'échelle automatique, avec des visuels prismatiques et des réponses en langage simple.", tags: ["Pédagogie", "Animation", "Éducation"] },
       { kind: "Plateforme de formation", desc: "Portail de formation aux technologies émergentes : cours d'IA, blockchain, IoT et Web3, du niveau débutant à avancé, avec inscriptions pour plus de mille élèves.", tags: ["Cours", "Inscriptions", "Éducation"] },
     ],

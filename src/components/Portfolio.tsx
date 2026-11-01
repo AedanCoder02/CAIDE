@@ -9,10 +9,13 @@ import Particles from "./Particles";
 import { useLang } from "@/i18n/LangProvider";
 import type { Locale } from "@/i18n/config";
 import kryptykFull from "@/assets/work/kryptyk-full.webp";
-import universeFull from "@/assets/work/universe-full.webp";
-import aureliaFull from "@/assets/work/aurelia-full.webp";
+import acjFull from "@/assets/work/acj-full.webp";
+import acjEn from "@/assets/work/acj-full-en.webp";
+import promarFull from "@/assets/work/promar-full.webp";
+import promarEn from "@/assets/work/promar-full-en.webp";
 import cerebrumFull from "@/assets/work/cerebrum-full.webp";
 import ishinFull from "@/assets/work/ishin-full.webp";
+import ishinEn from "@/assets/work/ishin-full-en.webp";
 import kryptykEs from "@/assets/work/kryptyk-full-es.webp";
 import kryptykFr from "@/assets/work/kryptyk-full-fr.webp";
 import kryptykDe from "@/assets/work/kryptyk-full-de.webp";
@@ -25,50 +28,51 @@ type Project = {
   name: string;
   url: string;
   color: string;
-  image: StaticImageData;
-  // The site in another language, where the project itself offers one.
-  localized?: Partial<Record<Locale, StaticImageData>>;
+  // Full-page captures by language. The preview uses the visitor's language
+  // when the project has it, otherwise English, or Spanish for Spanish visitors.
+  shots: Partial<Record<Locale, StaticImageData>>;
 };
+
+const pickShot = (s: Project["shots"], l: Locale) =>
+  (s[l] ?? (l === "es" ? s.es ?? s.en : s.en ?? s.es)) as StaticImageData;
 
 const BASE: Project[] = [
   {
     name: "KRYPTYK",
     url: "https://kryptyk.vercel.app/",
     color: "#3cff6b",
-    image: kryptykFull,
-    localized: { es: kryptykEs, fr: kryptykFr, de: kryptykDe, ja: kryptykJa, it: kryptykIt },
+    shots: { en: kryptykFull, es: kryptykEs, fr: kryptykFr, de: kryptykDe, ja: kryptykJa, it: kryptykIt },
   },
   {
-    name: "Universe Media",
-    url: "https://universe-media-two.vercel.app/",
-    color: "#e0b86a",
-    image: universeFull,
+    name: "ACJ Viajes",
+    url: "https://aedancoder02.github.io/acj-viajes/",
+    color: "#e0b062",
+    shots: { es: acjFull, en: acjEn },
   },
   {
-    name: "Aurélia",
-    url: "https://aureliaesthetics.lovable.app/",
-    color: "#e8b49c",
-    image: aureliaFull,
+    name: "Promar",
+    url: "https://aedancoder02.github.io/promar_web/",
+    color: "#6d7cff",
+    shots: { es: promarFull, en: promarEn },
   },
   {
     name: "Cerebrum",
     url: "https://cerebrum-eta-weld.vercel.app/",
     color: "#38bdf8",
-    image: cerebrumFull,
+    shots: { en: cerebrumFull },
   },
   {
     name: "Ishin Academy",
     url: "https://ishinacademy.framer.website/",
     color: "#a78bfa",
-    image: ishinFull,
+    shots: { es: ishinFull, en: ishinEn },
   },
 ];
-
 
 export default function Portfolio() {
   const { t: dict, locale } = useLang();
   const t = dict.work;
-  const PROJECTS = BASE.map((p, i) => ({ ...p, ...t.items[i], image: p.localized?.[locale] ?? p.image }));
+  const PROJECTS = BASE.map((p, i) => ({ ...p, ...t.items[i], image: pickShot(p.shots, locale) }));
   const sectionRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 

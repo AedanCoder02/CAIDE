@@ -544,3 +544,70 @@ html:lang(zh) .hero-title {
     font-size: 8.6vw;
   }
 }
+
+/* Service cards: 3D tilt and per-service micro demos. */
+.svc-tilt {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(0);
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-style: preserve-3d;
+}
+.svc-tilt[data-tilting] { transition-duration: 0.12s; }
+.svc-demo, .svc-demo * { animation-play-state: paused; }
+.service-card:hover .svc-demo,
+.service-card:hover .svc-demo *,
+.service-card:focus-within .svc-demo,
+.service-card:focus-within .svc-demo * { animation-play-state: running; }
+@media (hover: none) {
+  .svc-demo, .svc-demo * { animation-play-state: running; }
+}
+.svc-grow { transform-origin: left; animation: svc-grow 2.4s cubic-bezier(0.2, 0.8, 0.2, 1) infinite; }
+@keyframes svc-grow { 0%, 10% { transform: scaleX(0); } 45%, 85% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
+.svc-slot { animation: svc-slot 2.6s ease-in-out infinite; }
+@keyframes svc-slot { 0%, 20% { background: rgb(255 255 255 / 0.1); box-shadow: none; } 35%, 70% { background: var(--c); box-shadow: 0 0 8px var(--c); } 100% { background: rgb(255 255 255 / 0.1); } }
+.svc-pop { transform-origin: left; animation: svc-pop 2.8s cubic-bezier(0.3, 1.4, 0.5, 1) infinite; }
+@keyframes svc-pop { 0%, 8% { transform: scale(0); opacity: 0; } 20%, 85% { transform: scale(1); opacity: 1; } 100% { opacity: 0; } }
+.svc-dot { animation: svc-dot 2.8s ease-in-out infinite; }
+@keyframes svc-dot { 0%, 10%, 30% { transform: translateY(0); opacity: 0.3; } 20% { transform: translateY(-3px); opacity: 1; } 32%, 100% { opacity: 0; } }
+.svc-node { animation: svc-node 1.8s ease-in-out infinite; }
+@keyframes svc-node { 0%, 100% { border-color: rgb(255 255 255 / 0.25); box-shadow: none; } 15%, 30% { border-color: var(--c); box-shadow: 0 0 10px var(--c); } }
+.svc-run { animation: svc-run 1.8s linear infinite; }
+@keyframes svc-run { from { left: 0.9rem; } to { left: calc(100% - 1.2rem); } }
+.svc-stamp { animation: svc-stamp 2.8s cubic-bezier(0.3, 1.5, 0.5, 1) infinite; }
+@keyframes svc-stamp { 0%, 10% { transform: scale(1); background: transparent; } 20%, 85% { transform: scale(1.12); background: var(--c); border-color: var(--c); box-shadow: 0 0 8px var(--c); } 100% { transform: scale(1); background: transparent; } }
+.svc-fill { animation: svc-fill 2.4s cubic-bezier(0.6, 0, 0.2, 1) infinite; }
+@keyframes svc-fill { 0% { width: 0; } 60%, 100% { width: 100%; } }
+.svc-paid { animation: svc-paid 2.4s cubic-bezier(0.3, 1.6, 0.5, 1) infinite; }
+@keyframes svc-paid { 0%, 60% { transform: scale(0); } 72%, 95% { transform: scale(1); } 100% { transform: scale(0); } }
+.svc-swatch { flex: 1; animation: svc-swatch 3.2s ease-in-out infinite; }
+@keyframes svc-swatch { 0%, 100% { flex-grow: 1; } 50% { flex-grow: 3; } }
+.svc-wipe { animation: svc-wipe 3s cubic-bezier(0.7, 0, 0.3, 1) infinite; }
+@keyframes svc-wipe { 0%, 15% { clip-path: inset(0 100% 0 0); } 55%, 90% { clip-path: inset(0 0 0 0); } 100% { clip-path: inset(0 100% 0 0); } }
+.svc-wipe-line { animation: svc-wipe-line 3s cubic-bezier(0.7, 0, 0.3, 1) infinite; }
+@keyframes svc-wipe-line { 0%, 15% { left: 0; opacity: 0; } 20% { opacity: 1; } 55% { left: 100%; opacity: 1; } 60%, 100% { left: 100%; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .svc-demo, .svc-demo * { animation: none !important; }
+  .svc-tilt { transform: none !important; }
+}
+
+/* Footer: the CAIDE wordmark as a lit floor under the footer content. */
+.footer-word { color: transparent; }
+.footer-letter-outline { -webkit-text-stroke: 1px rgb(255 255 255 / 0.1); }
+.footer-letter-fill,
+.footer-letter-lit {
+  background: linear-gradient(100deg, #ec4899, #7c5cff 40%, #22d3ee 75%, #10b981);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: footer-hue 12s linear infinite;
+}
+.footer-letter-fill { opacity: 0.2; }
+.footer-letter-lit {
+  -webkit-mask-image: radial-gradient(circle at var(--lx, 50%) var(--ly, 50%), #000 0, transparent 22vw);
+  mask-image: radial-gradient(circle at var(--lx, 50%) var(--ly, 50%), #000 0, transparent 22vw);
+  filter: drop-shadow(0 0 24px rgb(124 92 255 / 0.45));
+}
+.footer-aura {
+  background: radial-gradient(ellipse at var(--mx, 50%) 60%, rgb(124 92 255 / 0.35), rgb(34 211 238 / 0.12) 45%, transparent 70%);
+}
+.footer-content { text-shadow: 0 1px 18px rgb(3 3 8 / 0.9); }
+@keyframes footer-hue { to { background-position: -200% 0; } }
