@@ -517,3 +517,30 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Translation pending: keep the page hidden until the visitor's language loads. */
+html[data-i18n="pending"] body {
+  opacity: 0;
+}
+body {
+  transition: opacity 0.35s ease;
+}
+
+/* CJK fallbacks: Geist has no Japanese or Chinese glyphs. */
+html:lang(ja) body {
+  font-family: var(--font-sans), "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", Meiryo, sans-serif;
+}
+html:lang(zh) body {
+  font-family: var(--font-sans), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+}
+html:lang(ja) .hero-title,
+html:lang(zh) .hero-title {
+  line-height: 1.12;
+  letter-spacing: 0;
+}
+@media (max-width: 639px) {
+  html:lang(ja) .hero-title,
+  html:lang(zh) .hero-title {
+    font-size: 8.6vw;
+  }
+}

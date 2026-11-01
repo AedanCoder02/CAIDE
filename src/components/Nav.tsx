@@ -4,16 +4,19 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import SiteLink from "./SiteLink";
+import LangSwitcher from "./LangSwitcher";
+import { useT } from "@/i18n/LangProvider";
 
 const LINKS = [
-  { href: "#services", label: "Services" },
-  { href: "#work", label: "Work" },
-  { href: "#systems", label: "How it works" },
-  { href: "#industries", label: "Industries" },
-];
+  { href: "#services", key: "services" },
+  { href: "#work", key: "work" },
+  { href: "#systems", key: "how" },
+  { href: "#industries", key: "industries" },
+] as const;
 
 export default function Nav({ home = true }: { home?: boolean }) {
   const navRef = useRef<HTMLDivElement>(null);
+  const t = useT().nav;
 
   useGSAP(
     () => {
@@ -44,18 +47,21 @@ export default function Nav({ home = true }: { home?: boolean }) {
                 home={home}
                 className="transition-colors duration-200 hover:text-fg"
               >
-                {link.label}
+                {t[link.key]}
               </SiteLink>
             </li>
           ))}
         </ul>
+        <div className="flex items-center gap-2">
+        <LangSwitcher />
         <SiteLink
           href="#contact"
           home={home}
           className="rounded-full border border-line px-4 py-2 text-xs font-semibold uppercase tracking-wide text-fg transition-colors hover:border-fg/40"
         >
-          Get in touch
+          {t.cta}
         </SiteLink>
+        </div>
       </nav>
     </div>
   );

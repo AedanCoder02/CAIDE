@@ -3,19 +3,7 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-
-const ITEMS = [
-  "Restaurants",
-  "Clinics",
-  "Hotels",
-  "Spas & Salons",
-  "Workshops",
-  "Bars & Cafés",
-  "Shops",
-  "Studios",
-  "Gyms",
-  "Agencies",
-];
+import { useT } from "@/i18n/LangProvider";
 
 export default function Marquee() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -27,6 +15,7 @@ export default function Marquee() {
     gsap.to(el, { xPercent: -50, duration: 38, ease: "none", repeat: -1 });
   }, []);
 
+  const ITEMS = useT().marquee;
   const row = [...ITEMS, ...ITEMS];
 
   return (

@@ -95,6 +95,11 @@ const sections: LegalSection[] = [
           Fonts, images, and scripts are served from this site&rsquo;s own domain, so loading a page does not cause your
           browser to contact third-party services that could set their own cookies.
         </p>
+        <p>
+          To show the site in your language, the page reads your browser&rsquo;s language and time zone settings on your
+          device. They are not stored or sent anywhere. If you pick a language yourself, that choice is kept only in the
+          page address (for example <code>?lang=es</code>), not in a cookie or storage.
+        </p>
       </>
     ),
   },

@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Particles from "./Particles";
+import { useT } from "@/i18n/LangProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,6 +26,7 @@ const BEAMS = [
 export default function Cta() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [running, setRunning] = useState(false);
+  const t = useT().cta;
 
   // The rig only animates while the section is on screen.
   useEffect(() => {
@@ -96,20 +98,18 @@ export default function Cta() {
 
       <div className="wrap relative">
         <p className="cta-reveal font-mono text-xs uppercase tracking-[0.3em] text-accent-2">
-          Let&apos;s talk
+          {t.eyebrow}
         </p>
         <h2 className="cta-reveal mx-auto mt-6 max-w-4xl text-4xl font-semibold tracking-tight sm:text-7xl">
-          Tell us what you&apos;re{" "}
-          <span className="text-shimmer">imagining.</span>
+          {t.h2[0]}{" "}
+          <span className="text-shimmer">{t.h2[1]}</span>
         </h2>
         <p className="cta-reveal mx-auto mt-6 max-w-xl text-lg text-fg/65">
-          A new website, a booking system, an app, or an assistant that answers
-          your customers. Describe it in your own words and we&apos;ll reply with
-          how we&apos;d build it, how long it takes, and what it costs.
+          {t.sub}
         </p>
         <div className="cta-reveal mt-12 flex flex-wrap items-center justify-center gap-4">
           <a
-            href="mailto:hello@caide.dev?subject=New%20project"
+            href={`mailto:hello@caide.dev?subject=${encodeURIComponent(t.primarySubject)}`}
             className="beam-border inline-flex rounded-full"
             style={beam({ "--beam-color": "#22d3ee", "--beam-speed": "3.5s" })}
           >
@@ -119,10 +119,10 @@ export default function Cta() {
             </span>
           </a>
           <a
-            href="mailto:hello@caide.dev?subject=Question"
+            href={`mailto:hello@caide.dev?subject=${encodeURIComponent(t.secondarySubject)}`}
             className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-8 py-4 text-sm font-semibold text-fg backdrop-blur-sm transition-colors hover:border-fg/40"
           >
-            Ask us anything
+            {t.secondary}
           </a>
         </div>
       </div>

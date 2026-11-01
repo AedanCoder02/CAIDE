@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Particles from "./Particles";
+import { useT } from "@/i18n/LangProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,23 +26,24 @@ type Discipline = {
   log: string[];
   plan: Step[];
 };
+// Layout and figures only; every visible word comes from the dictionary.
+type Base = Omit<Discipline, "name" | "tagline" | "title" | "desc" | "log" | "plan" | "nodes" | "stats"> & {
+  nodes: Omit<Node, "label" | "sub">[];
+  stats: Omit<Stat, "label">[];
+};
 
-const DISCIPLINES: Discipline[] = [
+const BASE: Base[] = [
   {
     key: "website",
-    name: "Websites",
-    tagline: "Found, trusted, chosen",
-    title: "From your idea to the first customer.",
-    desc: "Your brand shapes the design, the design becomes a fast site, Google sends people to it, and they reach you in one tap.",
     color: "#7c5cff",
     nodes: [
-      { id: "idea", x: 8, y: 50, label: "Your idea", sub: "What you imagine" },
-      { id: "brand", x: 29, y: 22, label: "Your brand", sub: "Existing or new" },
-      { id: "content", x: 29, y: 78, label: "Your content", sub: "Photos · menu · prices" },
-      { id: "site", x: 52, y: 50, label: "Your website", sub: "Fast on any device" },
-      { id: "google", x: 73, y: 50, label: "Google & Maps", sub: "Found by locals" },
-      { id: "call", x: 92, y: 24, label: "Calls & visits", sub: "One-tap contact" },
-      { id: "book", x: 92, y: 76, label: "Bookings", sub: "Straight from the site" },
+      { id: "idea", x: 8, y: 50 },
+      { id: "brand", x: 29, y: 22 },
+      { id: "content", x: 29, y: 78 },
+      { id: "site", x: 52, y: 50 },
+      { id: "google", x: 73, y: 50 },
+      { id: "call", x: 92, y: 24 },
+      { id: "book", x: 92, y: 76 },
     ],
     edges: [
       ["idea", "brand"],
@@ -54,41 +56,23 @@ const DISCIPLINES: Discipline[] = [
     ],
     rings: true,
     stats: [
-      { label: "Speed", value: 100 },
-      { label: "Accessibility", value: 100 },
-      { label: "Quality", value: 100 },
-      { label: "Google", value: 100 },
-    ],
-    log: [
-      "new visitor · from Google Maps",
-      "menu viewed · 42s on page",
-      "tap to call · lunch enquiry",
-      "page loaded in 0.9s on mobile",
-      "contact form sent · event quote",
-      "directions opened · 1.2 km away",
-    ],
-    plan: [
-      { title: "Listen to your idea", body: "Your business, your customers, and what you picture online. We ask, you talk.", out: ["Brief", "Page plan"] },
-      { title: "Design in your brand", body: "Your colors, logo, and voice, or a new identity if you want one. You see it before we build.", out: ["Design", "Preview link"] },
-      { title: "Build & launch", body: "A fast site on every phone, set up on Google, with bookings or contact built in.", out: ["Live website", "Google listing"] },
-      { title: "Keep it fresh", body: "New photos, prices, or pages whenever you need them. You run the business, we run the site.", out: ["Updates", "Support"] },
+      { value: 100 },
+      { value: 100 },
+      { value: 100 },
+      { value: 100 },
     ],
   },
   {
     key: "bookings",
-    name: "Bookings",
-    tagline: "Tables, rooms, appointments",
-    title: "Booked while you sleep.",
-    desc: "A customer picks a time online, your calendar fills itself, they get confirmed on WhatsApp, reminded the day before, and asked for a review after.",
     color: "#22d3ee",
     nodes: [
-      { id: "cust", x: 8, y: 50, label: "Customer", sub: "Phone · any hour" },
-      { id: "page", x: 27, y: 50, label: "Booking page", sub: "Pick a time" },
-      { id: "cal", x: 47, y: 50, label: "Your calendar", sub: "No double bookings" },
-      { id: "wa", x: 70, y: 18, label: "Confirmation", sub: "WhatsApp · email" },
-      { id: "staff", x: 70, y: 50, label: "Your team", sub: "Today's schedule" },
-      { id: "remind", x: 70, y: 82, label: "Reminder", sub: "Day before" },
-      { id: "review", x: 92, y: 50, label: "Review", sub: "Asked after the visit" },
+      { id: "cust", x: 8, y: 50 },
+      { id: "page", x: 27, y: 50 },
+      { id: "cal", x: 47, y: 50 },
+      { id: "wa", x: 70, y: 18 },
+      { id: "staff", x: 70, y: 50 },
+      { id: "remind", x: 70, y: 82 },
+      { id: "review", x: 92, y: 50 },
     ],
     edges: [
       ["cust", "page"],
@@ -101,40 +85,22 @@ const DISCIPLINES: Discipline[] = [
       ["remind", "review"],
     ],
     stats: [
-      { label: "Bookings today", value: 48, live: 1 },
-      { label: "Booked after hours", value: 37, suffix: "%" },
-      { label: "No-shows", value: 2.1, suffix: "%", decimals: 1 },
-    ],
-    log: [
-      "table for 4 · Fri 21:00 · booked 23:48",
-      "confirmation sent on WhatsApp",
-      "reminder sent · massage 10:30",
-      "slot freed · rebooked in 6 min",
-      "deposit paid · room 204",
-      "review request sent · 5 stars",
-    ],
-    plan: [
-      { title: "Map how you book today", body: "Phone, DMs, paper diary: we see where bookings get lost or double up.", out: ["Booking map"] },
-      { title: "Set your rules", body: "Hours, tables, rooms, staff, deposits, and cancellations, the way you work.", out: ["Booking rules"] },
-      { title: "Build & connect", body: "On your site, Google, and Instagram, linked to your calendar and WhatsApp.", out: ["Live booking", "Reminders"] },
-      { title: "Train your team", body: "A short walkthrough and a one-page guide, so anyone on shift can use it.", out: ["Training", "Guide"] },
+      { value: 48, live: 1 },
+      { value: 37, suffix: "%" },
+      { value: 2.1, suffix: "%", decimals: 1 },
     ],
   },
   {
     key: "assistant",
-    name: "AI assistants",
-    tagline: "Chatbots & agents, trained on you",
-    title: "Answers every message, in your voice.",
-    desc: "Questions arrive on WhatsApp, Instagram, or your site. An assistant trained on your business answers, books, or hands it to your team.",
     color: "#ec4899",
     nodes: [
-      { id: "core", x: 50, y: 50, label: "Your assistant", sub: "Trained on your business" },
-      { id: "wa", x: 12, y: 20, label: "WhatsApp", sub: "Messages" },
-      { id: "ig", x: 12, y: 80, label: "Instagram", sub: "DMs" },
-      { id: "web", x: 50, y: 12, label: "Website chat", sub: "Any hour" },
-      { id: "book", x: 88, y: 20, label: "Bookings", sub: "Made in the chat" },
-      { id: "staff", x: 88, y: 80, label: "Your team", sub: "Tricky questions" },
-      { id: "faq", x: 50, y: 88, label: "Your info", sub: "Menu · prices · policies" },
+      { id: "core", x: 50, y: 50 },
+      { id: "wa", x: 12, y: 20 },
+      { id: "ig", x: 12, y: 80 },
+      { id: "web", x: 50, y: 12 },
+      { id: "book", x: 88, y: 20 },
+      { id: "staff", x: 88, y: 80 },
+      { id: "faq", x: 50, y: 88 },
     ],
     edges: [
       ["wa", "core"],
@@ -145,40 +111,22 @@ const DISCIPLINES: Discipline[] = [
       ["core", "staff"],
     ],
     stats: [
-      { label: "Messages answered today", value: 312, live: 1 },
-      { label: "Average reply", value: 4, suffix: "s" },
-      { label: "Passed to your team", value: 6, suffix: "%" },
-    ],
-    log: [
-      "\"Do you have gluten-free options?\" · answered",
-      "\"Is there parking?\" · answered with map",
-      "\"Can I book for Saturday?\" · booked 19:30",
-      "complaint detected · sent to manager",
-      "\"Precio del corte?\" · answered in Spanish",
-      "\"Open on holidays?\" · answered",
-    ],
-    plan: [
-      { title: "Learn your business", body: "Your menu, services, prices, policies, and how you like to talk to customers.", out: ["Knowledge base", "Tone guide"] },
-      { title: "Decide what it handles", body: "What it answers alone, what it books, and when it calls a person.", out: ["Rules", "Hand-off plan"] },
-      { title: "Connect your channels", body: "WhatsApp, Instagram, and your site, tested on real questions before launch.", out: ["Live assistant"] },
-      { title: "Review & improve", body: "We read the conversations and keep teaching it, so it gets better every month.", out: ["Monthly review"] },
+      { value: 312, live: 1 },
+      { value: 4, suffix: "s" },
+      { value: 6, suffix: "%" },
     ],
   },
   {
     key: "automations",
-    name: "Automations",
-    tagline: "The busywork, done for you",
-    title: "The admin runs itself.",
-    desc: "An order, booking, or form comes in, and the invoice, the stock sheet, the team alert, and the customer follow-up all happen without anyone typing.",
     color: "#10b981",
     nodes: [
-      { id: "in", x: 8, y: 50, label: "Something happens", sub: "Order · booking · form" },
-      { id: "check", x: 27, y: 50, label: "Your rules", sub: "What should happen" },
-      { id: "ai", x: 47, y: 50, label: "Smart step", sub: "Reads · sorts · writes" },
-      { id: "inv", x: 70, y: 18, label: "Invoice", sub: "Sent automatically" },
-      { id: "sheet", x: 70, y: 50, label: "Stock & records", sub: "Always up to date" },
-      { id: "alert", x: 70, y: 82, label: "Team alert", sub: "Right person, right time" },
-      { id: "done", x: 92, y: 50, label: "Done", sub: "Nobody typed a thing" },
+      { id: "in", x: 8, y: 50 },
+      { id: "check", x: 27, y: 50 },
+      { id: "ai", x: 47, y: 50 },
+      { id: "inv", x: 70, y: 18 },
+      { id: "sheet", x: 70, y: 50 },
+      { id: "alert", x: 70, y: 82 },
+      { id: "done", x: 92, y: 50 },
     ],
     edges: [
       ["in", "check"],
@@ -191,40 +139,22 @@ const DISCIPLINES: Discipline[] = [
       ["alert", "done"],
     ],
     stats: [
-      { label: "Tasks done today", value: 1284, live: 1 },
-      { label: "Hours saved / week", value: 31 },
-      { label: "Missed follow-ups", value: 0 },
-    ],
-    log: [
-      "new order · invoice sent to customer",
-      "stock low · supplier reorder drafted",
-      "new lead · added to client list",
-      "review received · thank-you sent",
-      "daily summary sent to owner",
-      "supplier invoice read · logged",
-    ],
-    plan: [
-      { title: "Find the busywork", body: "We look at your day and find the copy-paste, reminders, and paperwork eating your hours.", out: ["Time audit", "Savings estimate"] },
-      { title: "Design the flow", body: "What triggers it, what it does, and what happens if something looks off.", out: ["Flow plan"] },
-      { title: "Build & test", body: "Run on your real orders and bookings, with alerts if anything needs a human.", out: ["Live automations"] },
-      { title: "Hand over", body: "A simple dashboard and a guide, so you always know what ran and when.", out: ["Dashboard", "Guide"] },
+      { value: 1284, live: 1 },
+      { value: 31 },
+      { value: 0 },
     ],
   },
   {
     key: "apps",
-    name: "Apps",
-    tagline: "Loyalty, ordering, members",
-    title: "Your business, on their home screen.",
-    desc: "Customers order, collect points, and get offers from your own app, while you see every visit and send news in one tap.",
     color: "#f59e0b",
     nodes: [
-      { id: "idea", x: 8, y: 50, label: "Your idea", sub: "What it should do" },
-      { id: "design", x: 25, y: 50, label: "Design", sub: "In your brand" },
-      { id: "app", x: 42, y: 50, label: "Your app", sub: "iPhone · Android · web" },
-      { id: "order", x: 60, y: 22, label: "Orders", sub: "Pay in the app" },
-      { id: "points", x: 60, y: 78, label: "Loyalty", sub: "Points · rewards" },
-      { id: "you", x: 78, y: 50, label: "Your dashboard", sub: "Visits · sales" },
-      { id: "news", x: 94, y: 50, label: "Offers", sub: "Push to customers" },
+      { id: "idea", x: 8, y: 50 },
+      { id: "design", x: 25, y: 50 },
+      { id: "app", x: 42, y: 50 },
+      { id: "order", x: 60, y: 22 },
+      { id: "points", x: 60, y: 78 },
+      { id: "you", x: 78, y: 50 },
+      { id: "news", x: 94, y: 50 },
     ],
     edges: [
       ["idea", "design"],
@@ -236,23 +166,9 @@ const DISCIPLINES: Discipline[] = [
       ["you", "news"],
     ],
     stats: [
-      { label: "Active members", value: 2140, live: 1 },
-      { label: "Repeat visits", value: 38, suffix: "%" },
-      { label: "Offer opened", value: 61, suffix: "%" },
-    ],
-    log: [
-      "order #218 paid · ready in 10 min",
-      "stamp 9/10 · free coffee next visit",
-      "new member · signed up at the counter",
-      "offer sent · \"2-for-1 Tuesday\"",
-      "reward redeemed · facial upgrade",
-      "class booked · 07:00 spin",
-    ],
-    plan: [
-      { title: "Shape the idea", body: "What your customers should be able to do, and what you want to see behind it.", out: ["Feature list", "Screens"] },
-      { title: "Design in your brand", body: "Clickable screens you can try on your phone before anything is built.", out: ["Prototype"] },
-      { title: "Build & publish", body: "Built, tested on real phones, and published to the App Store and Google Play.", out: ["iOS app", "Android app"] },
-      { title: "Grow & update", body: "New features and fixes as your business changes, with stores and updates handled.", out: ["Updates", "Support"] },
+      { value: 2140, live: 1 },
+      { value: 38, suffix: "%" },
+      { value: 61, suffix: "%" },
     ],
   },
 ];
@@ -308,6 +224,25 @@ export default function Systems() {
     ro.observe(el);
     return () => ro.disconnect();
   }, [view]);
+  const tr = useT().systems;
+  const DISCIPLINES = useMemo<Discipline[]>(
+    () =>
+      BASE.map((b, i) => {
+        const x = tr.items[i];
+        return {
+          ...b,
+          name: x.name,
+          tagline: x.tagline,
+          title: x.title,
+          desc: x.desc,
+          log: x.log,
+          plan: x.plan,
+          nodes: b.nodes.map((n, j) => ({ ...n, label: x.nodes[j][0], sub: x.nodes[j][1] })),
+          stats: b.stats.map((st, j) => ({ ...st, label: x.stats[j] })),
+        };
+      }),
+    [tr]
+  );
   const d = DISCIPLINES[idx];
 
   // Run everything only while the section is on screen.
@@ -329,7 +264,7 @@ export default function Systems() {
   // Auto-advance until the visitor picks something.
   useEffect(() => {
     if (!auto || !visible) return;
-    const t = window.setTimeout(() => setIdx((i) => (i + 1) % DISCIPLINES.length), AUTO_MS);
+    const t = window.setTimeout(() => setIdx((i) => (i + 1) % BASE.length), AUTO_MS);
     return () => window.clearTimeout(t);
   }, [auto, visible, idx]);
 
@@ -481,13 +416,13 @@ export default function Systems() {
       <div className="wrap relative w-full">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <span className="sys-head font-mono text-xs uppercase tracking-[0.3em] text-accent-2">How it works for you</span>
+            <span className="sys-head font-mono text-xs uppercase tracking-[0.3em] text-accent-2">{tr.eyebrow}</span>
             <h2 className="sys-head mt-3 text-4xl font-semibold tracking-tight sm:text-6xl">
-              See it <span className="text-shimmer">working.</span>
+              {tr.h2[0]} <span className="text-shimmer">{tr.h2[1]}</span>
             </h2>
           </div>
           <p className="sys-head max-w-md text-fg/60">
-            Pick what your business needs. See how it runs day to day, and the steps we take to build it with you.
+            {tr.blurb}
           </p>
         </div>
 
@@ -502,22 +437,22 @@ export default function Systems() {
               <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
               <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
               <span className="ml-3 flex-1 truncate text-center font-mono text-[11px] uppercase tracking-[0.25em] text-fg/40">
-                caide · {d.key}
+                caide · {d.name}
               </span>
               <span className="flex items-center gap-2 font-mono text-[11px] text-fg/60">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-70" style={{ background: d.color }} />
                   <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: d.color }} />
                 </span>
-                live
+                {tr.liveTag}
               </span>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-[260px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)]">
               {/* Sidebar */}
               <aside className="min-w-0 border-b border-white/[0.07] p-4 lg:border-b-0 lg:border-r lg:p-5">
-                <p className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-fg/35 lg:block">What you need</p>
-                <div role="tablist" aria-label="What you need" className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 lg:mt-4 lg:flex-col lg:overflow-visible">
+                <p className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-fg/35 lg:block">{tr.need}</p>
+                <div role="tablist" aria-label={tr.need} className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 lg:mt-4 lg:flex-col lg:overflow-visible">
                   {DISCIPLINES.map((x, i) => {
                     const on = i === idx;
                     return (
@@ -550,7 +485,7 @@ export default function Systems() {
                   })}
                 </div>
 
-                <p className="mt-6 hidden font-mono text-[10px] uppercase tracking-[0.3em] text-fg/35 lg:block">View</p>
+                <p className="mt-6 hidden font-mono text-[10px] uppercase tracking-[0.3em] text-fg/35 lg:block">{tr.view}</p>
                 <div className="mt-3 flex gap-1 rounded-full border border-white/10 p-1 lg:mt-3">
                   {(["live", "plan"] as const).map((v) => (
                     <button
@@ -561,12 +496,12 @@ export default function Systems() {
                         view === v ? "bg-fg text-bg" : "text-fg/55 hover:text-fg"
                       }`}
                     >
-                      {v === "live" ? "How it runs" : "How we build it"}
+                      {v === "live" ? tr.live : tr.plan}
                     </button>
                   ))}
                 </div>
                 <p className="mt-6 hidden text-[11px] leading-relaxed text-fg/30 lg:block">
-                  Illustrative example. Figures show a typical setup, not a specific client.
+                  {tr.note}
                 </p>
               </aside>
 
@@ -575,7 +510,7 @@ export default function Systems() {
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                   <div>
                     <p className="sys-in font-mono text-[11px] uppercase tracking-[0.25em]" style={{ color: d.color }}>
-                      {d.name} · {view === "live" ? "how it runs" : "how we build it"}
+                      {d.name} · {view === "live" ? tr.live : tr.plan}
                     </p>
                     <h3 className="sys-in mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">{d.title}</h3>
                   </div>
@@ -641,7 +576,7 @@ export default function Systems() {
                     <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                       {d.plan.map((s, i) => (
                         <div
-                          key={s.title}
+                          key={i}
                           data-on="false"
                           className="plan-step sys-in group rounded-xl border border-white/[0.07] bg-white/[0.02] p-4 transition-[border-color,box-shadow,background-color] duration-500 data-[on=true]:bg-white/[0.05]"
                           style={{ ["--c" as string]: d.color }}
@@ -666,9 +601,9 @@ export default function Systems() {
 
                 <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
                   <div className={`grid gap-3 ${d.rings ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-3"}`}>
-                    {d.stats.map((s) =>
+                    {d.stats.map((s, si) =>
                       d.rings ? (
-                        <div key={s.label} className="sys-in flex flex-col items-center rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
+                        <div key={si} className="sys-in flex flex-col items-center rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
                           <div className="relative h-14 w-14">
                             <svg viewBox="0 0 36 36" className="h-full w-full -rotate-90">
                               <circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="3" />
@@ -693,7 +628,7 @@ export default function Systems() {
                           <span className="mt-2 text-center text-[10px] uppercase tracking-[0.12em] text-fg/45">{s.label}</span>
                         </div>
                       ) : (
-                        <div key={s.label} className="sys-in rounded-xl border border-white/[0.06] bg-white/[0.02] p-3 sm:p-4">
+                        <div key={si} className="sys-in rounded-xl border border-white/[0.06] bg-white/[0.02] p-3 sm:p-4">
                           <span
                             data-count={s.value}
                             data-dec={s.decimals ?? 0}

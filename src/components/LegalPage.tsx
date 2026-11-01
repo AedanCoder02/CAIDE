@@ -5,6 +5,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Nav from "./Nav";
+import { useLang } from "@/i18n/LangProvider";
+import { LOCALE_INFO } from "@/i18n/config";
 import Footer from "./Footer";
 import Particles from "./Particles";
 import SiteLink from "./SiteLink";
@@ -32,6 +34,7 @@ const DOCS = [
 
 export default function LegalPage({ doc, eyebrow, title, accent, intro, updated, summary, sections }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const { locale, t } = useLang();
   const articleRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(sections[0]?.id);
@@ -79,7 +82,7 @@ export default function LegalPage({ doc, eyebrow, title, accent, intro, updated,
   return (
     <div ref={rootRef}>
       <Nav home={false} />
-      <main>
+      <main lang="en">
         <header className="relative overflow-hidden bg-[#05040d] pt-36 pb-16 sm:pt-44">
           <Particles colors={[color, "#ffffff", "#22d3ee"]} density={0.45} speed={0.1} link={120} size={[0.5, 1.6]} />
           <div
@@ -110,6 +113,12 @@ export default function LegalPage({ doc, eyebrow, title, accent, intro, updated,
               })}
             </nav>
 
+            {locale !== "en" && (
+              <p lang={LOCALE_INFO[locale].html} className="mt-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-fg/70">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent-2 shadow-[0_0_8px_#22d3ee]" />
+                {t.legal.englishOnly}
+              </p>
+            )}
             <p className="legal-hero-in mt-12 font-mono text-xs uppercase tracking-[0.3em]" style={{ color }}>
               {eyebrow}
             </p>

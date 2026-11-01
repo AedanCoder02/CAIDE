@@ -3,6 +3,12 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 import SmoothScroll from "@/lib/SmoothScroll";
+import { LangProvider } from "@/i18n/LangProvider";
+import { detectLocale } from "@/i18n/config";
+
+// Hides the page for a moment when the visitor will get a translation, so the
+// English text does not flash first. Removed by LangProvider (or a 2.5s fallback).
+const preLang = `(function(){try{var l=(${detectLocale.toString()})();if(l!=="en"){var r=document.documentElement;r.setAttribute("data-i18n","pending");setTimeout(function(){r.removeAttribute("data-i18n")},2500)}}catch(e){}})();`;
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,12 +30,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: preLang }} />
+      </head>
       <body id="top" className="min-h-full bg-bg text-fg">
         <div className="relative z-10">
           <div className="noise-overlay" />
-          <SmoothScroll>{children}</SmoothScroll>
+          <LangProvider>
+            <SmoothScroll>{children}</SmoothScroll>
+          </LangProvider>
         </div>
       </body>
     </html>

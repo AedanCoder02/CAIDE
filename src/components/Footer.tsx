@@ -6,33 +6,20 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Particles from "./Particles";
 import SiteLink from "./SiteLink";
+import { useT } from "@/i18n/LangProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const COLUMNS = [
-  {
-    title: "What we build",
-    links: [
-      { href: "#services", label: "Websites" },
-      { href: "#services", label: "Bookings & reservations" },
-      { href: "#services", label: "AI assistants & chatbots" },
-      { href: "#services", label: "Automations" },
-      { href: "#services", label: "Apps & online stores" },
-    ],
-  },
-  {
-    title: "Studio",
-    links: [
-      { href: "#work", label: "Our work" },
-      { href: "#systems", label: "How it works" },
-      { href: "#industries", label: "Industries" },
-      { href: "#contact", label: "Contact" },
-    ],
-  },
-];
+const BUILD_HREFS = ["#services", "#services", "#services", "#services", "#services"];
+const STUDIO_HREFS = ["#work", "#systems", "#industries", "#contact"];
 
 export default function Footer({ home = true }: { home?: boolean }) {
   const footerRef = useRef<HTMLDivElement>(null);
+  const t = useT().footer;
+  const COLUMNS = [
+    { title: t.buildTitle, links: t.build.map((label, i) => ({ href: BUILD_HREFS[i], label })) },
+    { title: t.studioTitle, links: t.studio.map((label, i) => ({ href: STUDIO_HREFS[i], label })) },
+  ];
 
   useGSAP(
     () => {
@@ -76,9 +63,7 @@ export default function Footer({ home = true }: { home?: boolean }) {
           <div className="footer-reveal">
             <span className="font-mono text-lg font-semibold tracking-[0.2em]">CAIDE</span>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-fg/55">
-              A design and build studio for businesses of every kind. Websites,
-              bookings, apps, and AI assistants, made to fit your brand and
-              built by the people you talk to.
+              {t.blurb}
             </p>
             <a
               href="mailto:hello@caide.dev"
@@ -89,12 +74,12 @@ export default function Footer({ home = true }: { home?: boolean }) {
             </a>
           </div>
 
-          {COLUMNS.map((col) => (
-            <div key={col.title} className="footer-reveal">
+          {COLUMNS.map((col, ci) => (
+            <div key={ci} className="footer-reveal">
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-fg/40">{col.title}</span>
               <ul className="mt-5 space-y-3 text-sm">
-                {col.links.map((link) => (
-                  <li key={link.label}>
+                {col.links.map((link, li) => (
+                  <li key={li}>
                     <SiteLink href={link.href} home={home} className="text-fg/70 transition-colors hover:text-fg">
                       {link.label}
                     </SiteLink>
@@ -106,14 +91,14 @@ export default function Footer({ home = true }: { home?: boolean }) {
         </div>
 
         <div className="footer-reveal mt-8 flex flex-col items-center justify-between gap-4 text-xs text-fg/45 sm:flex-row">
-          <span>&copy; 2026 CAIDE Operations. Kryptyk / AP Division.</span>
+          <span>{t.rights}</span>
           <nav aria-label="Legal" className="flex items-center gap-5">
-            <SiteLink href="/privacy" className="transition-colors hover:text-fg">Privacy</SiteLink>
-            <SiteLink href="/terms" className="transition-colors hover:text-fg">Terms</SiteLink>
-            <SiteLink href="/cookies" className="transition-colors hover:text-fg">Cookies</SiteLink>
+            <SiteLink href="/privacy" className="transition-colors hover:text-fg">{t.privacy}</SiteLink>
+            <SiteLink href="/terms" className="transition-colors hover:text-fg">{t.terms}</SiteLink>
+            <SiteLink href="/cookies" className="transition-colors hover:text-fg">{t.cookies}</SiteLink>
           </nav>
           <a href="#top" className="inline-flex items-center gap-1.5 transition-colors hover:text-fg">
-            Back to top
+            {t.top}
             <span aria-hidden>&uarr;</span>
           </a>
         </div>

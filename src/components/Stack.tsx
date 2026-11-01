@@ -5,33 +5,34 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Particles from "./Particles";
+import { useT } from "@/i18n/LangProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ROW_A = [
-  { name: "Restaurants", c: "#f59e0b" },
-  { name: "Dental & medical clinics", c: "#22d3ee" },
-  { name: "Hotels & guesthouses", c: "#ec4899" },
-  { name: "Spas & wellness", c: "#10b981" },
-  { name: "Hair & beauty salons", c: "#f9a8d4" },
-  { name: "Bars & cafés", c: "#f59e0b" },
-  { name: "Car workshops", c: "#3b82f6" },
-  { name: "Gyms & studios", c: "#7c5cff" },
-  { name: "Shops & boutiques", c: "#ec4899" },
-  { name: "Real estate", c: "#22d3ee" },
+const COLORS_A = [
+  "#f59e0b",
+  "#22d3ee",
+  "#ec4899",
+  "#10b981",
+  "#f9a8d4",
+  "#f59e0b",
+  "#3b82f6",
+  "#7c5cff",
+  "#ec4899",
+  "#22d3ee",
 ];
 
-const ROW_B = [
-  { name: "Online menus", c: "#f59e0b" },
-  { name: "Table reservations", c: "#ec4899" },
-  { name: "Appointment booking", c: "#22d3ee" },
-  { name: "Room booking", c: "#7c5cff" },
-  { name: "WhatsApp assistants", c: "#10b981" },
-  { name: "Instagram auto-replies", c: "#f9a8d4" },
-  { name: "Loyalty apps", c: "#f59e0b" },
-  { name: "Online payments", c: "#7c5cff" },
-  { name: "Review requests", c: "#10b981" },
-  { name: "Automatic invoices", c: "#3b82f6" },
+const COLORS_B = [
+  "#f59e0b",
+  "#ec4899",
+  "#22d3ee",
+  "#7c5cff",
+  "#10b981",
+  "#f9a8d4",
+  "#f59e0b",
+  "#7c5cff",
+  "#10b981",
+  "#3b82f6",
 ];
 
 function Chip({ name, c }: { name: string; c: string }) {
@@ -46,15 +47,11 @@ function Chip({ name, c }: { name: string; c: string }) {
   );
 }
 
-const CATEGORIES = [
-  { label: "01 · You tell us", value: "Your business, your customers, and what you picture online. No tech talk needed." },
-  { label: "02 · We design it", value: "In your existing brand, or a new identity we create with you. You approve it first." },
-  { label: "03 · We build & launch", value: "Built and tested on real phones, then set live, connected to the tools you already use." },
-  { label: "04 · We keep it running", value: "Changes, updates, and support when you need them, so it keeps working for you." },
-];
-
 export default function Stack() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const t = useT().industries;
+  const ROW_A = t.rowA.map((name, i) => ({ name, c: COLORS_A[i % COLORS_A.length] }));
+  const ROW_B = t.rowB.map((name, i) => ({ name, c: COLORS_B[i % COLORS_B.length] }));
 
   useGSAP(
     () => {
@@ -88,9 +85,9 @@ export default function Stack() {
       <div aria-hidden className="dot-grid pointer-events-none absolute inset-0 opacity-50 [mask-image:radial-gradient(ellipse_at_center,#000_10%,transparent_65%)]" />
 
       <div className="wrap relative">
-        <span className="font-mono text-xs uppercase tracking-[0.3em] text-accent-3">Industries</span>
+        <span className="font-mono text-xs uppercase tracking-[0.3em] text-accent-3">{t.eyebrow}</span>
         <h2 className="mt-4 max-w-2xl text-4xl font-semibold tracking-tight sm:text-6xl">
-          Whatever you run, <span className="text-shimmer">we build for it.</span>
+          {t.h2[0]} <span className="text-shimmer">{t.h2[1]}</span>
         </h2>
       </div>
 
@@ -109,16 +106,15 @@ export default function Stack() {
 
       <div className="wrap relative mt-16">
         <div className="stack-cats grid gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-4">
-          {CATEGORIES.map((c) => (
-            <div key={c.label} className="stack-cat bg-[#0d0614] p-6">
+          {t.steps.map((c, i) => (
+            <div key={i} className="stack-cat bg-[#0d0614] p-6">
               <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-accent-4">{c.label}</span>
               <p className="mt-3 text-sm text-fg/70">{c.value}</p>
             </div>
           ))}
         </div>
         <p className="mt-6 max-w-2xl text-xs leading-relaxed text-fg/40">
-          Under the hood: the same modern tools trusted by global brands, chosen for speed, security, and easy updates,
-          so you never have to think about them.
+          {t.footnote}
         </p>
       </div>
     </section>

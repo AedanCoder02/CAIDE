@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import type { StaticImageData } from "next/image";
 import Particles from "./Particles";
+import { useT } from "@/i18n/LangProvider";
 import kryptykFull from "@/assets/work/kryptyk-full.webp";
 import universeFull from "@/assets/work/universe-full.webp";
 import aureliaFull from "@/assets/work/aurelia-full.webp";
@@ -16,57 +17,39 @@ gsap.registerPlugin(ScrollTrigger);
 
 type Project = {
   name: string;
-  kind: string;
-  desc: string;
   url: string;
-  tags: string[];
   color: string;
   image: StaticImageData;
 };
 
-const PROJECTS: Project[] = [
+const BASE: Project[] = [
   {
     name: "KRYPTYK",
-    kind: "E-commerce · Techwear",
-    desc: "Storefront for a tactical techwear label. The AW-25 collection, product catalog, and cart, wrapped in a terminal-green HUD aesthetic built for urban operators.",
     url: "https://kryptyk.vercel.app/",
-    tags: ["Online store", "Brand", "Catalog"],
     color: "#3cff6b",
     image: kryptykFull,
   },
   {
     name: "Universe Media",
-    kind: "Digital publication",
-    desc: "Editorial platform covering Miss Universe: journalism powered by AI and curated by humans, with a magazine-grade layout, live ticker, and multilingual reading.",
     url: "https://universe-media-two.vercel.app/",
-    tags: ["Editorial", "Multilingual", "AI-assisted"],
     color: "#e0b86a",
     image: universeFull,
   },
   {
     name: "Aurélia",
-    kind: "Beauty studio · Madrid",
-    desc: "Site for a Madrid aesthetics studio offering tailored facials, kobido massage, and botanical rituals. Calm, editorial, and built around getting the booking.",
     url: "https://aureliaesthetics.lovable.app/",
-    tags: ["Bookings", "Brand", "Beauty"],
     color: "#e8b49c",
     image: aureliaFull,
   },
   {
     name: "Cerebrum",
-    kind: "Explainer · Cloud computing",
-    desc: "Cloud computing explained clearly: IaaS, PaaS, SaaS, global regions, and auto-scaling, told through bold prismatic visuals and plain-language answers.",
     url: "https://cerebrum-eta-weld.vercel.app/",
-    tags: ["Explainer", "Motion", "Education"],
     color: "#38bdf8",
     image: cerebrumFull,
   },
   {
     name: "Ishin Academy",
-    kind: "Learning platform",
-    desc: "Learning portal for emerging tech: AI, blockchain, IoT, and Web3 courses from intro to advanced, with enrollment flows for over a thousand students.",
     url: "https://ishinacademy.framer.website/",
-    tags: ["Courses", "Enrollment", "Education"],
     color: "#a78bfa",
     image: ishinFull,
   },
@@ -74,6 +57,8 @@ const PROJECTS: Project[] = [
 
 
 export default function Portfolio() {
+  const t = useT().work;
+  const PROJECTS = BASE.map((p, i) => ({ ...p, ...t.items[i] }));
   const sectionRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
@@ -190,9 +175,9 @@ export default function Portfolio() {
       <div className="wrap relative">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <span className="work-head font-mono text-xs uppercase tracking-[0.3em] text-accent-3">Our work</span>
+            <span className="work-head font-mono text-xs uppercase tracking-[0.3em] text-accent-3">{t.eyebrow}</span>
             <h2 className="work-head mt-4 text-5xl font-semibold leading-[0.95] tracking-tight sm:text-7xl lg:text-[7.5vw]">
-              Built, shipped, <span className="text-shimmer">live.</span>
+              {t.h2[0]} <span className="text-shimmer">{t.h2[1]}</span>
             </h2>
           </div>
           <div className="work-head flex items-end gap-6 lg:pb-4">
@@ -200,7 +185,7 @@ export default function Portfolio() {
               0{PROJECTS.length}
             </span>
             <p className="max-w-xs pb-2 text-fg/60">
-              Real brands, live online right now. Every preview is the actual site: click through and try it.
+              {t.blurb}
             </p>
           </div>
         </div>
@@ -247,12 +232,12 @@ export default function Portfolio() {
                       </h3>
                       <p className="work-text mt-6 max-w-md text-base leading-relaxed text-fg/65 sm:text-lg">{p.desc}</p>
                       <ul className="work-text mt-6 flex flex-wrap gap-2">
-                        {p.tags.map((t) => (
+                        {p.tags.map((tag) => (
                           <li
-                            key={t}
+                            key={tag}
                             className="rounded-full border border-white/10 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.15em] text-fg/60"
                           >
-                            {t}
+                            {tag}
                           </li>
                         ))}
                       </ul>
@@ -266,7 +251,7 @@ export default function Portfolio() {
                         className="group inline-flex w-fit items-center gap-3 rounded-full px-6 py-3.5 text-sm font-semibold text-bg transition-transform duration-300 hover:scale-[1.04]"
                         style={{ background: p.color, boxShadow: `0 0 40px ${p.color}66` }}
                       >
-                        Visit live site
+                        {t.visit}
                         <span aria-hidden className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
                           &#8599;
                         </span>
@@ -280,7 +265,7 @@ export default function Portfolio() {
                         href={p.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label={`Open ${p.name} live`}
+                        aria-label={t.open.replace("{name}", p.name)}
                         className="work-frame group relative block h-[46vh] w-full overflow-hidden rounded-2xl border border-white/10 bg-black transition-transform duration-700 lg:h-full lg:[transform:rotateY(-7deg)_rotateX(3deg)] lg:hover:[transform:rotateY(0deg)_rotateX(0deg)]"
                         style={{ boxShadow: `0 40px 120px -30px ${p.color}80, 0 0 0 1px ${p.color}22` }}
                       >
@@ -298,7 +283,7 @@ export default function Portfolio() {
                             src={p.image.src}
                             width={p.image.width}
                             height={p.image.height}
-                            alt={`${p.name} website`}
+                            alt={t.alt.replace("{name}", p.name)}
                             decoding="async"
                             className="work-shot block h-auto w-full"
                           />

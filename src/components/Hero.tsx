@@ -5,16 +5,14 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Particles from "./Particles";
+import { useLang } from "@/i18n/LangProvider";
 
 const HeroScene = dynamic(() => import("./HeroScene"), { ssr: false });
 
-const PILLARS = ["Websites", "Online bookings", "AI chatbots", "Automations", "Apps", "Online stores"];
-
-// The business the headline speaks to, cycling so every visitor sees theirs.
-const NICHES = ["restaurant", "clinic", "hotel", "spa", "workshop", "bar", "salon", "store", "studio"];
-
 export default function Hero() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const { t: dict, locale } = useLang();
+  const t = dict.hero;
 
   useGSAP(
     () => {
@@ -48,7 +46,8 @@ export default function Hero() {
         yoyo: true,
       });
     },
-    { scope: rootRef }
+    // The niche words change per language, so rebuild the cycle on a switch.
+    { scope: rootRef, dependencies: [locale], revertOnUpdate: true }
   );
 
   return (
@@ -66,39 +65,37 @@ export default function Hero() {
       <div className="wrap relative flex flex-1 flex-col justify-center pt-28 pb-16 sm:pt-24">
         <p className="hero-eyebrow inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] sm:text-[11px] sm:tracking-[0.25em] text-fg/80 backdrop-blur-sm">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent-5 shadow-[0_0_10px_#10b981]" />
-          Websites · Bookings · Apps<span className="hidden min-[400px]:inline">&nbsp;· AI assistants</span>
+          {t.eyebrow}<span className="hidden min-[400px]:inline">&nbsp;{t.eyebrowMore}</span>
         </p>
 
-        <h1 className="mt-6 max-w-5xl text-[10.5vw] font-semibold leading-[0.95] tracking-tight sm:text-[8vw] lg:text-[6.2vw]">
+        <h1 className="hero-title mt-6 max-w-5xl text-[10.5vw] font-semibold leading-[0.95] tracking-tight sm:text-[8vw] lg:text-[6.2vw]">
           <span className="hero-line block overflow-hidden">
             <span className="block">
-              Your{" "}
+              {t.prefix}
               <span className="grid overflow-hidden align-bottom sm:inline-grid">
-                {NICHES.map((n, i) => (
+                {t.niches.map((n, i) => (
                   <span
-                    key={n}
+                    key={`${locale}-${i}`}
                     className="hero-niche text-shimmer [grid-area:1/1]"
                     aria-hidden={i > 0}
                     style={i > 0 ? { opacity: 0 } : undefined}
                   >
-                    {n},
+                    {n}
                   </span>
                 ))}
               </span>
             </span>
           </span>
           <span className="hero-line block overflow-hidden text-gradient">
-            <span className="block">online, exactly</span>
+            <span className="block">{t.line2}</span>
           </span>
           <span className="hero-line block overflow-hidden">
-            <span className="block">as you imagine it.</span>
+            <span className="block">{t.line3}</span>
           </span>
         </h1>
 
         <p className="hero-sub mt-7 max-w-xl text-lg text-fg/70 sm:text-xl">
-          We design and build the website, booking system, app, or AI assistant
-          your business needs. In your brand or a brand-new one, made only for
-          you, and handled from first idea to launch.
+          {t.sub}
         </p>
 
         <div className="hero-ctas mt-9 flex flex-wrap items-center gap-4">
@@ -106,7 +103,7 @@ export default function Hero() {
             href="#contact"
             className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-fg px-7 py-3.5 text-sm font-semibold text-bg shadow-[0_0_40px_rgba(124,92,255,0.45)] transition-transform duration-300 hover:scale-[1.03]"
           >
-            Tell us your idea
+            {t.ctaPrimary}
             <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
               &rarr;
             </span>
@@ -115,12 +112,12 @@ export default function Hero() {
             href="#work"
             className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-7 py-3.5 text-sm font-semibold text-fg backdrop-blur-sm transition-colors duration-300 hover:border-fg/40"
           >
-            See our work
+            {t.ctaSecondary}
           </a>
         </div>
 
         <ul className="mt-10 flex flex-wrap gap-2">
-          {PILLARS.map((p) => (
+          {t.pillars.map((p) => (
             <li
               key={p}
               className="hero-pill rounded-full border border-white/10 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.2em] text-fg/60"
@@ -132,7 +129,7 @@ export default function Hero() {
 
         <div className="pointer-events-none absolute right-6 bottom-6 hidden flex-col items-center gap-3 sm:right-10 md:flex">
           <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted [writing-mode:vertical-rl]">
-            Scroll
+            {t.scroll}
           </span>
           <span className="relative h-12 w-px overflow-hidden bg-white/10">
             <span className="hero-scrollcue-dot absolute inset-x-0 top-0 h-4 w-px bg-accent-2 shadow-[0_0_8px_#22d3ee]" />
@@ -142,8 +139,8 @@ export default function Hero() {
 
       <div className="hero-meta wrap flex items-center justify-between border-t border-white/10 py-5 text-xs text-muted">
         <span>Kryptyk / AP Division</span>
-        <span className="hidden sm:inline">Any industry &middot; Your brand or a new one &middot; Done for you</span>
-        <span>Worldwide</span>
+        <span className="hidden sm:inline">{t.meta}</span>
+        <span>{t.worldwide}</span>
       </div>
     </section>
   );
