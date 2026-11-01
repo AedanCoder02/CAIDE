@@ -153,7 +153,7 @@ function LegalBody({ doc, eyebrow, title, accent, intro, updated, summary, secti
                   {summary.map((s, i) => (
                     <li key={i} className="flex gap-3">
                       <span
-                        className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-[11px] font-semibold"
+                        className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-[0.6875rem] font-semibold"
                         style={{ borderColor: `${color}66`, color, boxShadow: `0 0 16px -4px ${color}` }}
                       >
                         {i + 1}
@@ -177,7 +177,7 @@ function LegalBody({ doc, eyebrow, title, accent, intro, updated, summary, secti
           <div className="wrap relative grid gap-12 lg:grid-cols-[280px_minmax(0,1fr)] xl:gap-20">
             <aside className="hidden lg:block">
               <div className="sticky top-28">
-                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-fg/35">On this page</p>
+                <p className="font-mono text-[0.625rem] uppercase tracking-[0.3em] text-fg/35">On this page</p>
                 <div className="relative mt-5 pl-5">
                   <div className="absolute left-0 top-0 h-full w-px bg-white/10" />
                   <div
@@ -196,7 +196,7 @@ function LegalBody({ doc, eyebrow, title, accent, intro, updated, summary, secti
                               on ? "bg-white/[0.05] text-fg" : "text-fg/45 hover:text-fg/80"
                             }`}
                           >
-                            <span className="font-mono text-[11px]" style={{ color: on ? color : undefined }}>
+                            <span className="font-mono text-[0.6875rem]" style={{ color: on ? color : undefined }}>
                               {String(i + 1).padStart(2, "0")}
                             </span>
                             {s.title}

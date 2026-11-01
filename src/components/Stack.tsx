@@ -108,7 +108,7 @@ export default function Stack() {
         <div className="stack-cats grid gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-4">
           {t.steps.map((c, i) => (
             <div key={i} className="stack-cat bg-[#0d0614] p-6">
-              <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-accent-4">{c.label}</span>
+              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.25em] text-accent-4">{c.label}</span>
               <p className="mt-3 text-sm text-fg/70">{c.value}</p>
             </div>
           ))}

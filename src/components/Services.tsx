@@ -107,7 +107,7 @@ export default function Services() {
     <section
       id="services"
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#06050f] py-20 lg:flex lg:h-[100svh] lg:min-h-[560px] lg:flex-col lg:justify-center lg:pt-[clamp(4.5rem,9vh,6rem)] lg:pb-[clamp(1.25rem,3.5vh,3rem)]"
+      className="relative overflow-hidden bg-[#06050f] py-20 lg:flex lg:min-h-[100svh] lg:flex-col lg:justify-center lg:pt-[clamp(4.5rem,9vh,6rem)] lg:pb-[clamp(1.25rem,3.5vh,3rem)]"
     >
       <div aria-hidden className="dot-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,#000_20%,transparent_70%)]" />
       <div
@@ -118,7 +118,7 @@ export default function Services() {
 
       <Particles colors={["#7c5cff", "#a78bfa", "#22d3ee"]} density={0.5} speed={0.12} size={[0.5, 1.6]} />
 
-      <div className="wrap relative flex w-full flex-col lg:min-h-0 lg:flex-1">
+      <div className="wrap relative w-full">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <span className="services-head font-mono text-xs uppercase tracking-[0.3em] text-accent">
@@ -134,9 +134,9 @@ export default function Services() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:mt-[clamp(1rem,3vh,2.5rem)] lg:min-h-0 lg:flex-1 lg:grid-cols-4 lg:grid-rows-2 lg:gap-[clamp(0.6rem,1.6vh,1rem)]">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:mt-[clamp(1rem,3vh,2.5rem)] lg:grid-cols-4 lg:gap-[clamp(0.6rem,1.6vh,1rem)]">
           {SERVICES.map((s, i) => (
-            <div key={i} className={`service-card translate-y-10 opacity-0 lg:min-h-0 ${s.span}`}>
+            <div key={i} className={`service-card translate-y-10 opacity-0 ${s.span}`}>
               <div
                 className="svc-tilt beam-border group h-full rounded-2xl"
                 style={{ ["--beam-color" as string]: s.color, ["--beam-speed" as string]: s.speed }}
@@ -159,7 +159,7 @@ export default function Services() {
                   el.style.setProperty("--ry", "0deg");
                 }}
               >
-                <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.07] bg-[#0b0a18]/90 p-6 lg:p-[clamp(0.9rem,2.2vh,1.75rem)]">
+                <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-2xl lg:min-h-[16rem] border border-white/[0.07] bg-[#0b0a18]/90 p-6 lg:p-[clamp(0.9rem,2.2vh,1.75rem)]">
                   <div
                     aria-hidden
                     className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-25 blur-3xl transition-opacity duration-500 group-hover:opacity-60"
@@ -188,7 +188,7 @@ export default function Services() {
                       {s.tags.map((tag) => (
                         <li
                           key={tag}
-                          className="shrink-0 rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.15em] text-fg/55"
+                          className="shrink-0 rounded-full border border-white/10 px-2.5 py-1 font-mono text-[0.625rem] uppercase tracking-[0.15em] text-fg/55"
                         >
                           {tag}
                         </li>

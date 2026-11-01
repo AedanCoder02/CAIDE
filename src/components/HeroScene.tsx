@@ -17,6 +17,7 @@ const fragmentShader = /* glsl */ `
   varying vec2 vUv;
   uniform float uTime;
   uniform vec2 uResolution;
+  uniform float uVignette;
 
   float hash(vec2 p) {
     return fract(sin(dot(p, vec2(41.3, 289.1))) * 43758.5453);
@@ -44,23 +45,25 @@ const fragmentShader = /* glsl */ `
     return v;
   }
 
-  // Aurora color pairs: [lower edge, upper rays]. The sky cycles through them.
+  // Aurora color pairs: [lower edge, upper rays]. The sky cycles through them,
+  // mixing the green/teal night with the violet/magenta/blue one.
   void pair(int i, out vec3 lo, out vec3 hi) {
-    if (i == 0) { lo = vec3(0.10, 1.00, 0.62); hi = vec3(0.49, 0.36, 1.00); }      // emerald -> violet
-    else if (i == 1) { lo = vec3(0.13, 0.83, 0.98); hi = vec3(0.95, 0.25, 0.65); } // cyan -> magenta
-    else if (i == 2) { lo = vec3(1.00, 0.62, 0.18); hi = vec3(0.98, 0.22, 0.42); } // gold -> rose
-    else { lo = vec3(0.35, 0.55, 1.00); hi = vec3(0.10, 0.95, 0.75); }             // blue -> teal
+    if (i == 0) { lo = vec3(0.10, 1.00, 0.55); hi = vec3(0.20, 0.85, 1.00); }      // green -> cyan
+    else if (i == 1) { lo = vec3(0.49, 0.36, 1.00); hi = vec3(0.93, 0.28, 0.60); } // violet -> magenta
+    else if (i == 2) { lo = vec3(0.13, 0.83, 0.93); hi = vec3(0.49, 0.36, 1.00); } // cyan -> violet
+    else if (i == 3) { lo = vec3(0.45, 1.00, 0.25); hi = vec3(0.95, 0.30, 0.70); } // lime -> pink
+    else if (i == 4) { lo = vec3(0.25, 0.40, 1.00); hi = vec3(0.70, 0.30, 0.95); } // blue -> purple
+    else { lo = vec3(0.06, 0.92, 0.75); hi = vec3(0.55, 0.40, 1.00); }             // teal -> lavender
   }
 
-  // Current pair, cross-fading to the next every few seconds.
+  // Current pair for a ribbon, cross-fading to the next every few seconds.
   void skyPair(float time, out vec3 lo, out vec3 hi) {
-    float c = time / 7.0;
-    int a = int(mod(floor(c), 4.0));
-    int b = int(mod(floor(c) + 1.0, 4.0));
-    float f = smoothstep(0.55, 1.0, fract(c));
+    float c = time / 4.5;
+    float a = mod(floor(c), 6.0);
+    float f = smoothstep(0.35, 1.0, fract(c));
     vec3 lo1; vec3 hi1; vec3 lo2; vec3 hi2;
-    pair(a, lo1, hi1);
-    pair(b, lo2, hi2);
+    pair(int(a), lo1, hi1);
+    pair(int(mod(a + 1.0, 6.0)), lo2, hi2);
     lo = mix(lo1, lo2, f);
     hi = mix(hi1, hi2, f);
   }
@@ -86,36 +89,42 @@ const fragmentShader = /* glsl */ `
 
     vec3 col = vec3(0.008, 0.01, 0.028);
 
-    // Three ribbons of light. Each one is a folded line across the sky with
-    // vertical rays rising from its lower edge, like a real aurora curtain.
+    // Three ribbons of light, each a folded curtain with rays rising from its
+    // lower edge. Folds travel sideways, the curtain sways, and bright waves
+    // run along it, like a real aurora in a time-lapse.
     for (int i = 0; i < 3; i++) {
       float fi = float(i);
-      float sp = 1.0 + fi * 0.35;
-      // Slow large folds plus faster ripples travelling along the ribbon.
-      float fold = fbm(vec2(p.x * 0.55 + t * 0.09 * sp + fi * 4.1, t * 0.05 + fi));
-      float ripple = sin(p.x * (3.2 + fi) - t * (1.3 + fi * 0.4)) * 0.035
-                   + sin(p.x * 7.0 + t * 2.1 + fi * 3.0) * 0.012;
-      float base = 0.12 - fi * 0.2 + (fold - 0.5) * 0.9 + ripple;
+      float sp = 1.0 + fi * 0.3;
+      vec3 rlo; vec3 rhi;
+      skyPair(t + fi * 6.0, rlo, rhi);   // each ribbon in a different phase of the cycle
+
+      float fold = fbm(vec2(p.x * 0.7 - t * 0.32 * sp + fi * 4.1, t * 0.18 + fi));
+      float sway = sin(t * 0.9 + fi * 2.3) * 0.08 + sin(t * 0.37 + fi) * 0.06;
+      float ripple = sin(p.x * (3.0 + fi) - t * (2.6 + fi * 0.6)) * 0.05
+                   + sin(p.x * 7.5 + t * 3.8 + fi * 3.0) * 0.018;
+      float base = 0.14 - fi * 0.2 + (fold - 0.5) * 1.0 + ripple + sway;
       float d = p.y - base;
 
-      // Rays: high-frequency vertical striations that shimmer sideways.
-      float rx = p.x * (16.0 + fi * 6.0) + fold * 9.0 + t * (0.7 + fi * 0.25);
-      float rays = fbm(vec2(rx, t * 0.6 + fi * 7.0));
-      rays = smoothstep(0.25, 0.85, rays);
-      float flicker = 0.75 + 0.25 * noise(vec2(rx * 0.3, t * 2.5));
+      // Rays: vertical striations that slide and shimmer.
+      float rx = p.x * (15.0 + fi * 6.0) + fold * 10.0 - t * (2.2 + fi * 0.7);
+      float rays = smoothstep(0.25, 0.85, fbm(vec2(rx, t * 1.4 + fi * 7.0)));
+      float flicker = 0.7 + 0.3 * noise(vec2(rx * 0.3, t * 5.0));
 
-      // Bright lower edge, long soft rays upward, quick fade below.
+      // Waves of brightness running along the ribbon.
+      float wave = 0.55 + 0.45 * sin(p.x * 2.2 - t * (2.4 + fi * 0.5) + fold * 6.0);
+      wave *= 0.7 + 0.3 * sin(p.x * 0.9 + t * 1.3 + fi * 2.0);
+
       float edge = exp(-pow(max(-d, 0.0) * 22.0, 2.0)) * exp(-max(d, 0.0) * 7.0);
-      float curtain = smoothstep(-0.02, 0.02, d) * exp(-d * (2.2 + fi * 0.6));
+      float curtain = smoothstep(-0.02, 0.02, d) * exp(-d * (2.0 + fi * 0.6));
       float glow = exp(-abs(d) * 4.0) * 0.25;
 
-      float h = clamp(d * 2.2, 0.0, 1.0);
-      vec3 c = mix(lo, hi, h);
-      // Each ribbon slightly offset in hue so they never look identical.
-      c = hueShift(c, fi * 0.55 + sin(t * 0.4 + fi) * 0.25);
-      float k = (edge * 1.3 + curtain * rays * 1.1 + glow) * flicker;
-      col += c * k * (1.0 - fi * 0.22);
+      vec3 c = mix(rlo, rhi, clamp(d * 2.2, 0.0, 1.0));
+      float k = (edge * 1.3 + curtain * rays * 1.15 + glow) * flicker * (0.45 + 0.75 * wave);
+      col += c * k * (1.0 - fi * 0.2);
     }
+
+    // Whole-sky surge every few seconds.
+    col *= 1.0 + 0.3 * pow(0.5 + 0.5 * sin(t * 0.8), 6.0);
 
     // Faint stars, hidden where the aurora is bright.
     float star = step(0.9975, hash(floor(uv * uResolution / 2.0)));
@@ -124,7 +133,7 @@ const fragmentShader = /* glsl */ `
     // Horizon glow in the current lower color.
     col += lo * 0.18 * exp(-pow((p.y + 0.55) * 2.4, 2.0));
 
-    col *= smoothstep(1.6, 0.25, length(p * vec2(0.7, 1.0)));
+    col *= mix(1.0, smoothstep(1.6, 0.25, length(p * vec2(0.7, 1.0))), uVignette);
     col = 1.0 - exp(-col * 1.6);
     col = mix(vec3(dot(col, vec3(0.299, 0.587, 0.114))), col, 1.3);
     col = pow(max(col, 0.0), vec3(1.12));
@@ -134,13 +143,14 @@ const fragmentShader = /* glsl */ `
   }
 `;
 
-function Aurora() {
+function Aurora({ vignette }: { vignette: number }) {
   const { size } = useThree();
 
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
       uResolution: { value: new THREE.Vector2(size.width, size.height) },
+      uVignette: { value: vignette },
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- uniforms object must stay referentially stable; size is applied via mutation in useFrame
     []
@@ -167,7 +177,8 @@ function Aurora() {
   );
 }
 
-export default function HeroScene() {
+// vignette: 1 darkens the edges (hero), 0 keeps the whole frame lit (footer wordmark).
+export default function HeroScene({ vignette = 1 }: { vignette?: number }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(true);
 
@@ -188,7 +199,7 @@ export default function HeroScene() {
         frameloop={visible ? "always" : "never"}
         gl={{ antialias: false, powerPreference: "high-performance", preserveDrawingBuffer: true }}
       >
-        <Aurora />
+        <Aurora vignette={vignette} />
       </Canvas>
     </div>
   );

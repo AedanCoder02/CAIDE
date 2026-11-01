@@ -69,10 +69,13 @@ const BASE: Project[] = [
   },
 ];
 
+// Display order (indexes into BASE and the dictionary's work.items).
+const ORDER = [0, 3, 2, 4, 1]; // KRYPTYK, Cerebrum, Promar, Ishin Academy, ACJ Viajes
+
 export default function Portfolio() {
   const { t: dict, locale } = useLang();
   const t = dict.work;
-  const PROJECTS = BASE.map((p, i) => ({ ...p, ...t.items[i], image: pickShot(p.shots, locale) }));
+  const PROJECTS = ORDER.map((i) => ({ ...BASE[i], ...t.items[i], image: pickShot(BASE[i].shots, locale) }));
   const sectionRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
@@ -208,7 +211,7 @@ export default function Portfolio() {
           {PROJECTS.map((p, i) => (
             <article
               key={p.name}
-              className="work-card lg:sticky lg:top-[9vh] lg:h-[84vh] lg:min-h-[600px] lg:[&:not(:last-child)]:mb-[40vh]"
+              className="work-card lg:sticky lg:top-[9vh] lg:h-[84vh] lg:min-h-[37.5rem] lg:[&:not(:last-child)]:mb-[40vh]"
               data-active={i === active}
               style={{ zIndex: i + 1 }}
             >
@@ -249,7 +252,7 @@ export default function Portfolio() {
                         {p.tags.map((tag) => (
                           <li
                             key={tag}
-                            className="rounded-full border border-white/10 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.15em] text-fg/60"
+                            className="rounded-full border border-white/10 px-3 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.15em] text-fg/60"
                           >
                             {tag}
                           </li>
@@ -287,7 +290,7 @@ export default function Portfolio() {
                           <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
                           <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
                           <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-                          <span className="ml-4 flex-1 truncate rounded-md bg-white/[0.06] px-3 py-1 text-center font-mono text-[11px] text-fg/55">
+                          <span className="ml-4 flex-1 truncate rounded-md bg-white/[0.06] px-3 py-1 text-center font-mono text-[0.6875rem] text-fg/55">
                             {p.name}
                           </span>
                         </div>

@@ -26,6 +26,10 @@
   --color-line: var(--line);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  /* Desktop layouts are designed at 67% browser zoom (see html font-size), where
+     xl and 2xl already apply on any desktop screen. */
+  --breakpoint-xl: 64rem;
+  --breakpoint-2xl: 64rem;
 }
 
 * {
@@ -35,6 +39,15 @@
 html {
   background: var(--bg);
   color-scheme: dark;
+}
+
+/* On desktop the whole page is scaled like a 67% browser zoom: every rem-based
+   size follows the viewport width (16px at ~2000px wide, ~10.7px on a 1340px
+   laptop). vw/vh-based sizes already scale on their own. */
+@media (min-width: 1024px) {
+  html {
+    font-size: clamp(10px, 0.8vw, 20px);
+  }
 }
 
 body {
@@ -589,25 +602,13 @@ html:lang(zh) .hero-title {
   .svc-tilt { transform: none !important; }
 }
 
-/* Footer: the CAIDE wordmark as a lit floor under the footer content. */
-.footer-word { color: transparent; }
-.footer-letter-outline { -webkit-text-stroke: 1px rgb(255 255 255 / 0.1); }
-.footer-letter-fill,
-.footer-letter-lit {
-  background: linear-gradient(100deg, #ec4899, #7c5cff 40%, #22d3ee 75%, #10b981);
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  animation: footer-hue 12s linear infinite;
+/* Footer: aurora seen through the CAIDE wordmark. */
+.footer-glyph {
+  text-shadow: 0 0 2.5vw rgb(255 255 255 / 0.28);
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), text-shadow 0.6s;
 }
-.footer-letter-fill { opacity: 0.2; }
-.footer-letter-lit {
-  -webkit-mask-image: radial-gradient(circle at var(--lx, 50%) var(--ly, 50%), #000 0, transparent 22vw);
-  mask-image: radial-gradient(circle at var(--lx, 50%) var(--ly, 50%), #000 0, transparent 22vw);
-  filter: drop-shadow(0 0 24px rgb(124 92 255 / 0.45));
+.footer-letter:hover .footer-glyph {
+  transform: translateY(-4%) scale(1.03);
+  text-shadow: 0 0 4vw rgb(255 255 255 / 0.55);
 }
-.footer-aura {
-  background: radial-gradient(ellipse at var(--mx, 50%) 60%, rgb(124 92 255 / 0.35), rgb(34 211 238 / 0.12) 45%, transparent 70%);
-}
-.footer-content { text-shadow: 0 1px 18px rgb(3 3 8 / 0.9); }
-@keyframes footer-hue { to { background-position: -200% 0; } }
+

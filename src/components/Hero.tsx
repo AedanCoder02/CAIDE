@@ -63,7 +63,7 @@ export default function Hero() {
       </div>
 
       <div className="wrap relative flex flex-1 flex-col justify-center pt-28 pb-16 sm:pt-24">
-        <p className="hero-eyebrow inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] sm:text-[11px] sm:tracking-[0.25em] text-fg/80 backdrop-blur-sm">
+        <p className="hero-eyebrow inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 font-mono text-[0.625rem] uppercase tracking-[0.14em] sm:text-[0.6875rem] sm:tracking-[0.25em] text-fg/80 backdrop-blur-sm">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent-5 shadow-[0_0_10px_#10b981]" />
           {t.eyebrow}<span className="hidden min-[400px]:inline">&nbsp;{t.eyebrowMore}</span>
         </p>
@@ -120,7 +120,7 @@ export default function Hero() {
           {t.pillars.map((p) => (
             <li
               key={p}
-              className="hero-pill rounded-full border border-white/10 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.2em] text-fg/60"
+              className="hero-pill rounded-full border border-white/10 px-3 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-fg/60"
             >
               {p}
             </li>
@@ -128,7 +128,7 @@ export default function Hero() {
         </ul>
 
         <div className="pointer-events-none absolute right-6 bottom-6 hidden flex-col items-center gap-3 sm:right-10 md:flex">
-          <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted [writing-mode:vertical-rl]">
+          <span className="font-mono text-[0.6875rem] uppercase tracking-[0.3em] text-muted [writing-mode:vertical-rl]">
             {t.scroll}
           </span>
           <span className="relative h-12 w-px overflow-hidden bg-white/10">

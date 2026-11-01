@@ -63,7 +63,7 @@ export default function LangSwitcher() {
                 }`}
               >
                 <span>{LOCALE_INFO[l].name}</span>
-                <span className="flex items-center gap-2 font-mono text-[10px] text-fg/40">
+                <span className="flex items-center gap-2 font-mono text-[0.625rem] text-fg/40">
                   {LOCALE_INFO[l].code}
                   <span
                     className={`h-1.5 w-1.5 rounded-full ${on ? "bg-accent-2 shadow-[0_0_8px_#22d3ee]" : "bg-transparent"}`}

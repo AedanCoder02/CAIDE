@@ -75,7 +75,7 @@ export default function ServiceDemo({ kind, color }: Props) {
           <span className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
             <span className="svc-fill absolute inset-y-0 left-0 rounded-full bg-[var(--c)]" />
           </span>
-          <span className="svc-paid flex h-5 w-5 items-center justify-center rounded-full bg-[var(--c)] text-[10px] font-bold text-black">
+          <span className="svc-paid flex h-5 w-5 items-center justify-center rounded-full bg-[var(--c)] text-[0.625rem] font-bold text-black">
             ✓
           </span>
         </div>

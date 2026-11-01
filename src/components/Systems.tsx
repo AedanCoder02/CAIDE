@@ -436,10 +436,10 @@ export default function Systems() {
               <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
               <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
               <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-              <span className="ml-3 flex-1 truncate text-center font-mono text-[11px] uppercase tracking-[0.25em] text-fg/40">
+              <span className="ml-3 flex-1 truncate text-center font-mono text-[0.6875rem] uppercase tracking-[0.25em] text-fg/40">
                 caide · {d.name}
               </span>
-              <span className="flex items-center gap-2 font-mono text-[11px] text-fg/60">
+              <span className="flex items-center gap-2 font-mono text-[0.6875rem] text-fg/60">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-70" style={{ background: d.color }} />
                   <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: d.color }} />
@@ -448,10 +448,10 @@ export default function Systems() {
               </span>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[260px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)]">
+            <div className="grid grid-cols-1 lg:grid-cols-[260px_minmax(0,1fr)] xl:grid-cols-[18.75rem_minmax(0,1fr)]">
               {/* Sidebar */}
               <aside className="min-w-0 border-b border-white/[0.07] p-4 lg:border-b-0 lg:border-r lg:p-5">
-                <p className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-fg/35 lg:block">{tr.need}</p>
+                <p className="hidden font-mono text-[0.625rem] uppercase tracking-[0.3em] text-fg/35 lg:block">{tr.need}</p>
                 <div role="tablist" aria-label={tr.need} className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 lg:mt-4 lg:flex-col lg:overflow-visible">
                   {DISCIPLINES.map((x, i) => {
                     const on = i === idx;
@@ -472,7 +472,7 @@ export default function Systems() {
                           />
                           <span className={`text-sm font-semibold ${on ? "text-fg" : "text-fg/60"}`}>{x.name}</span>
                         </span>
-                        <span className="mt-1 hidden pl-[18px] text-xs text-fg/40 lg:block">{x.tagline}</span>
+                        <span className="mt-1 hidden pl-[1.125rem] text-xs text-fg/40 lg:block">{x.tagline}</span>
                         {on && auto && visible && (
                           <span
                             key={`${x.key}-bar`}
@@ -485,7 +485,7 @@ export default function Systems() {
                   })}
                 </div>
 
-                <p className="mt-6 hidden font-mono text-[10px] uppercase tracking-[0.3em] text-fg/35 lg:block">{tr.view}</p>
+                <p className="mt-6 hidden font-mono text-[0.625rem] uppercase tracking-[0.3em] text-fg/35 lg:block">{tr.view}</p>
                 <div className="mt-3 flex gap-1 rounded-full border border-white/10 p-1 lg:mt-3">
                   {(["live", "plan"] as const).map((v) => (
                     <button
@@ -500,7 +500,7 @@ export default function Systems() {
                     </button>
                   ))}
                 </div>
-                <p className="mt-6 hidden text-[11px] leading-relaxed text-fg/30 lg:block">
+                <p className="mt-6 hidden text-[0.6875rem] leading-relaxed text-fg/30 lg:block">
                   {tr.note}
                 </p>
               </aside>
@@ -509,7 +509,7 @@ export default function Systems() {
               <div ref={stageRef} className="min-w-0 p-5 sm:p-7">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                   <div>
-                    <p className="sys-in font-mono text-[11px] uppercase tracking-[0.25em]" style={{ color: d.color }}>
+                    <p className="sys-in font-mono text-[0.6875rem] uppercase tracking-[0.25em]" style={{ color: d.color }}>
                       {d.name} · {view === "live" ? tr.live : tr.plan}
                     </p>
                     <h3 className="sys-in mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">{d.title}</h3>
@@ -518,7 +518,7 @@ export default function Systems() {
                 </div>
 
                 {view === "live" ? (
-                  <div ref={graphRef} className="relative mt-6 h-[480px] rounded-2xl border border-white/[0.06] bg-black/30 md:h-[clamp(260px,34vh,400px)]">
+                  <div ref={graphRef} className="relative mt-6 h-[30rem] rounded-2xl border border-white/[0.06] bg-black/30 md:h-[clamp(260px,34vh,400px)]">
                     <div aria-hidden className="dot-grid absolute inset-0 rounded-2xl opacity-60" />
                     <svg viewBox={`0 0 ${box.w} ${box.h}`} className="absolute inset-0 h-full w-full overflow-visible" aria-hidden>
                       {d.edges.map(([a, b]) => {
@@ -558,8 +558,8 @@ export default function Systems() {
                             className="relative whitespace-nowrap rounded-xl border bg-[#07121c] px-2 py-1.5 text-center sm:px-3.5 sm:py-2"
                             style={{ borderColor: `${d.color}55`, boxShadow: `0 0 24px -6px ${d.color}66` }}
                           >
-                            <p className="text-[10px] font-semibold sm:text-sm">{n.label}</p>
-                            <p className="hidden font-mono text-[10px] text-fg/45 sm:block">{n.sub}</p>
+                            <p className="text-[0.625rem] font-semibold sm:text-sm">{n.label}</p>
+                            <p className="hidden font-mono text-[0.625rem] text-fg/45 sm:block">{n.sub}</p>
                           </div>
                         </div>
                       </div>
@@ -588,7 +588,7 @@ export default function Systems() {
                           <p className="mt-2 text-sm leading-relaxed text-fg/55">{s.body}</p>
                           <ul className="mt-3 flex flex-wrap gap-1.5">
                             {s.out.map((o) => (
-                              <li key={o} className="rounded-full border border-white/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-fg/55">
+                              <li key={o} className="rounded-full border border-white/10 px-2 py-0.5 font-mono text-[0.625rem] uppercase tracking-[0.12em] text-fg/55">
                                 {o}
                               </li>
                             ))}
@@ -625,7 +625,7 @@ export default function Systems() {
                               {s.value}
                             </span>
                           </div>
-                          <span className="mt-2 text-center text-[10px] uppercase tracking-[0.12em] text-fg/45">{s.label}</span>
+                          <span className="mt-2 text-center text-[0.625rem] uppercase tracking-[0.12em] text-fg/45">{s.label}</span>
                         </div>
                       ) : (
                         <div key={si} className="sys-in rounded-xl border border-white/[0.06] bg-white/[0.02] p-3 sm:p-4">
@@ -640,13 +640,13 @@ export default function Systems() {
                             {fmt(s.value, s.decimals)}
                             {s.suffix}
                           </span>
-                          <span className="mt-1 block text-[10px] uppercase tracking-[0.12em] text-fg/45">{s.label}</span>
+                          <span className="mt-1 block text-[0.625rem] uppercase tracking-[0.12em] text-fg/45">{s.label}</span>
                         </div>
                       )
                     )}
                   </div>
 
-                  <div className="sys-in h-[118px] overflow-hidden rounded-xl border border-white/[0.06] bg-black/50 p-3 font-mono text-[11px] leading-[1.7]" aria-live="off">
+                  <div className="sys-in h-[7.375rem] overflow-hidden rounded-xl border border-white/[0.06] bg-black/50 p-3 font-mono text-[0.6875rem] leading-[1.7]" aria-live="off">
                     {shown.map((l, i) => (
                       <div key={l.id} className="sys-line flex gap-3 truncate" style={{ opacity: 0.35 + (i / Math.max(1, shown.length - 1)) * 0.65 }}>
                         <span className="text-fg/30">{l.t}</span>
