@@ -10,8 +10,11 @@ type SendEmail = {
   send: (m: { to: string; from: { email: string; name?: string }; replyTo?: string; subject: string; text: string }) => Promise<{ messageId: string }>;
 };
 
+type RateLimit = { limit: (o: { key: string }) => Promise<{ success: boolean }> };
+
 interface Env {
   ASSETS: Fetcher;
+  LEAD_LIMIT?: RateLimit;
   ALLOWED_ORIGIN?: string;
   LEAD_FROM?: string;
   LEAD_TO?: string;
@@ -62,6 +65,11 @@ async function handleLead(req: Request, env: Env): Promise<Response> {
   const allowed = env.ALLOWED_ORIGIN || new URL(req.url).origin;
   if (origin !== allowed) return json(403, { ok: false, error: "origin" });
   if (!(req.headers.get("Content-Type") || "").startsWith("application/json")) return json(415, { ok: false, error: "type" });
+
+  if (env.LEAD_LIMIT) {
+    const { success } = await env.LEAD_LIMIT.limit({ key: req.headers.get("CF-Connecting-IP") || "unknown" });
+    if (!success) return json(429, { ok: false, error: "rate" });
+  }
 
   const raw = await req.text();
   if (raw.length > MAX_BODY) return json(413, { ok: false, error: "size" });
