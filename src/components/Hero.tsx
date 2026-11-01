@@ -8,7 +8,10 @@ import Particles from "./Particles";
 
 const HeroScene = dynamic(() => import("./HeroScene"), { ssr: false });
 
-const PILLARS = ["Web", "Automations", "Backend", "Integrations", "Apps"];
+const PILLARS = ["Websites", "Online bookings", "AI chatbots", "Automations", "Apps", "Online stores"];
+
+// The business the headline speaks to, cycling so every visitor sees theirs.
+const NICHES = ["restaurant", "clinic", "hotel", "spa", "workshop", "bar", "salon", "store", "studio"];
 
 export default function Hero() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -18,11 +21,22 @@ export default function Hero() {
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduced) return;
 
+      const words = gsap.utils.toArray<HTMLElement>(".hero-niche");
+      gsap.set(words, { yPercent: 110, opacity: 0 });
+      gsap.set(words[0], { yPercent: 0, opacity: 1 });
+      const cycle = gsap.timeline({ repeat: -1, delay: 2.2 });
+      words.forEach((w, i) => {
+        const next = words[(i + 1) % words.length];
+        cycle
+          .to(w, { yPercent: -110, opacity: 0, duration: 0.55, ease: "power3.in" }, i * 2.1)
+          .fromTo(next, { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, i * 2.1 + 0.35);
+      });
+
       const tl = gsap.timeline({ defaults: { ease: "expo.out" }, delay: 0.15 });
       tl.from(".hero-eyebrow", { opacity: 0, y: 14, duration: 0.6 })
         .from(".hero-line", { opacity: 0, y: 46, duration: 0.9, stagger: 0.08 }, "-=0.3")
         .from(".hero-sub", { opacity: 0, y: 20, duration: 0.7 }, "-=0.45")
-        .from(".hero-cta", { opacity: 0, y: 16, duration: 0.6, stagger: 0.08 }, "-=0.4")
+        .from(".hero-ctas", { opacity: 0, y: 16, duration: 0.6 }, "-=0.4")
         .from(".hero-pill", { opacity: 0, y: 10, duration: 0.5, stagger: 0.05 }, "-=0.4")
         .from(".hero-meta", { opacity: 0, duration: 0.8 }, "-=0.3");
 
@@ -50,44 +64,58 @@ export default function Hero() {
       </div>
 
       <div className="wrap relative flex flex-1 flex-col justify-center pt-28 pb-16 sm:pt-24">
-        <p className="hero-eyebrow inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.25em] text-fg/80 backdrop-blur-sm">
+        <p className="hero-eyebrow inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] sm:text-[11px] sm:tracking-[0.25em] text-fg/80 backdrop-blur-sm">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent-5 shadow-[0_0_10px_#10b981]" />
-          Software engineering studio
+          Websites · Bookings · Apps<span className="hidden min-[400px]:inline">&nbsp;· AI assistants</span>
         </p>
 
-        <h1 className="mt-6 max-w-5xl text-[13vw] font-semibold leading-[0.92] tracking-tight sm:text-[8vw] lg:text-[6.2vw]">
+        <h1 className="mt-6 max-w-5xl text-[10.5vw] font-semibold leading-[0.95] tracking-tight sm:text-[8vw] lg:text-[6.2vw]">
           <span className="hero-line block overflow-hidden">
-            <span className="block">We engineer</span>
+            <span className="block">
+              Your{" "}
+              <span className="grid overflow-hidden align-bottom sm:inline-grid">
+                {NICHES.map((n, i) => (
+                  <span
+                    key={n}
+                    className="hero-niche text-shimmer [grid-area:1/1]"
+                    aria-hidden={i > 0}
+                    style={i > 0 ? { opacity: 0 } : undefined}
+                  >
+                    {n},
+                  </span>
+                ))}
+              </span>
+            </span>
           </span>
           <span className="hero-line block overflow-hidden text-gradient">
-            <span className="block">the whole stack.</span>
+            <span className="block">online, exactly</span>
           </span>
           <span className="hero-line block overflow-hidden">
-            <span className="block">You ship.</span>
+            <span className="block">as you imagine it.</span>
           </span>
         </h1>
 
         <p className="hero-sub mt-7 max-w-xl text-lg text-fg/70 sm:text-xl">
-          New products from zero, or the system you already run made faster,
-          cleaner, and automated. Web, backend, integrations, apps, and the
-          automations that tie them together.
+          We design and build the website, booking system, app, or AI assistant
+          your business needs. In your brand or a brand-new one, made only for
+          you, and handled from first idea to launch.
         </p>
 
-        <div className="mt-9 flex flex-wrap items-center gap-4">
+        <div className="hero-ctas mt-9 flex flex-wrap items-center gap-4">
           <a
             href="#contact"
-            className="hero-cta group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-fg px-7 py-3.5 text-sm font-semibold text-bg shadow-[0_0_40px_rgba(124,92,255,0.45)] transition-transform duration-300 hover:scale-[1.03]"
+            className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-fg px-7 py-3.5 text-sm font-semibold text-bg shadow-[0_0_40px_rgba(124,92,255,0.45)] transition-transform duration-300 hover:scale-[1.03]"
           >
-            Start a project
+            Tell us your idea
             <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
               &rarr;
             </span>
           </a>
           <a
             href="#work"
-            className="hero-cta inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-7 py-3.5 text-sm font-semibold text-fg backdrop-blur-sm transition-colors duration-300 hover:border-fg/40"
+            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-7 py-3.5 text-sm font-semibold text-fg backdrop-blur-sm transition-colors duration-300 hover:border-fg/40"
           >
-            See the work
+            See our work
           </a>
         </div>
 
@@ -114,8 +142,8 @@ export default function Hero() {
 
       <div className="hero-meta wrap flex items-center justify-between border-t border-white/10 py-5 text-xs text-muted">
         <span>Kryptyk / AP Division</span>
-        <span className="hidden sm:inline">New builds &middot; Upgrades &middot; Rescues</span>
-        <span>Est. 2026</span>
+        <span className="hidden sm:inline">Any industry &middot; Your brand or a new one &middot; Done for you</span>
+        <span>Worldwide</span>
       </div>
     </section>
   );

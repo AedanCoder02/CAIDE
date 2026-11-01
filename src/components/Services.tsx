@@ -26,66 +26,75 @@ const icon = (d: string) => (
 
 const SERVICES: Service[] = [
   {
-    title: "Web Development",
-    desc: "Marketing sites, dashboards, and full web platforms in Next.js and TypeScript. Fast, accessible, animated where it earns it, and built to be maintained after launch.",
-    tags: ["Next.js", "React", "TypeScript", "Shopify"],
+    title: "Websites that win customers",
+    desc: "A site that looks unmistakably like your business, loads fast on every phone, shows up on Google, and turns visitors into calls, visits, and bookings.",
+    tags: ["Design", "Mobile-first", "Google-ready"],
     color: "#7c5cff",
-    span: "lg:col-span-2",
+    span: "",
     speed: "8s",
     icon: icon("M3 5h18v14H3zM3 9h18M7 7h.01M10 7h.01"),
   },
   {
-    title: "Automations",
-    desc: "n8n workflows, Telegram bots, and scheduled jobs that remove the manual steps between your tools.",
-    tags: ["n8n", "Bots", "Cron", "Webhooks"],
+    title: "Bookings & reservations",
+    desc: "Tables, appointments, rooms, or classes booked online 24/7, with deposits, confirmations, and reminders that cut no-shows.",
+    tags: ["Restaurants", "Clinics", "Hotels", "Spas"],
     color: "#22d3ee",
     span: "",
     speed: "6s",
+    icon: icon("M7 3v3M17 3v3M4 8h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zM9 14l2 2 4-4"),
+  },
+  {
+    title: "AI assistants & chatbots",
+    desc: "An assistant trained on your menu, prices, and policies that answers customers on your site, WhatsApp, or Instagram, day and night.",
+    tags: ["WhatsApp", "Instagram", "Web chat"],
+    color: "#ec4899",
+    span: "",
+    speed: "7s",
+    icon: icon("M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12zM9 11h.01M12 11h.01M15 11h.01"),
+  },
+  {
+    title: "Automations",
+    desc: "Confirmations, reminders, review requests, invoices, and follow-ups that happen on their own, so your team stops copying and pasting.",
+    tags: ["Reminders", "Reviews", "Invoices"],
+    color: "#10b981",
+    span: "",
+    speed: "9s",
     icon: icon("M13 2 4 14h7l-1 8 9-12h-7z"),
   },
   {
-    title: "Backend & APIs",
-    desc: "APIs, databases, auth, and queues designed for real traffic, not a demo.",
-    tags: ["Node", "Postgres", "REST", "Auth"],
-    color: "#10b981",
-    span: "",
-    speed: "7s",
-    icon: icon("M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3zM4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"),
-  },
-  {
-    title: "Integrations",
-    desc: "Connect payments, CRMs, storefronts, messaging, and AI models so your systems talk to each other.",
-    tags: ["Stripe", "Shopify", "CRMs", "LLMs"],
-    color: "#ec4899",
-    span: "",
-    speed: "9s",
-    icon: icon("M8 12h8M9 7H7a5 5 0 0 0 0 10h2M15 7h2a5 5 0 0 1 0 10h-2"),
-  },
-  {
-    title: "App Development",
-    desc: "Web apps and their mobile companions, shipped end to end with the backend behind them.",
-    tags: ["PWA", "Mobile", "Realtime"],
+    title: "Apps for your customers",
+    desc: "Loyalty cards, ordering, memberships, or a client portal in an app your customers keep on their phone.",
+    tags: ["iOS", "Android", "Loyalty"],
     color: "#f59e0b",
     span: "",
     speed: "6.5s",
     icon: icon("M8 2h8a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zM11 18h2"),
   },
   {
-    title: "DevOps & Infrastructure",
-    desc: "CI/CD, environments, monitoring, and deploys on Vercel, Railway, and Docker.",
-    tags: ["CI/CD", "Vercel", "Railway", "Docker"],
+    title: "Online stores & payments",
+    desc: "Sell products, gift cards, and vouchers, take deposits, and get paid online, all connected to the tools you already use.",
+    tags: ["Shopify", "Stripe", "Gift cards"],
     color: "#22d3ee",
     span: "",
     speed: "8.5s",
-    icon: icon("M12 2 3 7v10l9 5 9-5V7zM3 7l9 5 9-5M12 12v10"),
+    icon: icon("M6 7h12l-1 13H7zM9 7a3 3 0 0 1 6 0"),
   },
   {
-    title: "Audits, Refactors & Rescues",
-    desc: "Already have a codebase? We audit it, fix what is slow or fragile, migrate what is outdated, and take over stalled projects so they actually ship.",
-    tags: ["Code audit", "Performance", "Migration", "Takeover"],
-    color: "#7c5cff",
-    span: "sm:col-span-2 xl:col-span-1",
+    title: "Brand identity",
+    desc: "We bring your existing logo, colors, and style to life online, or create a brand-new identity that makes you stand out from day one.",
+    tags: ["Logo", "Colors", "Style"],
+    color: "#a78bfa",
+    span: "",
     speed: "7.5s",
+    icon: icon("M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"),
+  },
+  {
+    title: "Redesigns & ongoing care",
+    desc: "Already online? We redesign, speed up, and fix what is not working, then keep it secure, updated, and backed up for you.",
+    tags: ["Redesign", "Speed", "Care plan"],
+    color: "#7c5cff",
+    span: "",
+    speed: "7s",
     icon: icon("M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"),
   },
 ];
@@ -136,17 +145,16 @@ export default function Services() {
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <span className="services-head font-mono text-xs uppercase tracking-[0.3em] text-accent">
-              What we do
+              What we build for you
             </span>
             <h2 className="services-head mt-4 max-w-xl text-4xl font-semibold tracking-tight sm:text-6xl xl:max-w-none">
-              The full toolkit of a{" "}
-              <span className="text-shimmer">software engineer.</span>
+              Everything your business{" "}
+              <span className="text-shimmer">needs online.</span>
             </h2>
           </div>
           <p className="services-head max-w-sm text-fg/60">
-            One team across the whole stack. No handoffs between five agencies,
-            no gaps between the frontend, the backend, and the glue that
-            connects them.
+            One team, start to finish. You tell us what you imagine; we design it in
+            your brand or a new one, build it, launch it, and keep it running.
           </p>
         </div>
 

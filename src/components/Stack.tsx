@@ -9,27 +9,29 @@ import Particles from "./Particles";
 gsap.registerPlugin(ScrollTrigger);
 
 const ROW_A = [
-  { name: "Next.js", c: "#f3f3f7" },
-  { name: "React", c: "#22d3ee" },
-  { name: "TypeScript", c: "#3b82f6" },
-  { name: "Tailwind", c: "#22d3ee" },
-  { name: "GSAP", c: "#10b981" },
-  { name: "Three.js", c: "#f3f3f7" },
-  { name: "Shopify", c: "#10b981" },
-  { name: "React Native", c: "#22d3ee" },
+  { name: "Restaurants", c: "#f59e0b" },
+  { name: "Dental & medical clinics", c: "#22d3ee" },
+  { name: "Hotels & guesthouses", c: "#ec4899" },
+  { name: "Spas & wellness", c: "#10b981" },
+  { name: "Hair & beauty salons", c: "#f9a8d4" },
+  { name: "Bars & cafés", c: "#f59e0b" },
+  { name: "Car workshops", c: "#3b82f6" },
+  { name: "Gyms & studios", c: "#7c5cff" },
+  { name: "Shops & boutiques", c: "#ec4899" },
+  { name: "Real estate", c: "#22d3ee" },
 ];
 
 const ROW_B = [
-  { name: "Node.js", c: "#10b981" },
-  { name: "PostgreSQL", c: "#3b82f6" },
-  { name: "n8n", c: "#ec4899" },
-  { name: "Telegram Bots", c: "#22d3ee" },
-  { name: "Stripe", c: "#7c5cff" },
-  { name: "LLM APIs", c: "#f59e0b" },
-  { name: "Vercel", c: "#f3f3f7" },
-  { name: "Railway", c: "#7c5cff" },
-  { name: "Docker", c: "#3b82f6" },
-  { name: "GitHub Actions", c: "#f3f3f7" },
+  { name: "Online menus", c: "#f59e0b" },
+  { name: "Table reservations", c: "#ec4899" },
+  { name: "Appointment booking", c: "#22d3ee" },
+  { name: "Room booking", c: "#7c5cff" },
+  { name: "WhatsApp assistants", c: "#10b981" },
+  { name: "Instagram auto-replies", c: "#f9a8d4" },
+  { name: "Loyalty apps", c: "#f59e0b" },
+  { name: "Online payments", c: "#7c5cff" },
+  { name: "Review requests", c: "#10b981" },
+  { name: "Automatic invoices", c: "#3b82f6" },
 ];
 
 function Chip({ name, c }: { name: string; c: string }) {
@@ -45,10 +47,10 @@ function Chip({ name, c }: { name: string; c: string }) {
 }
 
 const CATEGORIES = [
-  { label: "Frontend", value: "Next.js, React, TypeScript, motion" },
-  { label: "Backend", value: "Node, Postgres, REST, auth, queues" },
-  { label: "Automation", value: "n8n, bots, webhooks, schedulers" },
-  { label: "Infra", value: "Vercel, Railway, Docker, CI/CD" },
+  { label: "01 · You tell us", value: "Your business, your customers, and what you picture online. No tech talk needed." },
+  { label: "02 · We design it", value: "In your existing brand, or a new identity we create with you. You approve it first." },
+  { label: "03 · We build & launch", value: "Built and tested on real phones, then set live, connected to the tools you already use." },
+  { label: "04 · We keep it running", value: "Changes, updates, and support when you need them, so it keeps working for you." },
 ];
 
 export default function Stack() {
@@ -73,7 +75,7 @@ export default function Stack() {
 
   return (
     <section
-      id="stack"
+      id="industries"
       ref={sectionRef}
       className="relative overflow-hidden bg-[#0d0614] py-28 sm:py-36"
     >
@@ -86,9 +88,9 @@ export default function Stack() {
       <div aria-hidden className="dot-grid pointer-events-none absolute inset-0 opacity-50 [mask-image:radial-gradient(ellipse_at_center,#000_10%,transparent_65%)]" />
 
       <div className="wrap relative">
-        <span className="font-mono text-xs uppercase tracking-[0.3em] text-accent-3">Toolkit</span>
+        <span className="font-mono text-xs uppercase tracking-[0.3em] text-accent-3">Industries</span>
         <h2 className="mt-4 max-w-2xl text-4xl font-semibold tracking-tight sm:text-6xl">
-          Modern tools, chosen for the job.
+          Whatever you run, <span className="text-shimmer">we build for it.</span>
         </h2>
       </div>
 
@@ -114,6 +116,10 @@ export default function Stack() {
             </div>
           ))}
         </div>
+        <p className="mt-6 max-w-2xl text-xs leading-relaxed text-fg/40">
+          Under the hood: the same modern tools trusted by global brands, chosen for speed, security, and easy updates,
+          so you never have to think about them.
+        </p>
       </div>
     </section>
   );

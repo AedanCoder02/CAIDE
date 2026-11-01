@@ -11,21 +11,21 @@ gsap.registerPlugin(ScrollTrigger);
 
 const COLUMNS = [
   {
-    title: "Services",
+    title: "What we build",
     links: [
-      { href: "#services", label: "Web Development" },
+      { href: "#services", label: "Websites" },
+      { href: "#services", label: "Bookings & reservations" },
+      { href: "#services", label: "AI assistants & chatbots" },
       { href: "#services", label: "Automations" },
-      { href: "#services", label: "Backend & APIs" },
-      { href: "#services", label: "Integrations" },
-      { href: "#services", label: "Audits & Rescues" },
+      { href: "#services", label: "Apps & online stores" },
     ],
   },
   {
     title: "Studio",
     links: [
-      { href: "#work", label: "Selected work" },
-      { href: "#systems", label: "Live systems" },
-      { href: "#stack", label: "Toolkit" },
+      { href: "#work", label: "Our work" },
+      { href: "#systems", label: "How it works" },
+      { href: "#industries", label: "Industries" },
       { href: "#contact", label: "Contact" },
     ],
   },
@@ -76,8 +76,9 @@ export default function Footer({ home = true }: { home?: boolean }) {
           <div className="footer-reveal">
             <span className="font-mono text-lg font-semibold tracking-[0.2em]">CAIDE</span>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-fg/55">
-              A software engineering studio. New builds, upgrades, automations,
-              integrations, and rescues, by the people who write the code.
+              A design and build studio for businesses of every kind. Websites,
+              bookings, apps, and AI assistants, made to fit your brand and
+              built by the people you talk to.
             </p>
             <a
               href="mailto:hello@caide.dev"

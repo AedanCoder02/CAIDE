@@ -8,8 +8,8 @@ import SiteLink from "./SiteLink";
 const LINKS = [
   { href: "#services", label: "Services" },
   { href: "#work", label: "Work" },
-  { href: "#systems", label: "Systems" },
-  { href: "#stack", label: "Toolkit" },
+  { href: "#systems", label: "How it works" },
+  { href: "#industries", label: "Industries" },
 ];
 
 export default function Nav({ home = true }: { home?: boolean }) {

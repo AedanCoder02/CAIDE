@@ -30,7 +30,7 @@ const PROJECTS: Project[] = [
     kind: "E-commerce · Techwear",
     desc: "Storefront for a tactical techwear label. The AW-25 collection, product catalog, and cart, wrapped in a terminal-green HUD aesthetic built for urban operators.",
     url: "https://kryptyk.vercel.app/",
-    tags: ["Next.js", "Storefront", "Vercel"],
+    tags: ["Online store", "Brand", "Catalog"],
     color: "#3cff6b",
     image: kryptykFull,
   },
@@ -39,7 +39,7 @@ const PROJECTS: Project[] = [
     kind: "Digital publication",
     desc: "Editorial platform covering Miss Universe: journalism powered by AI and curated by humans, with a magazine-grade layout, live ticker, and multilingual reading.",
     url: "https://universe-media-two.vercel.app/",
-    tags: ["Next.js", "Editorial", "Vercel"],
+    tags: ["Editorial", "Multilingual", "AI-assisted"],
     color: "#e0b86a",
     image: universeFull,
   },
@@ -48,7 +48,7 @@ const PROJECTS: Project[] = [
     kind: "Beauty studio · Madrid",
     desc: "Site for a Madrid aesthetics studio offering tailored facials, kobido massage, and botanical rituals. Calm, editorial, and built around getting the booking.",
     url: "https://aureliaesthetics.lovable.app/",
-    tags: ["Lovable", "Booking", "Brand"],
+    tags: ["Bookings", "Brand", "Beauty"],
     color: "#e8b49c",
     image: aureliaFull,
   },
@@ -57,7 +57,7 @@ const PROJECTS: Project[] = [
     kind: "Explainer · Cloud computing",
     desc: "Cloud computing explained clearly: IaaS, PaaS, SaaS, global regions, and auto-scaling, told through bold prismatic visuals and plain-language answers.",
     url: "https://cerebrum-eta-weld.vercel.app/",
-    tags: ["Next.js", "Education", "Vercel"],
+    tags: ["Explainer", "Motion", "Education"],
     color: "#38bdf8",
     image: cerebrumFull,
   },
@@ -66,7 +66,7 @@ const PROJECTS: Project[] = [
     kind: "Learning platform",
     desc: "Learning portal for emerging tech: AI, blockchain, IoT, and Web3 courses from intro to advanced, with enrollment flows for over a thousand students.",
     url: "https://ishinacademy.framer.website/",
-    tags: ["Framer", "Courses", "Education"],
+    tags: ["Courses", "Enrollment", "Education"],
     color: "#a78bfa",
     image: ishinFull,
   },
@@ -190,7 +190,7 @@ export default function Portfolio() {
       <div className="wrap relative">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <span className="work-head font-mono text-xs uppercase tracking-[0.3em] text-accent-3">Selected work</span>
+            <span className="work-head font-mono text-xs uppercase tracking-[0.3em] text-accent-3">Our work</span>
             <h2 className="work-head mt-4 text-5xl font-semibold leading-[0.95] tracking-tight sm:text-7xl lg:text-[7.5vw]">
               Built, shipped, <span className="text-shimmer">live.</span>
             </h2>
@@ -200,8 +200,7 @@ export default function Portfolio() {
               0{PROJECTS.length}
             </span>
             <p className="max-w-xs pb-2 text-fg/60">
-              Real projects running in production right now. Every preview below is the actual site, click through and
-              try it.
+              Real brands, live online right now. Every preview is the actual site: click through and try it.
             </p>
           </div>
         </div>

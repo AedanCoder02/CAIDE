@@ -67,6 +67,16 @@ const fragmentShader = /* glsl */ `
     return mix(blue, emerald, (t - 0.75) / 0.25);
   }
 
+  // Rotate hue around the grey axis (YIQ space).
+  vec3 hueShift(vec3 c, float a) {
+    const mat3 toYIQ = mat3(0.299, 0.596, 0.211, 0.587, -0.274, -0.523, 0.114, -0.322, 0.312);
+    const mat3 toRGB = mat3(1.0, 1.0, 1.0, 0.956, -0.272, -1.106, 0.621, -0.647, 1.703);
+    vec3 yiq = toYIQ * c;
+    float h = atan(yiq.z, yiq.y) + a;
+    float ch = length(yiq.yz);
+    return toRGB * vec3(yiq.x, ch * cos(h), ch * sin(h));
+  }
+
   vec3 sky(float t, float phase) {
     return mix(palette(t), palette2(t + 0.15), phase);
   }
@@ -75,12 +85,12 @@ const fragmentShader = /* glsl */ `
     vec2 uv = vUv;
     float aspect = uResolution.x / uResolution.y;
     vec2 p = (uv - 0.5) * vec2(aspect, 1.0);
-    float t = uTime * 0.3;
+    float t = uTime * 0.5;
 
     // Slow swing between the two palettes (about 26s per round trip), plus a
     // steady hue drift so the colors never sit still.
-    float phase = smoothstep(0.38, 0.62, 0.5 + 0.5 * sin(uTime * 0.24 - 1.5708));
-    float drift = uTime * 0.035;
+    float phase = smoothstep(0.35, 0.65, 0.5 + 0.5 * sin(uTime * 0.5 - 1.5708));
+    float drift = uTime * 0.07;
 
     vec3 col = vec3(0.012, 0.012, 0.03);
 
@@ -114,10 +124,12 @@ const fragmentShader = /* glsl */ `
     col += sky(drift + 0.3, phase) * pulseB * exp(-pow((p.y + 0.02) * 5.0, 2.0)) * 0.45;
 
     // Periodic surge: the whole sky flares brighter every few seconds.
-    float surge = pow(0.5 + 0.5 * sin(uTime * 0.7), 8.0);
+    float surge = pow(0.5 + 0.5 * sin(uTime * 1.1), 8.0);
     col *= 1.0 + surge * 0.35;
 
     col *= smoothstep(1.5, 0.25, length(p * vec2(0.72, 1.0)));
+    // Whole-sky hue swing, about +/-80 degrees every 20 seconds.
+    col = max(hueShift(col, sin(uTime * 0.31) * 1.4), 0.0);
     col = 1.0 - exp(-col * 1.45);
     // Push saturation and contrast so the colors read as vivid, not milky.
     col = mix(vec3(dot(col, vec3(0.299, 0.587, 0.114))), col, 1.4);

@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CAIDE — Software engineering, end to end",
+  title: "CAIDE | Websites, bookings, apps and AI assistants for your business",
   description:
-    "CAIDE is a software engineering studio: web development, automations, backend and APIs, integrations, apps, DevOps, and upgrades or rescues of existing projects.",
+    "CAIDE designs and builds websites, booking systems, apps, automations, and AI chatbots for restaurants, clinics, hotels, spas, salons, workshops, and every kind of business. In your brand or a new one, worldwide.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

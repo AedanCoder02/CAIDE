@@ -28,232 +28,231 @@ type Discipline = {
 
 const DISCIPLINES: Discipline[] = [
   {
-    key: "web",
-    name: "Web & Apps",
-    tagline: "Sites, platforms, PWAs",
-    title: "From brief to every screen.",
-    desc: "One design system feeds every component, every component ships through one app, and the edge delivers it to every device.",
+    key: "website",
+    name: "Websites",
+    tagline: "Found, trusted, chosen",
+    title: "From your idea to the first customer.",
+    desc: "Your brand shapes the design, the design becomes a fast site, Google sends people to it, and they reach you in one tap.",
     color: "#7c5cff",
     nodes: [
-      { id: "brief", x: 8, y: 50, label: "Brief", sub: "Goals · audience" },
-      { id: "design", x: 29, y: 22, label: "Design system", sub: "Tokens · motion" },
-      { id: "comps", x: 29, y: 78, label: "Components", sub: "React · TypeScript" },
-      { id: "app", x: 52, y: 50, label: "Next.js app", sub: "SSR · static" },
-      { id: "edge", x: 73, y: 50, label: "Edge network", sub: "CDN · cache" },
-      { id: "desk", x: 92, y: 24, label: "Web", sub: "Desktop" },
-      { id: "mob", x: 92, y: 76, label: "Mobile", sub: "PWA · iOS · Android" },
+      { id: "idea", x: 8, y: 50, label: "Your idea", sub: "What you imagine" },
+      { id: "brand", x: 29, y: 22, label: "Your brand", sub: "Existing or new" },
+      { id: "content", x: 29, y: 78, label: "Your content", sub: "Photos · menu · prices" },
+      { id: "site", x: 52, y: 50, label: "Your website", sub: "Fast on any device" },
+      { id: "google", x: 73, y: 50, label: "Google & Maps", sub: "Found by locals" },
+      { id: "call", x: 92, y: 24, label: "Calls & visits", sub: "One-tap contact" },
+      { id: "book", x: 92, y: 76, label: "Bookings", sub: "Straight from the site" },
     ],
     edges: [
-      ["brief", "design"],
-      ["brief", "comps"],
-      ["design", "app"],
-      ["comps", "app"],
-      ["app", "edge"],
-      ["edge", "desk"],
-      ["edge", "mob"],
+      ["idea", "brand"],
+      ["idea", "content"],
+      ["brand", "site"],
+      ["content", "site"],
+      ["site", "google"],
+      ["google", "call"],
+      ["google", "book"],
     ],
     rings: true,
     stats: [
-      { label: "Performance", value: 100 },
+      { label: "Speed", value: 100 },
       { label: "Accessibility", value: 100 },
-      { label: "Best practices", value: 100 },
-      { label: "SEO", value: 100 },
+      { label: "Quality", value: 100 },
+      { label: "Google", value: 100 },
     ],
     log: [
-      "next build · compiled successfully",
-      "route / prerendered as static",
-      "hero.webp optimized · 412kb → 64kb",
-      "LCP 0.9s · CLS 0.00 · INP 48ms",
-      "deploy ready · edge cache warmed",
-      "a11y audit · 0 violations",
+      "new visitor · from Google Maps",
+      "menu viewed · 42s on page",
+      "tap to call · lunch enquiry",
+      "page loaded in 0.9s on mobile",
+      "contact form sent · event quote",
+      "directions opened · 1.2 km away",
     ],
     plan: [
-      { title: "Discover & architect", body: "Goals, audience, content, and the data behind it, mapped before any pixels.", out: ["Sitemap", "Tech plan"] },
-      { title: "Design in the browser", body: "Real components with real motion, in the stack it ships on. No static handoff.", out: ["Design system", "Prototype"] },
-      { title: "Build & integrate", body: "Pages, CMS, forms, payments, and analytics wired together and tested on real devices.", out: ["Production app", "CMS"] },
-      { title: "Launch & iterate", body: "Deployed, measured, and improved from real usage. Handed over with docs.", out: ["Go-live", "Docs"] },
+      { title: "Listen to your idea", body: "Your business, your customers, and what you picture online. We ask, you talk.", out: ["Brief", "Page plan"] },
+      { title: "Design in your brand", body: "Your colors, logo, and voice, or a new identity if you want one. You see it before we build.", out: ["Design", "Preview link"] },
+      { title: "Build & launch", body: "A fast site on every phone, set up on Google, with bookings or contact built in.", out: ["Live website", "Google listing"] },
+      { title: "Keep it fresh", body: "New photos, prices, or pages whenever you need them. You run the business, we run the site.", out: ["Updates", "Support"] },
     ],
   },
   {
-    key: "auto",
-    name: "Automations",
-    tagline: "n8n, bots, scheduled jobs",
-    title: "Manual steps, removed.",
-    desc: "A trigger fires, rules filter it, an AI step understands it, and every downstream tool gets updated in seconds without anyone touching it.",
+    key: "bookings",
+    name: "Bookings",
+    tagline: "Tables, rooms, appointments",
+    title: "Booked while you sleep.",
+    desc: "A customer picks a time online, your calendar fills itself, they get confirmed on WhatsApp, reminded the day before, and asked for a review after.",
     color: "#22d3ee",
     nodes: [
-      { id: "trig", x: 8, y: 50, label: "Trigger", sub: "Webhook · cron" },
-      { id: "filt", x: 27, y: 50, label: "Filter", sub: "Rules · dedupe" },
-      { id: "ai", x: 47, y: 50, label: "AI step", sub: "Classify · extract" },
-      { id: "tg", x: 70, y: 18, label: "Telegram", sub: "Team alert" },
-      { id: "sheet", x: 70, y: 50, label: "Sheets", sub: "Log row" },
-      { id: "crm", x: 70, y: 82, label: "CRM", sub: "Update deal" },
-      { id: "done", x: 92, y: 50, label: "Audit trail", sub: "Every run logged" },
+      { id: "cust", x: 8, y: 50, label: "Customer", sub: "Phone · any hour" },
+      { id: "page", x: 27, y: 50, label: "Booking page", sub: "Pick a time" },
+      { id: "cal", x: 47, y: 50, label: "Your calendar", sub: "No double bookings" },
+      { id: "wa", x: 70, y: 18, label: "Confirmation", sub: "WhatsApp · email" },
+      { id: "staff", x: 70, y: 50, label: "Your team", sub: "Today's schedule" },
+      { id: "remind", x: 70, y: 82, label: "Reminder", sub: "Day before" },
+      { id: "review", x: 92, y: 50, label: "Review", sub: "Asked after the visit" },
     ],
     edges: [
-      ["trig", "filt"],
-      ["filt", "ai"],
-      ["ai", "tg"],
-      ["ai", "sheet"],
-      ["ai", "crm"],
-      ["tg", "done"],
-      ["sheet", "done"],
-      ["crm", "done"],
+      ["cust", "page"],
+      ["page", "cal"],
+      ["cal", "wa"],
+      ["cal", "staff"],
+      ["cal", "remind"],
+      ["wa", "review"],
+      ["staff", "review"],
+      ["remind", "review"],
     ],
     stats: [
-      { label: "Runs today", value: 1284, live: 1 },
-      { label: "Hours saved / week", value: 31 },
-      { label: "Error rate", value: 0.2, suffix: "%", decimals: 1 },
+      { label: "Bookings today", value: 48, live: 1 },
+      { label: "Booked after hours", value: 37, suffix: "%" },
+      { label: "No-shows", value: 2.1, suffix: "%", decimals: 1 },
     ],
     log: [
-      "[webhook] order #4821 received",
-      "[filter] passed 3/3 rules",
-      "[ai] intent=refund · confidence 0.94",
-      "[telegram] alert sent to #ops",
-      "[sheets] row appended · Orders!A2213",
-      "[crm] deal moved → Won",
+      "table for 4 · Fri 21:00 · booked 23:48",
+      "confirmation sent on WhatsApp",
+      "reminder sent · massage 10:30",
+      "slot freed · rebooked in 6 min",
+      "deposit paid · room 204",
+      "review request sent · 5 stars",
     ],
     plan: [
-      { title: "Map the manual work", body: "We shadow the process and find where time leaks between tools.", out: ["Process map", "ROI estimate"] },
-      { title: "Design the flow", body: "Triggers, rules, AI steps, and fallbacks drawn out before anything runs.", out: ["Flow spec"] },
-      { title: "Build & test on real data", body: "Built in n8n or code, run against real records, with retries and alerts.", out: ["Live workflows", "Alerts"] },
-      { title: "Monitor & hand over", body: "Dashboards, run logs, and a runbook so your team owns it.", out: ["Runbook", "Training"] },
+      { title: "Map how you book today", body: "Phone, DMs, paper diary: we see where bookings get lost or double up.", out: ["Booking map"] },
+      { title: "Set your rules", body: "Hours, tables, rooms, staff, deposits, and cancellations, the way you work.", out: ["Booking rules"] },
+      { title: "Build & connect", body: "On your site, Google, and Instagram, linked to your calendar and WhatsApp.", out: ["Live booking", "Reminders"] },
+      { title: "Train your team", body: "A short walkthrough and a one-page guide, so anyone on shift can use it.", out: ["Training", "Guide"] },
     ],
   },
   {
-    key: "backend",
-    name: "Backend & APIs",
-    tagline: "APIs, data, auth, queues",
-    title: "Built for real traffic.",
-    desc: "Requests pass a gateway, get authenticated, hit services that read from cache first, write to Postgres, and push slow work to a queue.",
-    color: "#10b981",
-    nodes: [
-      { id: "cli", x: 8, y: 50, label: "Clients", sub: "Web · mobile · partners" },
-      { id: "gw", x: 27, y: 50, label: "API gateway", sub: "Rate limits" },
-      { id: "auth", x: 46, y: 20, label: "Auth", sub: "JWT · OAuth" },
-      { id: "svc", x: 50, y: 66, label: "Services", sub: "Node · TypeScript" },
-      { id: "cache", x: 73, y: 22, label: "Cache", sub: "Redis" },
-      { id: "db", x: 73, y: 54, label: "Postgres", sub: "Primary + replica" },
-      { id: "queue", x: 73, y: 86, label: "Queue", sub: "Jobs · retries" },
-      { id: "work", x: 93, y: 86, label: "Workers", sub: "Email · exports" },
-    ],
-    edges: [
-      ["cli", "gw"],
-      ["gw", "auth"],
-      ["gw", "svc"],
-      ["auth", "svc"],
-      ["svc", "cache"],
-      ["svc", "db"],
-      ["svc", "queue"],
-      ["queue", "work"],
-    ],
-    stats: [
-      { label: "p95 latency", value: 42, suffix: " ms" },
-      { label: "Requests / min", value: 8400, live: 37 },
-      { label: "Uptime", value: 99.98, suffix: "%", decimals: 2 },
-    ],
-    log: [
-      "GET  /api/orders 200 · 31ms",
-      "POST /api/checkout 201 · 88ms",
-      "auth: token refreshed · user_8a1",
-      "queue: email.send done (2 retries)",
-      "cache: hit ratio 94%",
-      "GET  /api/products?cursor=… 200 · 19ms",
-    ],
-    plan: [
-      { title: "Model data & contracts", body: "Schema, API contracts, and auth model agreed before code.", out: ["Schema", "OpenAPI spec"] },
-      { title: "Build services & auth", body: "Typed services, migrations, permissions, and tests from day one.", out: ["API", "Auth"] },
-      { title: "Load test & harden", body: "Real traffic patterns, caching, indexes, and rate limits tuned.", out: ["Load report"] },
-      { title: "Observe & scale", body: "Logs, traces, and alerts so problems show up before users notice.", out: ["Dashboards", "Alerts"] },
-    ],
-  },
-  {
-    key: "integrations",
-    name: "Integrations",
-    tagline: "Payments, CRMs, AI models",
-    title: "Every tool, one source of truth.",
-    desc: "Payments, orders, customers, messages, and AI all sync through your platform, so nothing is exported by hand again.",
+    key: "assistant",
+    name: "AI assistants",
+    tagline: "Chatbots & agents, trained on you",
+    title: "Answers every message, in your voice.",
+    desc: "Questions arrive on WhatsApp, Instagram, or your site. An assistant trained on your business answers, books, or hands it to your team.",
     color: "#ec4899",
     nodes: [
-      { id: "core", x: 50, y: 50, label: "Your platform", sub: "Single source of truth" },
-      { id: "stripe", x: 12, y: 20, label: "Stripe", sub: "Payments" },
-      { id: "shop", x: 12, y: 80, label: "Shopify", sub: "Orders" },
-      { id: "msg", x: 50, y: 12, label: "Messaging", sub: "Telegram · WhatsApp" },
-      { id: "crm", x: 88, y: 20, label: "CRM", sub: "Contacts · deals" },
-      { id: "llm", x: 88, y: 80, label: "AI models", sub: "Summaries · agents" },
-      { id: "mail", x: 50, y: 88, label: "Email", sub: "Receipts · digests" },
+      { id: "core", x: 50, y: 50, label: "Your assistant", sub: "Trained on your business" },
+      { id: "wa", x: 12, y: 20, label: "WhatsApp", sub: "Messages" },
+      { id: "ig", x: 12, y: 80, label: "Instagram", sub: "DMs" },
+      { id: "web", x: 50, y: 12, label: "Website chat", sub: "Any hour" },
+      { id: "book", x: 88, y: 20, label: "Bookings", sub: "Made in the chat" },
+      { id: "staff", x: 88, y: 80, label: "Your team", sub: "Tricky questions" },
+      { id: "faq", x: 50, y: 88, label: "Your info", sub: "Menu · prices · policies" },
     ],
     edges: [
-      ["stripe", "core"],
-      ["shop", "core"],
-      ["core", "crm"],
-      ["core", "llm"],
-      ["core", "msg"],
-      ["core", "mail"],
+      ["wa", "core"],
+      ["ig", "core"],
+      ["web", "core"],
+      ["faq", "core"],
+      ["core", "book"],
+      ["core", "staff"],
     ],
     stats: [
-      { label: "Events synced today", value: 23940, live: 9 },
-      { label: "Systems connected", value: 6 },
-      { label: "Manual exports", value: 0 },
+      { label: "Messages answered today", value: 312, live: 1 },
+      { label: "Average reply", value: 4, suffix: "s" },
+      { label: "Passed to your team", value: 6, suffix: "%" },
     ],
     log: [
-      "stripe: invoice.paid → platform",
-      "shopify: orders/create → platform",
-      "platform → crm: contact upserted",
-      "platform → ai: summarize ticket #311",
-      "platform → telegram: daily digest sent",
-      "platform → email: receipt delivered",
+      "\"Do you have gluten-free options?\" · answered",
+      "\"Is there parking?\" · answered with map",
+      "\"Can I book for Saturday?\" · booked 19:30",
+      "complaint detected · sent to manager",
+      "\"Precio del corte?\" · answered in Spanish",
+      "\"Open on holidays?\" · answered",
     ],
     plan: [
-      { title: "Audit your tools", body: "What each system owns, where data is duplicated, where it breaks.", out: ["Data map"] },
-      { title: "Design the data flow", body: "Which system is the source of truth for what, and how conflicts resolve.", out: ["Sync spec"] },
-      { title: "Connect & sync", body: "Webhooks, APIs, and backfills, idempotent and retry-safe.", out: ["Live sync", "Backfill"] },
-      { title: "Monitor & alert", body: "Failed syncs surface in minutes, not at month end.", out: ["Alerts", "Status view"] },
+      { title: "Learn your business", body: "Your menu, services, prices, policies, and how you like to talk to customers.", out: ["Knowledge base", "Tone guide"] },
+      { title: "Decide what it handles", body: "What it answers alone, what it books, and when it calls a person.", out: ["Rules", "Hand-off plan"] },
+      { title: "Connect your channels", body: "WhatsApp, Instagram, and your site, tested on real questions before launch.", out: ["Live assistant"] },
+      { title: "Review & improve", body: "We read the conversations and keep teaching it, so it gets better every month.", out: ["Monthly review"] },
     ],
   },
   {
-    key: "devops",
-    name: "DevOps",
-    tagline: "CI/CD, environments, uptime",
-    title: "Ship daily, sleep fine.",
-    desc: "Every push builds, tests, and gets a preview. Checks gate production, and monitoring watches it after.",
-    color: "#f59e0b",
+    key: "automations",
+    name: "Automations",
+    tagline: "The busywork, done for you",
+    title: "The admin runs itself.",
+    desc: "An order, booking, or form comes in, and the invoice, the stock sheet, the team alert, and the customer follow-up all happen without anyone typing.",
+    color: "#10b981",
     nodes: [
-      { id: "commit", x: 8, y: 50, label: "Commit", sub: "Pull request" },
-      { id: "build", x: 25, y: 50, label: "Build", sub: "Docker · cache" },
-      { id: "test", x: 42, y: 50, label: "Tests", sub: "Unit · e2e" },
-      { id: "prev", x: 60, y: 22, label: "Preview", sub: "URL per PR" },
-      { id: "check", x: 60, y: 78, label: "Checks", sub: "Lint · security" },
-      { id: "prod", x: 78, y: 50, label: "Production", sub: "Vercel · Railway" },
-      { id: "mon", x: 94, y: 50, label: "Monitoring", sub: "Logs · alerts" },
+      { id: "in", x: 8, y: 50, label: "Something happens", sub: "Order · booking · form" },
+      { id: "check", x: 27, y: 50, label: "Your rules", sub: "What should happen" },
+      { id: "ai", x: 47, y: 50, label: "Smart step", sub: "Reads · sorts · writes" },
+      { id: "inv", x: 70, y: 18, label: "Invoice", sub: "Sent automatically" },
+      { id: "sheet", x: 70, y: 50, label: "Stock & records", sub: "Always up to date" },
+      { id: "alert", x: 70, y: 82, label: "Team alert", sub: "Right person, right time" },
+      { id: "done", x: 92, y: 50, label: "Done", sub: "Nobody typed a thing" },
     ],
     edges: [
-      ["commit", "build"],
-      ["build", "test"],
-      ["test", "prev"],
-      ["test", "check"],
-      ["prev", "prod"],
-      ["check", "prod"],
-      ["prod", "mon"],
+      ["in", "check"],
+      ["check", "ai"],
+      ["ai", "inv"],
+      ["ai", "sheet"],
+      ["ai", "alert"],
+      ["inv", "done"],
+      ["sheet", "done"],
+      ["alert", "done"],
     ],
     stats: [
-      { label: "Deploy time", value: 134, suffix: "s" },
-      { label: "Deploys this week", value: 37 },
-      { label: "Rollback", value: 30, suffix: "s" },
+      { label: "Tasks done today", value: 1284, live: 1 },
+      { label: "Hours saved / week", value: 31 },
+      { label: "Missed follow-ups", value: 0 },
     ],
     log: [
-      "git push · feat/checkout",
-      "build: cache hit 87% · 41s",
-      "tests: 214 passed · 0 failed",
-      "preview ready for PR #128",
-      "promote → production ✓",
-      "alerts synced · 0 open incidents",
+      "new order · invoice sent to customer",
+      "stock low · supplier reorder drafted",
+      "new lead · added to client list",
+      "review received · thank-you sent",
+      "daily summary sent to owner",
+      "supplier invoice read · logged",
     ],
     plan: [
-      { title: "Containerize & configure", body: "Reproducible builds and environment config, no snowflake servers.", out: ["Dockerfiles", "Env config"] },
-      { title: "CI pipeline", body: "Build, test, lint, and scan on every push.", out: ["CI workflows"] },
-      { title: "Environments & previews", body: "Preview per pull request, staging, and gated production.", out: ["Preview envs"] },
-      { title: "Monitoring & on-call", body: "Uptime, error tracking, and alerts routed to the right people.", out: ["Monitoring", "Runbooks"] },
+      { title: "Find the busywork", body: "We look at your day and find the copy-paste, reminders, and paperwork eating your hours.", out: ["Time audit", "Savings estimate"] },
+      { title: "Design the flow", body: "What triggers it, what it does, and what happens if something looks off.", out: ["Flow plan"] },
+      { title: "Build & test", body: "Run on your real orders and bookings, with alerts if anything needs a human.", out: ["Live automations"] },
+      { title: "Hand over", body: "A simple dashboard and a guide, so you always know what ran and when.", out: ["Dashboard", "Guide"] },
+    ],
+  },
+  {
+    key: "apps",
+    name: "Apps",
+    tagline: "Loyalty, ordering, members",
+    title: "Your business, on their home screen.",
+    desc: "Customers order, collect points, and get offers from your own app, while you see every visit and send news in one tap.",
+    color: "#f59e0b",
+    nodes: [
+      { id: "idea", x: 8, y: 50, label: "Your idea", sub: "What it should do" },
+      { id: "design", x: 25, y: 50, label: "Design", sub: "In your brand" },
+      { id: "app", x: 42, y: 50, label: "Your app", sub: "iPhone · Android · web" },
+      { id: "order", x: 60, y: 22, label: "Orders", sub: "Pay in the app" },
+      { id: "points", x: 60, y: 78, label: "Loyalty", sub: "Points · rewards" },
+      { id: "you", x: 78, y: 50, label: "Your dashboard", sub: "Visits · sales" },
+      { id: "news", x: 94, y: 50, label: "Offers", sub: "Push to customers" },
+    ],
+    edges: [
+      ["idea", "design"],
+      ["design", "app"],
+      ["app", "order"],
+      ["app", "points"],
+      ["order", "you"],
+      ["points", "you"],
+      ["you", "news"],
+    ],
+    stats: [
+      { label: "Active members", value: 2140, live: 1 },
+      { label: "Repeat visits", value: 38, suffix: "%" },
+      { label: "Offer opened", value: 61, suffix: "%" },
+    ],
+    log: [
+      "order #218 paid · ready in 10 min",
+      "stamp 9/10 · free coffee next visit",
+      "new member · signed up at the counter",
+      "offer sent · \"2-for-1 Tuesday\"",
+      "reward redeemed · facial upgrade",
+      "class booked · 07:00 spin",
+    ],
+    plan: [
+      { title: "Shape the idea", body: "What your customers should be able to do, and what you want to see behind it.", out: ["Feature list", "Screens"] },
+      { title: "Design in your brand", body: "Clickable screens you can try on your phone before anything is built.", out: ["Prototype"] },
+      { title: "Build & publish", body: "Built, tested on real phones, and published to the App Store and Google Play.", out: ["iOS app", "Android app"] },
+      { title: "Grow & update", body: "New features and fixes as your business changes, with stores and updates handled.", out: ["Updates", "Support"] },
     ],
   },
 ];
@@ -482,13 +481,13 @@ export default function Systems() {
       <div className="wrap relative w-full">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <span className="sys-head font-mono text-xs uppercase tracking-[0.3em] text-accent-2">Live systems</span>
+            <span className="sys-head font-mono text-xs uppercase tracking-[0.3em] text-accent-2">How it works for you</span>
             <h2 className="sys-head mt-3 text-4xl font-semibold tracking-tight sm:text-6xl">
-              Watch the work <span className="text-shimmer">run.</span>
+              See it <span className="text-shimmer">working.</span>
             </h2>
           </div>
           <p className="sys-head max-w-md text-fg/60">
-            Pick a discipline. Each view is a working model of what we build, and the plan we follow to build it.
+            Pick what your business needs. See how it runs day to day, and the steps we take to build it with you.
           </p>
         </div>
 
@@ -503,7 +502,7 @@ export default function Systems() {
               <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
               <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
               <span className="ml-3 flex-1 truncate text-center font-mono text-[11px] uppercase tracking-[0.25em] text-fg/40">
-                caide · systems console · {d.key}
+                caide · {d.key}
               </span>
               <span className="flex items-center gap-2 font-mono text-[11px] text-fg/60">
                 <span className="relative flex h-2 w-2">
@@ -517,8 +516,8 @@ export default function Systems() {
             <div className="grid grid-cols-1 lg:grid-cols-[260px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)]">
               {/* Sidebar */}
               <aside className="min-w-0 border-b border-white/[0.07] p-4 lg:border-b-0 lg:border-r lg:p-5">
-                <p className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-fg/35 lg:block">Disciplines</p>
-                <div role="tablist" aria-label="Disciplines" className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 lg:mt-4 lg:flex-col lg:overflow-visible">
+                <p className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-fg/35 lg:block">What you need</p>
+                <div role="tablist" aria-label="What you need" className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 lg:mt-4 lg:flex-col lg:overflow-visible">
                   {DISCIPLINES.map((x, i) => {
                     const on = i === idx;
                     return (
@@ -562,12 +561,12 @@ export default function Systems() {
                         view === v ? "bg-fg text-bg" : "text-fg/55 hover:text-fg"
                       }`}
                     >
-                      {v === "live" ? "Live system" : "Build plan"}
+                      {v === "live" ? "How it runs" : "How we build it"}
                     </button>
                   ))}
                 </div>
                 <p className="mt-6 hidden text-[11px] leading-relaxed text-fg/30 lg:block">
-                  Illustrative model of a typical build. Figures are examples, not client data.
+                  Illustrative example. Figures show a typical setup, not a specific client.
                 </p>
               </aside>
 
@@ -576,7 +575,7 @@ export default function Systems() {
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                   <div>
                     <p className="sys-in font-mono text-[11px] uppercase tracking-[0.25em]" style={{ color: d.color }}>
-                      {d.name} · {view === "live" ? "system view" : "build plan"}
+                      {d.name} · {view === "live" ? "how it runs" : "how we build it"}
                     </p>
                     <h3 className="sys-in mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">{d.title}</h3>
                   </div>

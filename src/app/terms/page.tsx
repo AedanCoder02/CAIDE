@@ -38,7 +38,7 @@ const sections: LegalSection[] = [
         <p>
           The site describes our services and past work for general information. Nothing on it is an offer, quote, or
           guarantee of availability, pricing, timelines, or results. Examples, figures, and system diagrams on the site
-          (including the &ldquo;Live systems&rdquo; console) are illustrative models, not data from a specific client.
+          (including the &ldquo;How it works&rdquo; section) are illustrative models, not data from a specific client.
         </p>
         <p>
           Any project we take on is governed by a separate written agreement, such as a proposal, statement of work, or

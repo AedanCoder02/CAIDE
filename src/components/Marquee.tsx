@@ -5,14 +5,16 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 const ITEMS = [
-  "Web Development",
-  "Automations",
-  "Backend & APIs",
-  "Integrations",
-  "App Development",
-  "DevOps",
-  "New Builds",
-  "Upgrades & Rescues",
+  "Restaurants",
+  "Clinics",
+  "Hotels",
+  "Spas & Salons",
+  "Workshops",
+  "Bars & Cafés",
+  "Shops",
+  "Studios",
+  "Gyms",
+  "Agencies",
 ];
 
 export default function Marquee() {

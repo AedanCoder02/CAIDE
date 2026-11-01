@@ -96,16 +96,16 @@ export default function Cta() {
 
       <div className="wrap relative">
         <p className="cta-reveal font-mono text-xs uppercase tracking-[0.3em] text-accent-2">
-          Let&apos;s build
+          Let&apos;s talk
         </p>
         <h2 className="cta-reveal mx-auto mt-6 max-w-4xl text-4xl font-semibold tracking-tight sm:text-7xl">
-          Tell us what&apos;s slow, manual, or{" "}
-          <span className="text-shimmer">missing.</span>
+          Tell us what you&apos;re{" "}
+          <span className="text-shimmer">imagining.</span>
         </h2>
         <p className="cta-reveal mx-auto mt-6 max-w-xl text-lg text-fg/65">
-          A new product, an integration, an automation, or a codebase that
-          needs rescuing. We&apos;ll scope it and tell you honestly if
-          it&apos;s a one-week fix or a real build.
+          A new website, a booking system, an app, or an assistant that answers
+          your customers. Describe it in your own words and we&apos;ll reply with
+          how we&apos;d build it, how long it takes, and what it costs.
         </p>
         <div className="cta-reveal mt-12 flex flex-wrap items-center justify-center gap-4">
           <a
@@ -119,10 +119,10 @@ export default function Cta() {
             </span>
           </a>
           <a
-            href="mailto:hello@caide.dev?subject=Project%20audit"
+            href="mailto:hello@caide.dev?subject=Question"
             className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-8 py-4 text-sm font-semibold text-fg backdrop-blur-sm transition-colors hover:border-fg/40"
           >
-            Request an audit
+            Ask us anything
           </a>
         </div>
       </div>
