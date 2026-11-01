@@ -16,13 +16,16 @@ const sections: LegalSection[] = [
     body: (
       <>
         <p>
-          CAIDE is a software engineering studio operating within the Kryptyk / AP Division (&ldquo;CAIDE&rdquo;,
-          &ldquo;we&rdquo;, &ldquo;us&rdquo;). We build websites, applications, automations, backends, and integrations
-          for clients.
+          This website is operated by <strong>CAIDE Operations</strong>, an independent software engineering practice
+          within the Kryptyk / AP Division (&ldquo;CAIDE&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;). We build
+          websites, applications, automations, backends, and integrations for clients worldwide. For the purposes of
+          data protection law, CAIDE Operations is the controller of the personal information described in this
+          policy.
         </p>
         <p>
           This policy explains what personal information we handle when you visit this website or contact us, why we
-          handle it, and the choices and rights you have. For personal information we process on behalf of clients as
+          handle it, and the choices and rights you have, wherever you are. It is written to meet the requirements of
+          the major privacy laws worldwide, with region-specific details in the section on regional rights. For personal information we process on behalf of clients as
           part of a project, the client is the controller and our written agreement with that client governs the
           processing.
         </p>
@@ -158,7 +161,7 @@ const sections: LegalSection[] = [
     title: "Your rights",
     body: (
       <>
-        <p>Depending on where you live, you may have the right to:</p>
+        <p>Wherever you live, you have the right to:</p>
         <ul>
           <li>access the personal information we hold about you and get a copy of it;</li>
           <li>correct information that is inaccurate or incomplete;</li>
@@ -175,8 +178,66 @@ const sections: LegalSection[] = [
         </p>
         <p>
           To exercise a right, email {mail}. We may need to confirm your identity before acting. We answer within one
-          month (or 45 days where the CCPA applies), and tell you if we need longer. If you are in the EU or UK, you
-          can also complain to your local data protection authority.
+          month, or sooner where your local law requires it (for example, 15 days under Brazil&rsquo;s LGPD), and tell
+          you if we need longer. You can always complain to your local data protection authority.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "regional",
+    title: "Regional rights",
+    body: (
+      <>
+        <p>
+          We apply the same high standard to everyone, and the rights above are available to all visitors. Where a
+          local law gives you more, that law applies. In particular:
+        </p>
+        <ul>
+          <li>
+            <strong>European Economic Area, United Kingdom, and Switzerland</strong> (GDPR, UK GDPR, and the Swiss
+            FADP): you have every right listed above, including the right to object to processing based on legitimate
+            interests and to lodge a complaint with your data protection authority.
+          </li>
+          <li>
+            <strong>United States</strong> (California CCPA/CPRA, and the comprehensive privacy laws of Virginia,
+            Colorado, Connecticut, Utah, Texas, Oregon, and other states): you can request access, correction,
+            deletion, and portability, and appeal our decision if we decline a request. We do not sell personal
+            information, share it for targeted advertising, or use it for profiling, and we do not collect sensitive
+            personal information through this site. In the 12 months before this policy was last updated, we collected
+            only identifiers and commercial information you sent us, for the purposes listed above.
+          </li>
+          <li>
+            <strong>Canada</strong> (PIPEDA and Quebec Law 25): you can access and correct your information and
+            withdraw consent, and you can complain to the Office of the Privacy Commissioner of Canada or the Commission
+            d&rsquo;accès à l&rsquo;information du Québec.
+          </li>
+          <li>
+            <strong>Brazil</strong> (LGPD): you can confirm processing, access, correct, anonymize, port, or delete
+            your data, and complain to the ANPD.
+          </li>
+          <li>
+            <strong>Mexico and the rest of Latin America</strong>: you can exercise your ARCO rights (access,
+            rectification, cancellation, and opposition) and the equivalent rights under your local law.
+          </li>
+          <li>
+            <strong>Australia and New Zealand</strong> (Privacy Act 1988 and Privacy Act 2020): you can access and
+            correct your information and complain to the OAIC or the New Zealand Privacy Commissioner.
+          </li>
+          <li>
+            <strong>Asia</strong> (including Japan&rsquo;s APPI, South Korea&rsquo;s PIPA, Singapore&rsquo;s PDPA,
+            India&rsquo;s DPDP Act, and China&rsquo;s PIPL): you can access, correct, and delete your information and
+            withdraw consent, as provided by your local law.
+          </li>
+          <li>
+            <strong>South Africa and the rest of Africa</strong> (including POPIA, Nigeria&rsquo;s NDPA, and
+            Kenya&rsquo;s Data Protection Act): you can access, correct, and object to processing of your information,
+            and complain to your regulator.
+          </li>
+        </ul>
+        <p>
+          You can exercise any of these rights by writing to {mail}. You may also use an authorized agent where your
+          local law allows. We will never charge you or treat you differently for making a request.
         </p>
       </>
     ),
@@ -236,7 +297,7 @@ export default function PrivacyPage() {
       title="Your data,"
       accent="handled with care."
       intro="What we collect, why, who sees it, and the rights you have over it. Written to be read, not skimmed past."
-      updated="31 October 2026"
+      updated="1 November 2026"
       summary={[
         "This site uses no analytics, no tracking, and no cookies.",
         "We only receive what you send us when you get in touch.",

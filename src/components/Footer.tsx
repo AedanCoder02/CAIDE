@@ -105,7 +105,7 @@ export default function Footer({ home = true }: { home?: boolean }) {
         </div>
 
         <div className="footer-reveal mt-8 flex flex-col items-center justify-between gap-4 text-xs text-fg/45 sm:flex-row">
-          <span>&copy; 2026 CAIDE. Kryptyk / AP Division.</span>
+          <span>&copy; 2026 CAIDE Operations. Kryptyk / AP Division.</span>
           <nav aria-label="Legal" className="flex items-center gap-5">
             <SiteLink href="/privacy" className="transition-colors hover:text-fg">Privacy</SiteLink>
             <SiteLink href="/terms" className="transition-colors hover:text-fg">Terms</SiteLink>

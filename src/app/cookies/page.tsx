@@ -159,6 +159,26 @@ const sections: LegalSection[] = [
     ),
   },
   {
+    id: "laws",
+    title: "Laws we follow",
+    body: (
+      <>
+        <p>
+          Cookie and tracking rules differ by region. Because this site sets no cookies and uses no tracking, it
+          already meets the strictest of them, including:
+        </p>
+        <ul>
+          <li>the EU ePrivacy Directive and GDPR, and the UK PECR and UK GDPR, which require consent before
+            non-essential cookies are set;</li>
+          <li>Brazil&rsquo;s LGPD, Canada&rsquo;s PIPEDA and Quebec Law 25, and similar laws that require clear notice
+            and consent;</li>
+          <li>US state privacy laws, such as California&rsquo;s CCPA/CPRA, that give you the right to opt out of
+            tracking for targeted advertising and recognize Global Privacy Control signals.</li>
+        </ul>
+      </>
+    ),
+  },
+  {
     id: "changes",
     title: "If this changes",
     body: (
@@ -184,7 +204,7 @@ export default function CookiesPage() {
       title="No cookies,"
       accent="no tracking."
       intro="This site sets no cookies and runs no trackers. Here is exactly what that means, and what would change if we ever added any."
-      updated="31 October 2026"
+      updated="1 November 2026"
       summary={[
         "This site sets zero cookies.",
         "No analytics, pixels, or local storage.",

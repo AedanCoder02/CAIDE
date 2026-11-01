@@ -17,9 +17,11 @@ const sections: LegalSection[] = [
     body: (
       <>
         <p>
-          These Terms of Use govern your use of this website, operated by CAIDE, a software engineering studio within
-          the Kryptyk / AP Division (&ldquo;CAIDE&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;). By using the site you
-          agree to them. If you do not agree, please do not use the site.
+          These Terms of Use govern your use of this website, operated by <strong>CAIDE Operations</strong>, an
+          independent software engineering practice within the Kryptyk / AP Division (&ldquo;CAIDE&rdquo;,
+          &ldquo;we&rdquo;, &ldquo;us&rdquo;). We serve clients worldwide, and these terms are written to work
+          alongside the consumer and business laws of the countries our visitors come from. By using the site you agree
+          to them. If you do not agree, please do not use the site.
         </p>
         <p>
           Our <Link href="/privacy">Privacy Policy</Link> and <Link href="/cookies">Cookie Policy</Link> explain how we
@@ -127,11 +129,58 @@ const sections: LegalSection[] = [
     title: "Governing law",
     body: (
       <p>
-        These terms are governed by the laws of the jurisdiction in which CAIDE is established, without regard to its
-        conflict-of-law rules. If you use the site as a consumer, you also keep the protection of any mandatory
-        provisions of the law of the country where you live. Before going to court, we ask that you contact us at{" "}
-        {mail} so we can try to resolve the issue informally.
+        These terms are governed by the laws of the place where CAIDE Operations is based, without regard to its
+        conflict-of-law rules. If you use the site as a consumer, you also keep the protection of the mandatory laws
+        of the country where you live, including the right to bring proceedings in your local courts where that law
+        provides it (for example, in the European Union, the United Kingdom, Australia, or Brazil). Before starting
+        any formal dispute, we ask that you contact us at {mail} so we can try to resolve the issue informally within
+        30 days.
       </p>
+    ),
+  },
+  {
+    id: "international",
+    title: "International use",
+    body: (
+      <>
+        <p>
+          The site is available worldwide, but we do not claim that its content is appropriate or lawful in every
+          country. If you access it from outside the place where we are based, you do so on your own initiative and
+          are responsible for complying with your local laws.
+        </p>
+        <p>
+          We comply with applicable export control and sanctions laws, and we do not provide services to people or
+          organizations where that would breach those laws.
+        </p>
+        <p>
+          These terms are written in English. If we provide a translation, the English version applies where they
+          differ, unless your local law requires otherwise.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "general",
+    title: "General",
+    body: (
+      <ul>
+        <li>
+          <strong>Force majeure:</strong> we are not responsible for delays or failures caused by events outside our
+          reasonable control, such as outages of hosting providers, network failures, or natural disasters.
+        </li>
+        <li>
+          <strong>No waiver:</strong> if we do not enforce a provision right away, we have not given up the right to
+          enforce it later.
+        </li>
+        <li>
+          <strong>Assignment:</strong> we may transfer these terms as part of a reorganization or sale of the business;
+          your rights under them will not be reduced.
+        </li>
+        <li>
+          <strong>Entire agreement:</strong> these terms, together with our Privacy Policy and Cookie Policy, are the
+          whole agreement between you and us about use of the site.
+        </li>
+      </ul>
     ),
   },
   {
@@ -160,7 +209,7 @@ export default function TermsPage() {
       title="The ground rules,"
       accent="kept clear."
       intro="The terms that apply when you use this website. Client projects are covered by their own written agreements."
-      updated="31 October 2026"
+      updated="1 November 2026"
       summary={[
         "The site is information about our services, not a binding offer.",
         "Every project runs under its own written agreement.",

@@ -83,33 +83,42 @@ export default function Portfolio() {
 
       const desktop = window.matchMedia("(min-width: 1024px)").matches;
       const cards = gsap.utils.toArray<HTMLElement>(".work-card");
+      const runs: (gsap.core.Timeline | null)[] = cards.map(() => null);
 
-      // Each preview scrolls through its site once, and only after the card has
-      // settled into place. Covered cards stay idle.
-      cards.forEach((card, i) => {
-        const img = card.querySelector<HTMLImageElement>(".work-shot");
-        let played = false;
-        const play = () => {
-          if (played || reduced || !img) return;
+      // A preview scrolls through its site once each time its card settles in
+      // front. It stops as soon as another card covers it.
+      const show = (i: number) => {
+        setActive(i);
+        runs.forEach((tl, j) => {
+          if (j !== i && tl) {
+            tl.kill();
+            runs[j] = null;
+          }
+        });
+        const img = cards[i]?.querySelector<HTMLImageElement>(".work-shot");
+        if (reduced || !img || runs[i]) return;
+        const start = (tries = 0) => {
           const frame = img.parentElement;
           const dist = frame ? img.offsetHeight - frame.clientHeight : 0;
-          if (dist <= 0) return;
-          played = true;
+          if (dist <= 0) {
+            if (tries < 30) requestAnimationFrame(() => start(tries + 1));
+            return;
+          }
           const d = gsap.utils.clamp(5, 12, dist / 160);
-          gsap
-            .timeline({ delay: 0.4 })
+          runs[i] = gsap
+            .timeline({ delay: 0.4, onComplete: () => (runs[i] = null) })
             .to(img, { y: -dist, duration: d, ease: "power1.inOut" })
             .to(img, { y: 0, duration: d * 0.45, ease: "power2.inOut" }, "+=1.2");
         };
+        img.decode().then(() => start(), () => start());
+      };
+
+      cards.forEach((card, i) => {
         ScrollTrigger.create({
           trigger: card,
           start: desktop ? "top 10%" : "top 55%",
-          onEnter: () => {
-            setActive(i);
-            if (img && !img.complete) img.addEventListener("load", play, { once: true });
-            else play();
-          },
-          onLeaveBack: () => setActive(Math.max(0, i - 1)),
+          onEnter: () => show(i),
+          onLeaveBack: () => show(Math.max(0, i - 1)),
         });
       });
 
@@ -291,7 +300,7 @@ export default function Portfolio() {
                             width={p.image.width}
                             height={p.image.height}
                             alt={`${p.name} website`}
-                            loading="lazy"
+                            decoding="async"
                             className="work-shot block h-auto w-full"
                           />
                         </div>

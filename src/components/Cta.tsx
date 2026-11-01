@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -10,8 +10,30 @@ gsap.registerPlugin(ScrollTrigger);
 
 const beam = (vars: Record<string, string>) => vars as React.CSSProperties;
 
+// Stage lights: position, cone width, base hue, sway range/speed, hue drift and
+// brightness breathing speeds. Each beam runs on its own clock so the rig never
+// repeats in lockstep.
+const BEAMS = [
+  { x: "4%", w: "26rem", h: 262, from: "-22deg", to: "6deg", sway: "9s", hue: "13s", breath: "5s", delay: "-2s" },
+  { x: "20%", w: "18rem", h: 190, from: "-8deg", to: "16deg", sway: "7s", hue: "11s", breath: "3.6s", delay: "-5s" },
+  { x: "38%", w: "30rem", h: 318, from: "-14deg", to: "12deg", sway: "11s", hue: "17s", breath: "6.5s", delay: "-1s" },
+  { x: "56%", w: "22rem", h: 275, from: "12deg", to: "-10deg", sway: "8s", hue: "15s", breath: "4.2s", delay: "-6s" },
+  { x: "72%", w: "28rem", h: 328, from: "18deg", to: "-14deg", sway: "10s", hue: "12s", breath: "5.6s", delay: "-3s" },
+  { x: "88%", w: "20rem", h: 200, from: "6deg", to: "-22deg", sway: "7.5s", hue: "14s", breath: "4.8s", delay: "-7s" },
+];
+
 export default function Cta() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [running, setRunning] = useState(false);
+
+  // The rig only animates while the section is on screen.
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setRunning(e.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   useGSAP(
     () => {
@@ -32,27 +54,43 @@ export default function Cta() {
     <section
       id="contact"
       ref={sectionRef}
+      data-running={running}
       className="relative overflow-hidden bg-[#05030f] pt-36 pb-48 text-center sm:pt-44 sm:pb-56"
     >
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <span
-          className="spot-beam left-[8%]"
-          style={beam({ "--spot-color": "rgba(124,92,255,0.6)", "--spot-from": "-18deg", "--spot-to": "10deg", "--spot-speed": "8s" })}
-        />
-        <span
-          className="spot-beam left-1/2 -ml-[17rem]"
-          style={beam({ "--spot-color": "rgba(34,211,238,0.45)", "--spot-from": "-8deg", "--spot-to": "8deg", "--spot-speed": "11s" })}
-        />
-        <span
-          className="spot-beam right-[8%]"
-          style={beam({ "--spot-color": "rgba(236,72,153,0.5)", "--spot-from": "16deg", "--spot-to": "-12deg", "--spot-speed": "9.5s" })}
-        />
+        {/* Lighting rig: a truss of lamps across the top. */}
+        <div className="stage-truss absolute inset-x-0 top-0 h-px" />
+        {BEAMS.map((b, i) => (
+          <span
+            key={i}
+            className="stage-beam"
+            style={beam({
+              left: b.x,
+              "--w": b.w,
+              "--h0": String(b.h),
+              "--from": b.from,
+              "--to": b.to,
+              "--sway": b.sway,
+              "--hue": b.hue,
+              "--breath": b.breath,
+              animationDelay: b.delay,
+            })}
+          >
+            <span className="stage-halo" />
+            <span className="stage-core" />
+            <span className="stage-pool" />
+            <span className="stage-lamp" />
+          </span>
+        ))}
+        <span className="stage-laser" />
+        <span className="stage-laser stage-laser-b" />
         <div className="grid-floor" />
-        <Particles colors={["#ffffff", "#c4b5fd", "#22d3ee", "#f472b6"]} mode="rise" density={0.6} speed={0.45} size={[0.6, 2]} />
+        <Particles colors={["#ffffff", "#c4b5fd", "#22d3ee", "#f472b6"]} mode="rise" density={0.7} speed={0.45} size={[0.6, 2]} />
+        <div className="stage-haze absolute inset-0" />
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#05030f] to-transparent" />
         <div
           className="absolute left-1/2 top-1/2 h-[22rem] w-[44rem] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
-          style={{ background: "radial-gradient(ellipse, rgba(124,92,255,0.25), transparent 70%)" }}
+          style={{ background: "radial-gradient(ellipse, rgba(5,3,15,0.85), transparent 70%)" }}
         />
       </div>
 

@@ -54,41 +54,74 @@ const fragmentShader = /* glsl */ `
     return mix(magenta, violet, (t - 0.666) / 0.334);
   }
 
+  // Second palette the sky swings into: emerald, gold, rose, electric blue.
+  vec3 palette2(float t) {
+    vec3 emerald = vec3(0.06, 0.92, 0.6);
+    vec3 gold = vec3(1.0, 0.7, 0.12);
+    vec3 rose = vec3(1.0, 0.25, 0.45);
+    vec3 blue = vec3(0.15, 0.45, 1.0);
+    t = fract(t);
+    if (t < 0.25) return mix(emerald, gold, t / 0.25);
+    if (t < 0.5) return mix(gold, rose, (t - 0.25) / 0.25);
+    if (t < 0.75) return mix(rose, blue, (t - 0.5) / 0.25);
+    return mix(blue, emerald, (t - 0.75) / 0.25);
+  }
+
+  vec3 sky(float t, float phase) {
+    return mix(palette(t), palette2(t + 0.15), phase);
+  }
+
   void main() {
     vec2 uv = vUv;
     float aspect = uResolution.x / uResolution.y;
     vec2 p = (uv - 0.5) * vec2(aspect, 1.0);
-    float t = uTime * 0.16;
+    float t = uTime * 0.3;
+
+    // Slow swing between the two palettes (about 26s per round trip), plus a
+    // steady hue drift so the colors never sit still.
+    float phase = smoothstep(0.38, 0.62, 0.5 + 0.5 * sin(uTime * 0.24 - 1.5708));
+    float drift = uTime * 0.035;
 
     vec3 col = vec3(0.012, 0.012, 0.03);
 
-    // Three aurora curtains drifting and folding over each other.
-    for (int i = 0; i < 3; i++) {
+    // Four aurora curtains drifting, rising, and folding over each other.
+    for (int i = 0; i < 4; i++) {
       float fi = float(i);
-      float warp = fbm(vec2(p.x * 1.1 + t * (0.55 + fi * 0.25), fi * 3.7 + t * 0.35));
-      float y = p.y - (0.22 - fi * 0.2)
-        - (warp - 0.5) * 0.85
-        - sin(p.x * 1.8 + t * 1.6 + fi * 2.1) * 0.09;
-      float band = exp(-pow(y * (4.2 + fi * 1.8), 2.0));
-      float curtain = smoothstep(0.0, 0.35, y + 0.35) * exp(-max(y, 0.0) * 2.5);
-      float streaks = 0.45 + 0.55 * fbm(vec2(p.x * 11.0 + t * 2.4 + fi * 5.0, y * 2.0));
-      vec3 c = palette(fi * 0.33 + p.x * 0.12 + t * 0.08);
-      col += c * (band * 0.9 + curtain * 0.25) * streaks * (0.75 - fi * 0.15);
+      float warp = fbm(vec2(p.x * 1.15 + t * (0.6 + fi * 0.28), fi * 3.7 + t * 0.45));
+      float rise = sin(t * 0.55 + fi * 1.7) * 0.1;
+      float y = p.y - (0.3 - fi * 0.19) - rise
+        - (warp - 0.5) * 1.1
+        - sin(p.x * (1.6 + fi * 0.35) + t * 1.9 + fi * 2.1) * 0.16;
+      float band = exp(-pow(y * (5.2 + fi * 1.8), 2.0));
+      float curtain = smoothstep(0.0, 0.35, y + 0.35) * exp(-max(y, 0.0) * 2.4);
+      float streaks = 0.4 + 0.6 * fbm(vec2(p.x * 12.0 + t * 3.0 + fi * 5.0, y * 2.0 - t * 0.6));
+      vec3 c = sky(fi * 0.27 + p.x * 0.16 + drift, phase);
+      col += c * (band * 1.05 + curtain * 0.1) * streaks * (0.8 - fi * 0.14);
     }
 
-    // Light shafts falling from above.
-    float shafts = pow(fbm(vec2(p.x * 2.6 - t * 0.4, t * 0.15)), 3.0);
-    col += vec3(0.38, 0.32, 0.95) * shafts * smoothstep(-0.7, 0.6, p.y) * 0.55;
+    // Light shafts falling from above, tinted by the current sky.
+    float shafts = pow(fbm(vec2(p.x * 2.6 - t * 0.55, t * 0.2)), 3.0);
+    col += mix(vec3(0.38, 0.32, 0.95), sky(drift + 0.5, phase), 0.5) * shafts * smoothstep(-0.7, 0.6, p.y) * 0.35;
 
     // Low horizon glow.
-    col += vec3(0.28, 0.12, 0.62) * exp(-pow((p.y + 0.6) * 2.6, 2.0)) * 0.55;
+    col += sky(drift + 0.8, phase) * 0.45 * exp(-pow((p.y + 0.6) * 2.6, 2.0)) * 0.45;
 
-    // Occasional bright pulse travelling along the main curtain.
-    float pulse = exp(-pow((p.x - mod(t * 1.4, aspect * 1.6) + aspect * 0.8) * 2.2, 2.0));
-    col += vec3(0.6, 0.9, 1.0) * pulse * exp(-pow((p.y - 0.18) * 5.0, 2.0)) * 0.35;
+    // Two bright pulses travelling along the curtains in opposite directions.
+    float span = aspect * 1.6;
+    float pulseA = exp(-pow((p.x - mod(t * 1.3, span) + aspect * 0.8) * 2.2, 2.0));
+    float pulseB = exp(-pow((p.x + mod(t * 0.9 + 0.7, span) - aspect * 0.8) * 2.0, 2.0));
+    col += vec3(0.7, 0.95, 1.0) * pulseA * exp(-pow((p.y - 0.2) * 5.0, 2.0)) * 0.4;
+    col += sky(drift + 0.3, phase) * pulseB * exp(-pow((p.y + 0.02) * 5.0, 2.0)) * 0.45;
 
-    col *= smoothstep(1.45, 0.25, length(p * vec2(0.75, 1.0)));
-    col = 1.0 - exp(-col * 1.5);
+    // Periodic surge: the whole sky flares brighter every few seconds.
+    float surge = pow(0.5 + 0.5 * sin(uTime * 0.7), 8.0);
+    col *= 1.0 + surge * 0.35;
+
+    col *= smoothstep(1.5, 0.25, length(p * vec2(0.72, 1.0)));
+    col = 1.0 - exp(-col * 1.45);
+    // Push saturation and contrast so the colors read as vivid, not milky.
+    col = mix(vec3(dot(col, vec3(0.299, 0.587, 0.114))), col, 1.4);
+    col = pow(max(col, 0.0), vec3(1.18));
     col += (hash(uv * uResolution + uTime) - 0.5) * 0.022;
 
     gl_FragColor = vec4(col, 1.0);
