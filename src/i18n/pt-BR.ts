@@ -1,7 +1,11 @@
 import type { Dict } from "./en";
 
 const ptBR: Dict = {
-  meta: { title: "CAIDE | Sites, reservas, apps e assistentes com IA para o seu negócio" },
+  meta: {
+    title: "CAIDE | Sites, reservas, apps e assistentes com IA para o seu negócio",
+    description: "Sites, sistemas de reservas, apps, automações e chatbots com IA para restaurantes, clínicas, hotéis, spas, salões e todo tipo de negócio. Com a sua marca ou uma nova.",
+    og: ["Seu negócio,", "online, exatamente", "como você imagina."],
+  },
   nav: { services: "Serviços", work: "Projetos", how: "Como funciona", industries: "Segmentos", cta: "Fale com a gente", language: "Idioma" },
   hero: {
     eyebrow: "Sites · Reservas · Apps",

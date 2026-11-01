@@ -1,7 +1,11 @@
 import type { Dict } from "./en";
 
 const fr: Dict = {
-  meta: { title: "CAIDE | Sites web, réservations, applis et assistants IA pour votre entreprise" },
+  meta: {
+    title: "CAIDE | Sites web, réservations, applis et assistants IA pour votre entreprise",
+    description: "Sites web, systèmes de réservation, applis, automatisations et chatbots IA pour restaurants, cliniques, hôtels, spas, salons et toutes les entreprises. À votre image ou avec une nouvelle marque.",
+    og: ["Votre entreprise,", "en ligne, exactement", "comme vous l'imaginez."],
+  },
   nav: { services: "Services", work: "Réalisations", how: "Comment ça marche", industries: "Secteurs", cta: "Nous contacter", language: "Langue" },
   hero: {
     eyebrow: "Sites web · Réservations · Applis",

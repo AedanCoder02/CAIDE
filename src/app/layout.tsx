@@ -3,12 +3,13 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 import SmoothScroll from "@/lib/SmoothScroll";
-import { LangProvider } from "@/i18n/LangProvider";
-import { detectLocale } from "@/i18n/config";
+import { LOCALE_INFO, SITE, detectLocale } from "@/i18n/config";
 
-// Hides the page for a moment when the visitor will get a translation, so the
-// English text does not flash first. Removed by LangProvider (or a 2.5s fallback).
-const preLang = `(function(){try{var l=(${detectLocale.toString()})();if(l!=="en"){var r=document.documentElement;r.setAttribute("data-i18n","pending");setTimeout(function(){r.removeAttribute("data-i18n")},2500)}}catch(e){}})();`;
+// A language address (/es/) is already rendered in that language: just set
+// html lang. Otherwise hide the page for a moment when the visitor will get a
+// translation, so English does not flash first. Removed by LangProvider (or a 2.5s fallback).
+const htmlLangs = JSON.stringify(Object.fromEntries(Object.entries(LOCALE_INFO).map(([k, v]) => [k, v.html])));
+const preLang = `(function(){try{var r=document.documentElement,h=${htmlLangs},s=location.pathname.replace(/\\/+$/,"").split("/").pop();if(h[s]){r.lang=h[s];return}var l=(${detectLocale.toString()})();if(l!=="en"){r.setAttribute("data-i18n","pending");setTimeout(function(){r.removeAttribute("data-i18n")},2500)}}catch(e){}})();`;
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,11 +21,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "CAIDE | Websites, bookings, apps and AI assistants for your business",
-  description:
-    "CAIDE designs and builds websites, booking systems, apps, automations, and AI chatbots for restaurants, clinics, hotels, spas, salons, workshops, and every kind of business. In your brand or a new one, worldwide.",
-};
+// Page titles, descriptions and share previews come from each page (see i18n/metadata.ts).
+export const metadata: Metadata = { metadataBase: new URL(SITE) };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -39,9 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body id="top" className="min-h-full bg-bg text-fg">
         <div className="relative z-10">
           <div className="noise-overlay" />
-          <LangProvider>
-            <SmoothScroll>{children}</SmoothScroll>
-          </LangProvider>
+          <SmoothScroll>{children}</SmoothScroll>
         </div>
       </body>
     </html>

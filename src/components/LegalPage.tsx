@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Nav from "./Nav";
-import { useLang } from "@/i18n/LangProvider";
+import { LangProvider, useLang } from "@/i18n/LangProvider";
 import { LOCALE_INFO } from "@/i18n/config";
 import Footer from "./Footer";
 import Particles from "./Particles";
@@ -32,7 +32,15 @@ const DOCS = [
   { key: "cookies", href: "/cookies", label: "Cookie Policy", color: "#ec4899" },
 ] as const;
 
-export default function LegalPage({ doc, eyebrow, title, accent, intro, updated, summary, sections }: Props) {
+export default function LegalPage(props: Props) {
+  return (
+    <LangProvider>
+      <LegalBody {...props} />
+    </LangProvider>
+  );
+}
+
+function LegalBody({ doc, eyebrow, title, accent, intro, updated, summary, sections }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
   const { locale, t } = useLang();
   const articleRef = useRef<HTMLDivElement>(null);

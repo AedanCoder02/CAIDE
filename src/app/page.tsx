@@ -1,27 +1,15 @@
-import Nav from "@/components/Nav";
-import Hero from "@/components/Hero";
-import Marquee from "@/components/Marquee";
-import Services from "@/components/Services";
-import Portfolio from "@/components/Portfolio";
-import Systems from "@/components/Systems";
-import Stack from "@/components/Stack";
-import Cta from "@/components/Cta";
-import Footer from "@/components/Footer";
+import HomePage from "@/components/HomePage";
+import { LangProvider } from "@/i18n/LangProvider";
+import { SITE } from "@/i18n/config";
+import { homeMetadata } from "@/i18n/metadata";
+
+// The bare address serves English previews and detects the visitor's language on the device.
+export const metadata = homeMetadata("en", `${SITE}/`);
 
 export default function Home() {
   return (
-    <>
-      <Nav />
-      <main>
-        <Hero />
-        <Marquee />
-        <Services />
-        <Portfolio />
-        <Systems />
-        <Stack />
-        <Cta />
-      </main>
-      <Footer />
-    </>
+    <LangProvider>
+      <HomePage />
+    </LangProvider>
   );
 }

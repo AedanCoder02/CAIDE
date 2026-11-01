@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import en, { type Dict } from "./en";
-import { LOCALE_INFO, LOCALES, detectLocale, type Locale } from "./config";
+import { LOCALE_INFO, LOCALES, detectLocale, localeHref, pathLocale, type Locale } from "./config";
 
 const loaders: Record<Exclude<Locale, "en">, () => Promise<{ default: Dict }>> = {
   es: () => import("./es"),
@@ -20,31 +20,31 @@ const LangContext = createContext<Ctx>({ locale: "en", t: en, setLocale: () => {
 
 const isLocale = (l: string): l is Locale => (LOCALES as readonly string[]).includes(l);
 
-export function LangProvider({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<{ locale: Locale; t: Dict }>({ locale: "en", t: en });
-  const lastTitle = useRef("");
+// Home pages live at "/" (detects on the device) and "/xx/" (fixed language).
+const isHomePath = (p: string) => pathLocale(p) !== null || !/\/(privacy|terms|cookies)\/?$/.test(p);
 
-  const apply = useCallback(async (l: Locale, fromUser: boolean) => {
+export function LangProvider({ children, initial }: { children: React.ReactNode; initial?: { locale: Locale; t: Dict } }) {
+  const [state, setState] = useState<{ locale: Locale; t: Dict }>(initial ?? { locale: "en", t: en });
+  const lastTitle = useRef(initial?.t.meta.title ?? "");
+
+  const apply = useCallback(async (l: Locale, moveUrl: boolean) => {
     const t = l === "en" ? en : (await loaders[l]()).default;
     setState({ locale: l, t });
     const root = document.documentElement;
     root.lang = LOCALE_INFO[l].html;
     root.removeAttribute("data-i18n");
-    if (fromUser) {
-      // Keep a manual choice in the URL (no cookies or storage).
-      const url = new URL(window.location.href);
-      if (l === "en") url.searchParams.delete("lang");
-      else url.searchParams.set("lang", l);
-      window.history.replaceState(window.history.state, "", url);
-    }
+    // On a home page, the address carries the language so a shared link opens in it.
+    const { pathname, hash } = window.location;
+    if (moveUrl && isHomePath(pathname)) window.history.replaceState(window.history.state, "", localeHref(pathname, l) + hash);
   }, []);
 
   useEffect(() => {
+    if (initial) return;
     const l = detectLocale();
     // eslint-disable-next-line react-hooks/set-state-in-effect -- locale comes from the browser (external), applied once after hydration
-    if (isLocale(l) && l !== "en") apply(l, false).catch(() => document.documentElement.removeAttribute("data-i18n"));
+    if (isLocale(l) && l !== "en") apply(l, true).catch(() => document.documentElement.removeAttribute("data-i18n"));
     else document.documentElement.removeAttribute("data-i18n");
-  }, [apply]);
+  }, [apply, initial]);
 
   // Set after commit so Next's own <title> handling doesn't overwrite it.
   useEffect(() => {

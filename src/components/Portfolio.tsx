@@ -6,12 +6,18 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import type { StaticImageData } from "next/image";
 import Particles from "./Particles";
-import { useT } from "@/i18n/LangProvider";
+import { useLang } from "@/i18n/LangProvider";
+import type { Locale } from "@/i18n/config";
 import kryptykFull from "@/assets/work/kryptyk-full.webp";
 import universeFull from "@/assets/work/universe-full.webp";
 import aureliaFull from "@/assets/work/aurelia-full.webp";
 import cerebrumFull from "@/assets/work/cerebrum-full.webp";
 import ishinFull from "@/assets/work/ishin-full.webp";
+import kryptykEs from "@/assets/work/kryptyk-full-es.webp";
+import kryptykFr from "@/assets/work/kryptyk-full-fr.webp";
+import kryptykDe from "@/assets/work/kryptyk-full-de.webp";
+import kryptykJa from "@/assets/work/kryptyk-full-ja.webp";
+import kryptykIt from "@/assets/work/kryptyk-full-it.webp";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,6 +26,8 @@ type Project = {
   url: string;
   color: string;
   image: StaticImageData;
+  // The site in another language, where the project itself offers one.
+  localized?: Partial<Record<Locale, StaticImageData>>;
 };
 
 const BASE: Project[] = [
@@ -28,6 +36,7 @@ const BASE: Project[] = [
     url: "https://kryptyk.vercel.app/",
     color: "#3cff6b",
     image: kryptykFull,
+    localized: { es: kryptykEs, fr: kryptykFr, de: kryptykDe, ja: kryptykJa, it: kryptykIt },
   },
   {
     name: "Universe Media",
@@ -57,8 +66,9 @@ const BASE: Project[] = [
 
 
 export default function Portfolio() {
-  const t = useT().work;
-  const PROJECTS = BASE.map((p, i) => ({ ...p, ...t.items[i] }));
+  const { t: dict, locale } = useLang();
+  const t = dict.work;
+  const PROJECTS = BASE.map((p, i) => ({ ...p, ...t.items[i], image: p.localized?.[locale] ?? p.image }));
   const sectionRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 

@@ -1,7 +1,11 @@
 import type { Dict } from "./en";
 
 const zh: Dict = {
-  meta: { title: "CAIDE | 为您的生意打造网站、预约系统、应用与 AI 助手" },
+  meta: {
+    title: "CAIDE | 为您的生意打造网站、预约系统、应用与 AI 助手",
+    description: "为餐厅、诊所、酒店、水疗馆、沙龙等各类生意打造网站、预约系统、应用、自动化和 AI 聊天机器人。沿用您的品牌或全新打造。",
+    og: ["让您的生意，", "按您的想象，", "精彩上线。"],
+  },
   nav: { services: "服务", work: "案例", how: "运作方式", industries: "行业", cta: "联系我们", language: "语言" },
   hero: {
     eyebrow: "网站 · 预约 · 应用",

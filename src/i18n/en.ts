@@ -1,6 +1,8 @@
 const en = {
   meta: {
     title: "CAIDE | Websites, bookings, apps and AI assistants for your business",
+    description: "Websites, booking systems, apps, automations and AI chatbots for restaurants, clinics, hotels, spas, salons and every kind of business. In your brand or a new one.",
+    og: ["Your business,", "online, exactly", "as you imagine it."],
   },
   nav: {
     services: "Services",
