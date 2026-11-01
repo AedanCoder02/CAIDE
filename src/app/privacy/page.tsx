@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import LegalPage, { type LegalSection } from "@/components/LegalPage";
 
 export const metadata: Metadata = {
@@ -40,22 +41,40 @@ const sections: LegalSection[] = [
       <>
         <h3>When you browse this site</h3>
         <p>
-          This website has no analytics, no advertising or tracking pixels, no sign-up forms, and sets no cookies. Our
-          fonts and images are served from the site itself, so your browser does not contact third-party font or
-          analytics services while you read it.
+          This website has no advertising or tracking pixels and does not build profiles of visitors. Our fonts and
+          images are served from the site itself. If you agree in the cookie panel, we use Cloudflare Web Analytics, which
+          counts page views and measures page speed without cookies, local storage, or fingerprinting. If you do not
+          agree, it never loads. Details are in our <Link href="/cookies">Cookie Policy</Link>.
         </p>
         <p>
-          The site is hosted on GitHub Pages. Like any web host, GitHub receives technical data needed to deliver the
-          pages, such as your IP address, browser user agent, and the time of the request, and may keep it in server
-          logs for security and reliability purposes. GitHub handles this data under the{" "}
+          Like any web host, our hosting providers (Cloudflare, and GitHub Pages for earlier versions of the site)
+          receive technical data needed to deliver and protect the pages, such as your IP address, browser user agent,
+          and the time of the request, and may keep it in server logs for security and reliability purposes. They handle
+          this data under the{" "}
+          <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">
+            Cloudflare Privacy Policy
+          </a>{" "}
+          and the{" "}
           <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">
             GitHub General Privacy Statement
           </a>
-          . We do not receive these logs or use them to identify visitors.
+          . We do not use these logs to identify visitors.
+        </p>
+        <h3>When you send a project brief</h3>
+        <p>
+          The project brief form at the bottom of the home page asks for: what you need, your business name, location,
+          industry, and current website, your timeline, brand status, budget range, a description of your idea, and your
+          name, email address, phone number, and preferred way to be contacted. Your current website, brand status, budget,
+          and phone number are optional. We use the brief only to understand your project and reply to you.
+        </p>
+        <p>
+          To keep automated spam out, the last step of the form may run Cloudflare Turnstile, a security check that does
+          not read what you type into the form. If you also tick the box to receive occasional updates, we record that
+          consent and the date you gave it.
         </p>
         <h3>When you contact us</h3>
         <p>
-          If you email us or reach out through a link on this site, we receive what you choose to send: typically your
+          If you email us directly, we receive what you choose to send: typically your
           name, email address, company, and details about your project. Please do not send sensitive information (such
           as health data or passwords) unless we have agreed a secure way to do so.
         </p>
@@ -82,6 +101,18 @@ const sections: LegalSection[] = [
           </thead>
           <tbody>
             <tr>
+              <td>Reading your project brief, replying, and preparing a proposal</td>
+              <td>Steps you asked us to take before entering a contract</td>
+            </tr>
+            <tr>
+              <td>Sending occasional updates about our work, only if you ticked that box</td>
+              <td>Your consent, which you can withdraw at any time</td>
+            </tr>
+            <tr>
+              <td>Understanding which pages help visitors, through cookie-free analytics, only if you accepted</td>
+              <td>Your consent, which you can withdraw at any time with Cookie settings</td>
+            </tr>
+            <tr>
               <td>Replying to your message and discussing a potential project</td>
               <td>Steps you asked us to take before entering a contract, or our legitimate interest in answering enquiries</td>
             </tr>
@@ -94,7 +125,7 @@ const sections: LegalSection[] = [
               <td>Compliance with legal obligations</td>
             </tr>
             <tr>
-              <td>Keeping the website and our systems secure</td>
+              <td>Keeping the website, the brief form, and our systems secure, including spam protection</td>
               <td>Our legitimate interest in protecting our services</td>
             </tr>
           </tbody>
@@ -114,7 +145,11 @@ const sections: LegalSection[] = [
         <p>We share personal information only with service providers that help us run the studio, such as:</p>
         <ul>
           <li>our email and file-storage providers, to receive and keep correspondence;</li>
-          <li>our hosting and code-hosting providers (including GitHub), to run this website and client projects;</li>
+          <li>
+            Cloudflare, to host and protect this website, check form submissions for spam (Turnstile), deliver your
+            brief to our inbox, store it securely, and, only with your consent, provide cookie-free analytics;
+          </li>
+          <li>our code-hosting provider (GitHub), to build this website and client projects;</li>
           <li>our accounting and payment providers, to invoice and get paid;</li>
           <li>professional advisers such as accountants and lawyers, when needed.</li>
         </ul>
@@ -144,11 +179,20 @@ const sections: LegalSection[] = [
     body: (
       <ul>
         <li>
-          <strong>Enquiries that do not become projects:</strong> up to 24 months after our last exchange, then deleted.
+          <strong>Project briefs and enquiries that do not become projects:</strong> up to 24 months after our last
+          exchange, then deleted.
         </li>
         <li>
           <strong>Client project records:</strong> for the length of the engagement and up to 3 years after it ends, so
           we can support the work we delivered.
+        </li>
+        <li>
+          <strong>Update consent:</strong> until you unsubscribe or ask us to stop, plus a record of when you consented
+          and withdrew.
+        </li>
+        <li>
+          <strong>Analytics:</strong> only aggregated totals, which do not identify you, kept as Cloudflare Web Analytics
+          retains them.
         </li>
         <li>
           <strong>Contracts, invoices, and payment records:</strong> for as long as tax and accounting laws require.
@@ -205,7 +249,8 @@ const sections: LegalSection[] = [
             deletion, and portability, and appeal our decision if we decline a request. We do not sell personal
             information, share it for targeted advertising, or use it for profiling, and we do not collect sensitive
             personal information through this site. In the 12 months before this policy was last updated, we collected
-            only identifiers and commercial information you sent us, for the purposes listed above.
+            only identifiers and commercial information you sent us, plus, with your consent, aggregated usage data that
+            does not identify you, for the purposes listed above.
           </li>
           <li>
             <strong>Canada</strong> (PIPEDA and Quebec Law 25): you can access and correct your information and
@@ -281,7 +326,7 @@ const sections: LegalSection[] = [
     title: "Changes to this policy",
     body: (
       <p>
-        We will update this policy when our practices change, for example if we add analytics or a contact form. The
+        We will update this policy when our practices change, for example if we add a new tool or provider. The
         &ldquo;Last updated&rdquo; date at the top shows the current version. If a change is significant, we will make
         it clear on this page before it takes effect.
       </p>
@@ -299,8 +344,8 @@ export default function PrivacyPage() {
       intro="What we collect, why, who sees it, and the rights you have over it. Written to be read, not skimmed past."
       updated="1 November 2026"
       summary={[
-        "This site uses no analytics, no tracking, and no cookies.",
-        "We only receive what you send us when you get in touch.",
+        "No ad trackers. Analytics are cookie-free and run only if you accept.",
+        "We only receive what you send us in the brief form or by email.",
         "We never sell or share your data for advertising.",
         `You can access, correct, or delete your data any time by writing to ${EMAIL}.`,
       ]}

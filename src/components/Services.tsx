@@ -93,6 +93,7 @@ export default function Services() {
         stagger: 0.1,
         scrollTrigger: { trigger: sectionRef.current, start: "top 75%", once: true },
       });
+      gsap.set(".service-card", { y: 40 });
       ScrollTrigger.batch(".service-card", {
         start: "top 88%",
         once: true,
@@ -136,7 +137,7 @@ export default function Services() {
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:mt-[clamp(1rem,3vh,2.5rem)] lg:grid-cols-4 lg:gap-[clamp(0.6rem,1.6vh,1rem)]">
           {SERVICES.map((s, i) => (
-            <div key={i} className={`service-card translate-y-10 opacity-0 ${s.span}`}>
+            <div key={i} className={`service-card opacity-0 ${s.span}`}>
               <div
                 className="svc-tilt beam-border group h-full rounded-2xl"
                 style={{ ["--beam-color" as string]: s.color, ["--beam-speed" as string]: s.speed }}

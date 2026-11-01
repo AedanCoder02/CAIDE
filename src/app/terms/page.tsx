@@ -44,6 +44,11 @@ const sections: LegalSection[] = [
           Any project we take on is governed by a separate written agreement, such as a proposal, statement of work, or
           services contract. If that agreement conflicts with these terms, the agreement wins.
         </p>
+        <p>
+          Sending a project brief through the site does not create a contract or oblige either of us to work together.
+          Please share only information you are entitled to share, and nothing confidential you are not ready to
+          disclose. We treat briefs as described in our <Link href="/privacy">Privacy Policy</Link>.
+        </p>
       </>
     ),
   },
@@ -77,7 +82,7 @@ const sections: LegalSection[] = [
           <li>attempt to gain unauthorized access to the site, its hosting, or related systems;</li>
           <li>introduce malware or interfere with the site&rsquo;s operation, for example through denial-of-service attacks;</li>
           <li>scrape or harvest the site at a volume that degrades it for others;</li>
-          <li>use the site or our contact details to send spam or misleading messages.</li>
+          <li>use the site, its brief form, or our contact details to send spam, automated submissions, or misleading messages.</li>
         </ul>
       </>
     ),

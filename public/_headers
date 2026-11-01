@@ -1,0 +1,18 @@
+# Security headers for the Cloudflare deploy (ignored by GitHub Pages).
+# Next.js static export needs inline scripts, so script-src keeps
+# 'unsafe-inline'; everything else is locked to this origin plus the two
+# Cloudflare services the site uses (Web Analytics after consent, Turnstile).
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cloudflareinsights.com; frame-src https://challenges.cloudflare.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=(), browsing-topics=()
+  Cross-Origin-Opener-Policy: same-origin
+
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+https://:name.:sub.workers.dev/*
+  X-Robots-Tag: noindex

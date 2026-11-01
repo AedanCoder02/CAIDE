@@ -141,12 +141,13 @@ export default function Portfolio() {
         cards.forEach((card, i) => {
           const next = cards[i + 1];
           if (next) {
-            gsap.to(card.querySelector(".work-inner"), {
-              scale: 0.9,
-              filter: "brightness(0.45) blur(2px)",
-              ease: "none",
-              scrollTrigger: { trigger: next, start: "top bottom", end: "top 12%", scrub: true },
+            // Cards behind recede: scale plus a dark veil. Animating the veil's
+            // opacity is far cheaper than a CSS blur/brightness filter per frame.
+            const tl = gsap.timeline({
+              scrollTrigger: { trigger: next, start: "top bottom", end: "top 12%", scrub: 0.6 },
             });
+            tl.to(card.querySelector(".work-inner"), { scale: 0.92, ease: "none", force3D: true }, 0);
+            tl.to(card.querySelector(".work-veil"), { opacity: 0.6, ease: "none" }, 0);
           }
           gsap.from(card.querySelector(".work-fly"), {
             rotateY: -18,
@@ -154,14 +155,14 @@ export default function Portfolio() {
             y: 80,
             opacity: 0,
             ease: "power2.out",
-            scrollTrigger: { trigger: card, start: "top bottom", end: "top 30%", scrub: true },
+            scrollTrigger: { trigger: card, start: "top bottom", end: "top 30%", scrub: 0.6 },
           });
           gsap.from(card.querySelectorAll(".work-text"), {
             opacity: 0,
             x: -30,
             stagger: 0.06,
             ease: "power2.out",
-            scrollTrigger: { trigger: card, start: "top 85%", end: "top 35%", scrub: true },
+            scrollTrigger: { trigger: card, start: "top 85%", end: "top 35%", scrub: 0.6 },
           });
         });
       });
@@ -220,6 +221,7 @@ export default function Portfolio() {
                 style={{ ["--beam-color" as string]: p.color, ["--beam-speed" as string]: "9s" }}
               >
                 <div className="relative grid h-full overflow-hidden rounded-[2rem] border border-white/[0.08] bg-[#08070f] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+                  <div aria-hidden className="work-veil pointer-events-none absolute inset-0 z-30 rounded-[2rem] bg-[#030308] opacity-0" />
                   <div
                     aria-hidden
                     className="pointer-events-none absolute -left-40 -top-40 h-[34rem] w-[34rem] rounded-full opacity-40 blur-3xl"

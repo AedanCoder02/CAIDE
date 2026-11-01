@@ -4,21 +4,20 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import dynamic from "next/dynamic";
 import Particles from "./Particles";
 import SiteLink from "./SiteLink";
 import { useT } from "@/i18n/LangProvider";
+import { openConsentSettings } from "@/lib/consent";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const HeroScene = dynamic(() => import("./HeroScene"), { ssr: false });
 
 const BUILD_HREFS = ["#services", "#services", "#services", "#services", "#services"];
 const STUDIO_HREFS = ["#work", "#systems", "#industries", "#contact"];
 
 export default function Footer({ home = true }: { home?: boolean }) {
   const footerRef = useRef<HTMLDivElement>(null);
-  const t = useT().footer;
+  const dict = useT();
+  const t = dict.footer;
   const COLUMNS = [
     { title: t.buildTitle, links: t.build.map((label, i) => ({ href: BUILD_HREFS[i], label })) },
     { title: t.studioTitle, links: t.studio.map((label, i) => ({ href: STUDIO_HREFS[i], label })) },
@@ -35,19 +34,25 @@ export default function Footer({ home = true }: { home?: boolean }) {
         stagger: 0.08,
         scrollTrigger: { trigger: footerRef.current, start: "top 85%", once: true },
       });
-      // The letters rise out of the dark one by one, revealing the aurora inside.
-      gsap.from(".footer-letter", {
-        yPercent: 105,
-        ease: "power3.out",
-        stagger: 0.12,
-        scrollTrigger: { trigger: ".footer-sky", start: "top bottom", end: "bottom bottom", scrub: 0.8 },
+      gsap.from(".footer-word", {
+        yPercent: 40,
+        opacity: 0,
+        duration: 1.4,
+        ease: "expo.out",
+        scrollTrigger: { trigger: footerRef.current, start: "top 80%", once: true },
       });
     },
     { scope: footerRef }
   );
 
   return (
-    <footer ref={footerRef} className="relative overflow-hidden bg-[#030308] pt-20">
+    <footer ref={footerRef} className="relative overflow-hidden bg-[#030308] pt-20 sm:min-h-[30vw]">
+      {/* The original CAIDE wordmark, full strength, as the footer's backdrop. */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 select-none">
+        <p className="footer-word text-shimmer translate-y-[18%] text-center text-[27vw] font-semibold leading-none tracking-tighter">
+          CAIDE
+        </p>
+      </div>
       <div
         aria-hidden
         className="light-sweep absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent"
@@ -89,31 +94,14 @@ export default function Footer({ home = true }: { home?: boolean }) {
         </div>
       </div>
 
-      {/* The CAIDE wordmark as a window onto the hero's aurora: the same sky
-          that opens the page closes it, flowing inside the letters. */}
-      <div className="relative mt-14">
-        <div aria-hidden className="footer-sky relative isolate select-none overflow-hidden [mask-image:linear-gradient(transparent,#000_10%,#000_92%,transparent)]">
-          <div className="absolute inset-0">
-            <HeroScene vignette={0} />
-          </div>
-          <p className="relative flex justify-center bg-[#030308] pt-[1.5vw] text-[31vw] font-semibold leading-[0.8] tracking-[-0.055em] text-white mix-blend-multiply">
-            {"CAIDE".split("").map((ch, i) => (
-              <span key={i} className="footer-letter inline-block">
-                <span className="footer-glyph inline-block">{ch}</span>
-              </span>
-            ))}
-          </p>
-        </div>
-        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-      </div>
-
       <div className="wrap relative z-10">
-        <div className="footer-reveal flex flex-col items-center justify-between gap-4 py-7 text-xs text-fg/55 sm:flex-row">
+        <div className="footer-reveal flex flex-col items-center justify-between gap-4 py-7 text-xs text-fg/80 sm:flex-row">
           <span>{t.rights}</span>
-          <nav aria-label="Legal" className="flex items-center gap-5">
+          <nav aria-label="Legal" className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
             <SiteLink href="/privacy" className="transition-colors hover:text-fg">{t.privacy}</SiteLink>
             <SiteLink href="/terms" className="transition-colors hover:text-fg">{t.terms}</SiteLink>
             <SiteLink href="/cookies" className="transition-colors hover:text-fg">{t.cookies}</SiteLink>
+            <button type="button" onClick={openConsentSettings} className="transition-colors hover:text-fg">{dict.consent.settings}</button>
           </nav>
           <a href="#top" className="inline-flex items-center gap-1.5 transition-colors hover:text-fg">
             {t.top}

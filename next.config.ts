@@ -6,14 +6,16 @@ import type { NextConfig } from "next";
 // GITHUB_PAGES=true. A Vercel deploy (full SSR/dynamic features) uses the
 // default config below.
 const isGithubPages = process.env.GITHUB_PAGES === "true";
+// Cloudflare (Workers static assets, see wrangler.jsonc) serves the same static
+// export from the domain root, so it needs no basePath.
+const isCloudflare = process.env.CLOUDFLARE === "true";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  ...(isGithubPages
+  ...(isGithubPages || isCloudflare
     ? {
         output: "export" as const,
-        basePath: "/CAIDE",
-        assetPrefix: "/CAIDE",
+        ...(isGithubPages ? { basePath: "/CAIDE", assetPrefix: "/CAIDE" } : {}),
         trailingSlash: true,
         images: { unoptimized: true },
       }

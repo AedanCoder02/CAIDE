@@ -82,10 +82,12 @@ const fragmentShader = /* glsl */ `
     vec2 uv = vUv;
     float aspect = uResolution.x / uResolution.y;
     vec2 p = (uv - 0.5) * vec2(aspect, 1.0);
-    float t = uTime;
+    // Motion runs 5x real time (time-lapse); colors cycle a little slower.
+    float t = uTime * 5.0;
+    float ct = uTime * 2.5;
 
     vec3 lo; vec3 hi;
-    skyPair(t, lo, hi);
+    skyPair(ct, lo, hi);
 
     vec3 col = vec3(0.008, 0.01, 0.028);
 
@@ -96,7 +98,7 @@ const fragmentShader = /* glsl */ `
       float fi = float(i);
       float sp = 1.0 + fi * 0.3;
       vec3 rlo; vec3 rhi;
-      skyPair(t + fi * 6.0, rlo, rhi);   // each ribbon in a different phase of the cycle
+      skyPair(ct + fi * 6.0, rlo, rhi);   // each ribbon in a different phase of the cycle
 
       float fold = fbm(vec2(p.x * 0.7 - t * 0.32 * sp + fi * 4.1, t * 0.18 + fi));
       float sway = sin(t * 0.9 + fi * 2.3) * 0.08 + sin(t * 0.37 + fi) * 0.06;

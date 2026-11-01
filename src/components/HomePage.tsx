@@ -7,6 +7,7 @@ import Systems from "@/components/Systems";
 import Stack from "@/components/Stack";
 import Cta from "@/components/Cta";
 import Footer from "@/components/Footer";
+import ConsentBanner from "@/components/ConsentBanner";
 
 export default function HomePage() {
   return (
@@ -22,6 +23,7 @@ export default function HomePage() {
         <Cta />
       </main>
       <Footer />
+      <ConsentBanner />
     </>
   );
 }

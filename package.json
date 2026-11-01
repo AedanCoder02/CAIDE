@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:cf": "CLOUDFLARE=true NEXT_PUBLIC_LEAD_ENDPOINT=/api/lead next build",
     "start": "next start",
     "lint": "eslint"
   },

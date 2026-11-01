@@ -1,0 +1,29 @@
+// Cloudflare deploy: the static export in ./out served as Workers static
+// assets (free plan), plus a small Worker for the project brief form at
+// /api/lead. Build with `npm run build:cf`, deploy with `npx wrangler deploy`.
+// See CLOUDFLARE.md for the dashboard steps.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "caide",
+  "main": "./worker/index.ts",
+  "compatibility_date": "2026-10-30",
+  "assets": {
+    "directory": "./out",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+  "observability": { "enabled": true },
+  "vars": {
+    // The site's own origin; requests from anywhere else are refused.
+    "ALLOWED_ORIGIN": "https://caide.dev",
+    // Sender on your Cloudflare domain, and your verified Email Routing inbox.
+    "LEAD_FROM": "briefs@caide.dev",
+    "LEAD_TO": "hello@caide.dev"
+  }
+  // Uncomment once Email Routing has a verified destination address:
+  // "send_email": [{ "name": "EMAIL", "destination_address": "hello@caide.dev" }],
+  // Uncomment after `npx wrangler d1 create caide-leads` (paste the id):
+  // "d1_databases": [{ "binding": "DB", "database_name": "caide-leads", "database_id": "<id>" }]
+  // Secret (never in this file): `npx wrangler secret put TURNSTILE_SECRET`
+}

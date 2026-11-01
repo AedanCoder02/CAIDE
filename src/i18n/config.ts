@@ -1,7 +1,8 @@
 export const LOCALES = ["en", "es", "pt-BR", "pt", "fr", "it", "de", "ja", "zh"] as const;
 
-// Public origin for absolute share URLs. Change when a custom domain is added.
-export const SITE = "https://aedancoder02.github.io/CAIDE";
+// Public origin for absolute share URLs. The Cloudflare build sets
+// NEXT_PUBLIC_SITE_URL to the custom domain (no trailing slash).
+export const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://aedancoder02.github.io/CAIDE";
 export type Locale = (typeof LOCALES)[number];
 
 // Native names for the switcher. Short codes show on the nav button.

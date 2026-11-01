@@ -10,6 +10,7 @@ import { LOCALE_INFO } from "@/i18n/config";
 import Footer from "./Footer";
 import Particles from "./Particles";
 import SiteLink from "./SiteLink";
+import ConsentBanner from "./ConsentBanner";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -68,7 +69,7 @@ function LegalBody({ doc, eyebrow, title, accent, intro, updated, summary, secti
       gsap.to(progressRef.current, {
         scaleY: 1,
         ease: "none",
-        scrollTrigger: { trigger: articleRef.current, start: "top 30%", end: "bottom 70%", scrub: true },
+        scrollTrigger: { trigger: articleRef.current, start: "top 30%", end: "bottom 70%", scrub: 0.4 },
       });
 
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -78,10 +79,12 @@ function LegalBody({ doc, eyebrow, title, accent, intro, updated, summary, secti
         .from(".legal-hero-in", { opacity: 0, y: 36, duration: 1, stagger: 0.08 })
         .from(".legal-summary", { opacity: 0, y: 40, scale: 0.98, duration: 1.1 }, "-=0.7");
 
+      // Hide sections up front (not on enter) so they never flash, then reveal.
+      gsap.set(".legal-section", { opacity: 0, y: 32 });
       ScrollTrigger.batch(".legal-section", {
-        start: "top 88%",
+        start: "top 92%",
         once: true,
-        onEnter: (els) => gsap.from(els, { opacity: 0, y: 40, duration: 0.9, ease: "expo.out", stagger: 0.08 }),
+        onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.06, overwrite: true }),
       });
     },
     { scope: rootRef }
@@ -168,13 +171,12 @@ function LegalBody({ doc, eyebrow, title, accent, intro, updated, summary, secti
         </header>
 
         <section className="relative overflow-clip bg-[#05040d] pb-28">
-          <Particles colors={[color, "#ffffff"]} density={0.18} speed={0.08} size={[0.4, 1.3]} />
           <div
             aria-hidden
-            className="legal-aurora pointer-events-none absolute right-[-20rem] top-1/3 h-[40rem] w-[40rem] rounded-full opacity-40 blur-3xl"
+            className="pointer-events-none absolute right-[-20rem] top-1/3 h-[40rem] w-[40rem] rounded-full opacity-40 blur-3xl"
             style={{ background: `radial-gradient(circle, ${color}40, transparent 65%)` }}
           />
-          <div className="wrap relative grid gap-12 lg:grid-cols-[280px_minmax(0,1fr)] xl:gap-20">
+          <div className="wrap relative grid gap-12 lg:grid-cols-[17.5rem_minmax(0,1fr)] xl:gap-20">
             <aside className="hidden lg:block">
               <div className="sticky top-28">
                 <p className="font-mono text-[0.625rem] uppercase tracking-[0.3em] text-fg/35">On this page</p>
@@ -247,6 +249,7 @@ function LegalBody({ doc, eyebrow, title, accent, intro, updated, summary, secti
         </section>
       </main>
       <Footer home={false} />
+      <ConsentBanner />
     </div>
   );
 }

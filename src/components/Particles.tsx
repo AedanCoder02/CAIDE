@@ -51,6 +51,25 @@ export default function Particles({
     let raf = 0;
     let visible = false;
 
+    // Pre-rendered glow dot per color: drawing an image is far cheaper than
+    // canvas shadowBlur on every particle, every frame.
+    const sprites = new Map<string, HTMLCanvasElement>();
+    const SPR = 32;
+    for (const c of palette) {
+      const sc = document.createElement("canvas");
+      sc.width = sc.height = SPR;
+      const g = sc.getContext("2d");
+      if (!g) continue;
+      const grad = g.createRadialGradient(SPR / 2, SPR / 2, 0, SPR / 2, SPR / 2, SPR / 2);
+      grad.addColorStop(0, c);
+      grad.addColorStop(0.18, c);
+      grad.addColorStop(0.32, c + "55");
+      grad.addColorStop(1, c + "00");
+      g.fillStyle = grad;
+      g.fillRect(0, 0, SPR, SPR);
+      sprites.set(c, sc);
+    }
+
     const spawn = (anywhere: boolean): P => {
       const angle = Math.random() * Math.PI * 2;
       const s = speed * (0.4 + Math.random() * 0.8);
@@ -104,14 +123,11 @@ export default function Particles({
       for (const p of parts) {
         const alpha = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(p.t));
         ctx.globalAlpha = alpha;
-        ctx.fillStyle = p.c;
-        ctx.shadowColor = p.c;
-        ctx.shadowBlur = p.r * 4;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
+        const spr = sprites.get(p.c);
+        // The solid core is 18% of the sprite radius, so this size makes the core radius p.r.
+        const d = p.r * 11;
+        if (spr) ctx.drawImage(spr, p.x - d / 2, p.y - d / 2, d, d);
       }
-      ctx.shadowBlur = 0;
       ctx.globalAlpha = 1;
     };
 
@@ -162,5 +178,11 @@ export default function Particles({
     syncRef.current();
   }, [active]);
 
-  return <canvas ref={canvasRef} aria-hidden className={`pointer-events-none absolute inset-0 h-full w-full ${className}`} />;
+  // In tall sections the canvas stays one viewport high and sticks to the
+  // screen, instead of painting a canvas the size of the whole section.
+  return (
+    <div aria-hidden className={`pointer-events-none absolute inset-0 ${className}`}>
+      <canvas ref={canvasRef} className="sticky top-0 block h-full max-h-[100lvh] w-full" />
+    </div>
+  );
 }

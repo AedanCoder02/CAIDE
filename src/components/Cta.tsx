@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Particles from "./Particles";
 import { useT } from "@/i18n/LangProvider";
+import LeadForm from "./LeadForm";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,7 +27,9 @@ const BEAMS = [
 export default function Cta() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [running, setRunning] = useState(false);
-  const t = useT().cta;
+  const dict = useT();
+  const t = dict.cta;
+  const lead = dict.lead;
 
   // The rig only animates while the section is on screen.
   useEffect(() => {
@@ -107,24 +110,18 @@ export default function Cta() {
         <p className="cta-reveal mx-auto mt-6 max-w-xl text-lg text-fg/65">
           {t.sub}
         </p>
-        <div className="cta-reveal mt-12 flex flex-wrap items-center justify-center gap-4">
+        <div className="cta-reveal mt-14">
+          <LeadForm />
+        </div>
+        <p className="cta-reveal mt-8 text-sm text-fg/50">
+          {lead.or}{" "}
           <a
             href={`mailto:hello@caide.dev?subject=${encodeURIComponent(t.primarySubject)}`}
-            className="beam-border inline-flex rounded-full"
-            style={beam({ "--beam-color": "#22d3ee", "--beam-speed": "3.5s" })}
+            className="font-semibold text-fg/80 underline decoration-white/25 underline-offset-4 transition-colors hover:text-fg hover:decoration-accent-2"
           >
-            <span className="relative inline-flex items-center gap-2 rounded-full bg-fg px-8 py-4 text-sm font-semibold text-bg shadow-[0_0_50px_rgba(124,92,255,0.5)] transition-transform duration-300 hover:scale-[1.03]">
-              hello@caide.dev
-              <span aria-hidden>&rarr;</span>
-            </span>
+            hello@caide.dev
           </a>
-          <a
-            href={`mailto:hello@caide.dev?subject=${encodeURIComponent(t.secondarySubject)}`}
-            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-8 py-4 text-sm font-semibold text-fg backdrop-blur-sm transition-colors hover:border-fg/40"
-          >
-            {t.secondary}
-          </a>
-        </div>
+        </p>
       </div>
     </section>
   );

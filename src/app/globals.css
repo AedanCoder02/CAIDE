@@ -156,6 +156,7 @@ body {
 /* Legal pages */
 .legal-aurora {
   animation: legal-drift 18s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
 @keyframes legal-drift {
@@ -602,13 +603,80 @@ html:lang(zh) .hero-title {
   .svc-tilt { transform: none !important; }
 }
 
-/* Footer: aurora seen through the CAIDE wordmark. */
-.footer-glyph {
-  text-shadow: 0 0 2.5vw rgb(255 255 255 / 0.28);
-  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), text-shadow 0.6s;
-}
-.footer-letter:hover .footer-glyph {
-  transform: translateY(-4%) scale(1.03);
-  text-shadow: 0 0 4vw rgb(255 255 255 / 0.55);
-}
+/* Footer text sits on the bright wordmark: a soft dark halo keeps it legible. */
+footer .footer-reveal { text-shadow: 0 1px 12px rgb(3 3 8 / 0.85), 0 0 2px rgb(3 3 8 / 0.9); }
 
+
+/* Consent card and form switches. */
+.consent-in { animation: consent-in 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes consent-in { from { opacity: 0; transform: translateY(16px) scale(0.98); } }
+.consent-switch {
+  appearance: none;
+  width: 2.25rem;
+  height: 1.3rem;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.12);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+.consent-switch::after {
+  content: "";
+  position: absolute;
+  top: 0.15rem;
+  left: 0.15rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 999px;
+  background: #f3f3f7;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.consent-switch:checked { background: #10b981; }
+.consent-switch:checked::after { transform: translateX(0.95rem); }
+.consent-switch:disabled { opacity: 0.6; cursor: default; }
+.consent-switch:focus-visible { outline: 2px solid #22d3ee; outline-offset: 2px; }
+
+/* Lead brief form */
+.lead-step-in { animation: lead-step-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes lead-step-in {
+  from { opacity: 0; transform: translateX(calc(var(--dir, 1) * 2.5rem)); filter: blur(4px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+.lead-rail {
+  background: linear-gradient(90deg, #7c5cff, #22d3ee);
+  box-shadow: 0 0 12px #22d3ee;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lead-line { animation: lead-line 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes lead-line { from { opacity: 0; transform: translateY(6px); } }
+.lead-chip:active { transform: scale(0.96); }
+.lead-check {
+  appearance: none;
+  flex-shrink: 0;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 0.35rem;
+  border: 1px solid rgb(255 255 255 / 0.25);
+  background: rgb(255 255 255 / 0.04);
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.lead-check::after {
+  content: "";
+  width: 0.55rem;
+  height: 0.3rem;
+  border: solid #05030f;
+  border-width: 0 0 2px 2px;
+  transform: rotate(-45deg) scale(0);
+  margin-top: -0.1rem;
+  transition: transform 0.2s;
+}
+.lead-check:checked { background: #22d3ee; border-color: #22d3ee; box-shadow: 0 0 12px rgb(34 211 238 / 0.5); }
+.lead-check:checked::after { transform: rotate(-45deg) scale(1); }
+.lead-check:focus-visible, .lead-chip:focus-visible, .lead-next:focus-visible { outline: 2px solid #22d3ee; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  .lead-step-in, .lead-line { animation: none; }
+  .lead-rail { transition: none; }
+}
