@@ -38,7 +38,7 @@ const COLORS_B = [
 function Chip({ name, c }: { name: string; c: string }) {
   return (
     <span
-      className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-5 py-3 text-sm font-medium text-fg/85 backdrop-blur-sm"
+      className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-5 py-3 text-sm font-medium text-fg/85"
       style={{ boxShadow: `inset 0 0 20px ${c}12` }}
     >
       <span className="h-2 w-2 rounded-full" style={{ background: c, boxShadow: `0 0 10px ${c}` }} />
@@ -78,8 +78,8 @@ export default function Stack() {
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[30rem] w-[70rem] -translate-x-1/2 -translate-y-1/2 blur-3xl"
-        style={{ background: "radial-gradient(ellipse, rgba(236,72,153,0.2), rgba(245,158,11,0.08) 45%, transparent 70%)" }}
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[34rem] w-[76rem] -translate-x-1/2 -translate-y-1/2"
+        style={{ background: "radial-gradient(closest-side, rgba(236,72,153,0.2), rgba(245,158,11,0.08) 55%, transparent)" }}
       />
       <Particles colors={["#ec4899", "#f59e0b", "#f9a8d4"]} density={0.45} speed={0.14} link={110} size={[0.5, 1.7]} />
       <div aria-hidden className="dot-grid pointer-events-none absolute inset-0 opacity-50 [mask-image:radial-gradient(ellipse_at_center,#000_10%,transparent_65%)]" />

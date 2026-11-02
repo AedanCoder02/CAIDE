@@ -44,7 +44,8 @@ export default function Particles({
     if (!ctx) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    // Phones get a 1x canvas: the glow dots are soft, so the extra pixels buy nothing.
+    const dpr = window.innerWidth < 768 ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
     let w = 0;
     let h = 0;
     let parts: P[] = [];
@@ -92,7 +93,7 @@ export default function Particles({
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const mobile = w < 768 ? 0.5 : 1;
+      const mobile = w < 768 ? 0.35 : 1;
       const count = Math.min(220, Math.round(((w * h) / 10000) * density * mobile));
       parts = Array.from({ length: count }, () => spawn(true));
       if (reduced) draw();
@@ -100,7 +101,7 @@ export default function Particles({
 
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
-      if (link > 0) {
+      if (link > 0 && w >= 768) {
         ctx.lineWidth = 0.6;
         for (let i = 0; i < parts.length; i++) {
           for (let j = i + 1; j < parts.length; j++) {

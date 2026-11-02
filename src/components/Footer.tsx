@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -16,12 +16,21 @@ const STUDIO_HREFS = ["#work", "#systems", "#industries", "#contact"];
 
 export default function Footer({ home = true }: { home?: boolean }) {
   const footerRef = useRef<HTMLDivElement>(null);
+  const [running, setRunning] = useState(false);
   const dict = useT();
   const t = dict.footer;
   const COLUMNS = [
     { title: t.buildTitle, links: t.build.map((label, i) => ({ href: BUILD_HREFS[i], label })) },
     { title: t.studioTitle, links: t.studio.map((label, i) => ({ href: STUDIO_HREFS[i], label })) },
   ];
+
+  useEffect(() => {
+    const el = footerRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setRunning(e.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   useGSAP(
     () => {
@@ -46,7 +55,7 @@ export default function Footer({ home = true }: { home?: boolean }) {
   );
 
   return (
-    <footer ref={footerRef} className="relative overflow-hidden bg-[#030308] pt-20 sm:min-h-[30vw]">
+    <footer ref={footerRef} data-running={running} className="relative overflow-hidden bg-[#030308] pt-20 sm:min-h-[30vw]">
       {/* The original CAIDE wordmark, full strength, as the footer's backdrop. */}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 select-none">
         <p className="footer-word text-shimmer translate-y-[18%] text-center text-[27vw] font-semibold leading-none tracking-tighter">

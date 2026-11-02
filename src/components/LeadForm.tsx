@@ -199,87 +199,99 @@ export default function LeadForm() {
   const done = status === "sent" || status === "mailed";
   const err = (k: string) =>
     errors[k] ? (
-      <p role="alert" className="mt-1.5 text-xs text-[#fb7185]">
+      <p role="alert" className="mt-2 text-xs text-[#fb7185]">
         {errors[k]}
       </p>
     ) : null;
 
-  const chip = (on: boolean) =>
-    `lead-chip rounded-full border px-4 py-2 text-sm transition-all duration-300 ${
-      on ? "border-transparent bg-fg text-bg shadow-[0_0_24px_rgba(124,92,255,0.45)]" : "border-white/12 bg-white/[0.03] text-fg/75 hover:border-white/35 hover:text-fg"
-    }`;
-  const field = "lead-field w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-fg placeholder:text-fg/30 outline-none transition-[border-color,box-shadow] focus:border-accent-2/70 focus:shadow-[0_0_0_4px_rgba(34,211,238,0.12)]";
-  const label = "mb-2 block text-left font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-fg/50";
+  // Option tile: a square marker for multi-select, a round one for single.
+  const opt = (on: boolean, onClick: () => void, text: string, key: number, multi = false) => (
+    <button
+      key={key}
+      type="button"
+      aria-pressed={on}
+      onClick={onClick}
+      className={`lead-opt group flex items-center gap-2.5 rounded-2xl border px-3 py-3 text-left text-[0.8125rem] leading-snug sm:gap-3 sm:px-4 sm:text-sm transition-[border-color,background-color,color] duration-300 ${
+        on ? "border-accent-2/70 bg-accent-2/[0.08] text-fg" : "border-white/[0.09] bg-white/[0.02] text-fg/70 hover:border-white/30 hover:text-fg"
+      }`}
+    >
+      <span
+        aria-hidden
+        className={`flex h-4 w-4 shrink-0 items-center justify-center border transition-colors duration-300 ${multi ? "rounded-[5px]" : "rounded-full"} ${
+          on ? "border-accent-2 bg-accent-2" : "border-white/30"
+        }`}
+      >
+        <span className={`h-1.5 w-1.5 rounded-full bg-[#07061a] transition-transform duration-300 ${on ? "scale-100" : "scale-0"}`} />
+      </span>
+      {text}
+    </button>
+  );
+  const field = "lead-field w-full border-0 border-b border-white/15 bg-transparent px-0 py-3 text-base text-fg placeholder:text-fg/25 outline-none transition-colors focus:border-accent-2 sm:text-lg";
+  const label = "block text-left font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-fg/45";
+
+  // Enter moves on from any single-line field.
+  const onKey = (e: React.KeyboardEvent) => {
+    const el = e.target as HTMLElement;
+    if (e.key !== "Enter" || el.tagName !== "INPUT" || (el as HTMLInputElement).type === "checkbox") return;
+    e.preventDefault();
+    if (step < 3) next();
+    else submit();
+  };
+
+  const fill = (i: number) => (done || i < step ? 1 : i === step ? 0.4 : 0);
 
   return (
     <div className="lead mx-auto w-full max-w-6xl text-left">
-      <div className="beam-border rounded-[1.75rem]" style={{ ["--beam-color" as string]: "#22d3ee", ["--beam-speed" as string]: "8s" }}>
-        <div className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0a0916]/85 shadow-[0_40px_120px_-40px_rgba(124,92,255,0.6)] backdrop-blur-xl">
-          {/* Window bar */}
-          <div className="flex items-center justify-between border-b border-white/[0.07] px-5 py-3">
-            <div className="flex gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-              <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
-              <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-            </div>
-            <span className="font-mono text-[0.6875rem] tracking-[0.2em] text-fg/40">{t.window}</span>
-            <span className="font-mono text-[0.6875rem] text-fg/40">{done ? "✓" : `${step + 1}/4`}</span>
-          </div>
+      <div className="lead-shell rounded-[2rem] p-px">
+        <div className="grid overflow-hidden rounded-[calc(2rem-1px)] bg-[#07061a] lg:grid-cols-[minmax(0,1fr)_21rem]">
+          {/* Steps */}
+          <div ref={bodyRef} onKeyDown={onKey} className="relative p-6 sm:p-12">
+            <input ref={honeypot} type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden className="absolute -left-[9999px] h-0 w-0 opacity-0" />
 
-          {/* Progress rail */}
-          <div className="px-6 pt-6 sm:px-10">
-            <div className="relative">
-            {/* Track runs between the first and last dot centers. */}
-            <div className="absolute left-[12.5%] right-[12.5%] top-[0.4375rem] h-px bg-white/10" />
-            <div
-              className="lead-rail absolute left-[12.5%] right-[12.5%] top-[0.4375rem] h-px origin-left"
-              style={{ transform: `scaleX(${done ? 1 : step / 3})` }}
-            />
-            <ol className="relative grid grid-cols-4">
-              {t.steps.map((s, i) => {
-                const reached = done || i <= step;
-                return (
-                  <li key={i} className="flex flex-col items-center gap-2">
+            {/* Counter and segmented progress */}
+            <div className="flex items-end gap-6">
+              <p className="shrink-0 font-semibold leading-none tracking-tight" aria-live="polite">
+                <span className="text-gradient text-5xl sm:text-6xl">{done ? "✓" : `0${step + 1}`}</span>
+                {!done && <span className="ml-1 font-mono text-sm text-fg/30">/04</span>}
+              </p>
+              <ol className="flex flex-1 gap-1.5 pb-1.5">
+                {t.steps.map((s, i) => (
+                  <li key={i} className="flex-1">
                     <button
                       type="button"
-                      disabled={done || i > step}
+                      disabled={done || i >= step}
                       onClick={() => go(i)}
                       aria-label={s}
-                      className={`h-3.5 w-3.5 rounded-full border transition-all duration-500 ${
-                        reached ? "scale-110 border-transparent bg-accent-2 shadow-[0_0_14px_#22d3ee]" : "border-white/25 bg-[#0a0916]"
-                      }`}
-                    />
-                    <span className={`hidden text-center font-mono text-[0.625rem] uppercase tracking-[0.18em] sm:block ${reached ? "text-fg/80" : "text-fg/35"}`}>
+                      className="block w-full py-2 disabled:cursor-default"
+                    >
+                      <span className="block h-[3px] overflow-hidden rounded-full bg-white/10">
+                        <span className="lead-rail block h-full origin-left rounded-full" style={{ transform: `scaleX(${fill(i)})` }} />
+                      </span>
+                    </button>
+                    <span className={`hidden truncate font-mono text-[0.625rem] uppercase tracking-[0.16em] sm:block ${i === step && !done ? "text-fg/75" : "text-fg/30"}`}>
                       {s}
                     </span>
                   </li>
-                );
-              })}
-            </ol>
+                ))}
+              </ol>
             </div>
-          </div>
 
-          <div className="grid lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)]">
-            {/* Steps */}
-            <div ref={bodyRef} className="relative min-h-[26rem] p-6 sm:p-10">
-              <input ref={honeypot} type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden className="absolute -left-[9999px] h-0 w-0 opacity-0" />
-
+            <div className="mt-10 min-h-[22rem] sm:mt-12">
               {done ? (
                 <div key="done" className="lead-step-in" style={{ ["--dir" as string]: 1 }}>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent-5/15 text-xl text-accent-5 shadow-[0_0_30px_rgba(16,185,129,0.4)]">✓</div>
-                  <h3 className="mt-6 text-3xl font-semibold tracking-tight sm:text-4xl">{status === "sent" ? t.doneTitle : t.mailTitle}</h3>
-                  <p className="mt-3 max-w-lg text-fg/65">
+                  <h3 className="text-3xl font-semibold tracking-tight sm:text-5xl">{status === "sent" ? t.doneTitle : t.mailTitle}</h3>
+                  <p className="mt-4 max-w-lg text-fg/65">
                     {status === "sent" ? t.doneSub.replace("{name}", b.name.split(" ")[0]).replace("{email}", b.email) : t.mailSub}
                   </p>
-                  <ol className="mt-8 grid gap-3 sm:grid-cols-3">
+                  <ol className="mt-10 grid gap-3 sm:grid-cols-3">
                     {t.after.map((a, i) => (
-                      <li key={i} className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-4">
+                      <li key={i} className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5">
                         <span className="font-mono text-[0.625rem] tracking-[0.2em] text-accent-2">0{i + 1}</span>
                         <p className="mt-2 text-sm text-fg/80">{a}</p>
                       </li>
                     ))}
                   </ol>
-                  <button type="button" onClick={reset} className="mt-8 text-sm font-semibold text-fg/60 underline-offset-4 hover:text-fg hover:underline">
+                  <button type="button" onClick={reset} className="mt-10 text-sm font-semibold text-fg/60 underline-offset-4 hover:text-fg hover:underline">
                     {t.again}
                   </button>
                 </div>
@@ -287,22 +299,12 @@ export default function LeadForm() {
                 <div key={step} className="lead-step-in" style={{ ["--dir" as string]: dir }}>
                   {step === 0 && (
                     <fieldset>
-                      <legend className="text-2xl font-semibold tracking-tight sm:text-3xl">{t.needQ}</legend>
-                      <p className="mt-2 text-sm text-fg/50">{t.needHint}</p>
-                      <div className="mt-6 flex flex-wrap gap-2.5">
+                      <legend className="text-3xl font-semibold tracking-tight sm:text-5xl">{t.needQ}</legend>
+                      <p className="mt-3 text-sm text-fg/45">{t.needHint}</p>
+                      <div className="mt-8 grid grid-cols-2 gap-2 sm:gap-2.5 xl:grid-cols-3">
                         {t.needs.map((n, i) => {
                           const on = b.needs.includes(i);
-                          return (
-                            <button
-                              key={i}
-                              type="button"
-                              aria-pressed={on}
-                              onClick={() => set("needs", on ? b.needs.filter((x) => x !== i) : [...b.needs, i])}
-                              className={chip(on)}
-                            >
-                              {n}
-                            </button>
-                          );
+                          return opt(on, () => set("needs", on ? b.needs.filter((x) => x !== i) : [...b.needs, i]), n, i, true);
                         })}
                       </div>
                       {err("needs")}
@@ -310,9 +312,9 @@ export default function LeadForm() {
                   )}
 
                   {step === 1 && (
-                    <fieldset className="space-y-5">
-                      <legend className="mb-6 text-2xl font-semibold tracking-tight sm:text-3xl">{t.bizQ}</legend>
-                      <div className="grid gap-5 sm:grid-cols-2">
+                    <fieldset className="space-y-8">
+                      <legend className="mb-8 text-3xl font-semibold tracking-tight sm:text-5xl">{t.bizQ}</legend>
+                      <div className="grid gap-8 sm:grid-cols-2">
                         <div>
                           <label htmlFor="lead-biz" className={label}>{t.bizName}</label>
                           <input id="lead-biz" className={field} value={b.business} maxLength={120} placeholder={t.bizNamePh} onChange={(e) => set("business", e.target.value)} autoComplete="organization" />
@@ -326,12 +328,8 @@ export default function LeadForm() {
                       </div>
                       <div>
                         <span className={label}>{t.industry}</span>
-                        <div className="flex flex-wrap gap-2">
-                          {t.industries.map((n, i) => (
-                            <button key={i} type="button" aria-pressed={b.industry === i} onClick={() => set("industry", i)} className={chip(b.industry === i)}>
-                              {n}
-                            </button>
-                          ))}
+                        <div className="mt-3 grid grid-cols-2 gap-2 xl:grid-cols-3">
+                          {t.industries.map((n, i) => opt(b.industry === i, () => set("industry", i), n, i))}
                         </div>
                         {err("industry")}
                       </div>
@@ -343,8 +341,8 @@ export default function LeadForm() {
                   )}
 
                   {step === 2 && (
-                    <fieldset className="space-y-5">
-                      <legend className="mb-6 text-2xl font-semibold tracking-tight sm:text-3xl">{t.projectQ}</legend>
+                    <fieldset className="space-y-8">
+                      <legend className="mb-8 text-3xl font-semibold tracking-tight sm:text-5xl">{t.projectQ}</legend>
                       {(
                         [
                           ["timeline", t.timeline, t.timelines],
@@ -354,28 +352,24 @@ export default function LeadForm() {
                       ).map(([k, l, opts]) => (
                         <div key={k}>
                           <span className={label}>{l}</span>
-                          <div className="flex flex-wrap gap-2">
-                            {opts.map((n, i) => (
-                              <button key={i} type="button" aria-pressed={b[k] === i} onClick={() => set(k, i)} className={chip(b[k] === i)}>
-                                {n}
-                              </button>
-                            ))}
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            {opts.map((n, i) => opt(b[k] === i, () => set(k, i), n, i))}
                           </div>
                           {err(k)}
                         </div>
                       ))}
                       <div>
                         <label htmlFor="lead-idea" className={label}>{t.idea}</label>
-                        <textarea id="lead-idea" rows={4} maxLength={2000} className={`${field} resize-none`} value={b.idea} placeholder={t.ideaPh} onChange={(e) => set("idea", e.target.value)} />
+                        <textarea id="lead-idea" rows={3} maxLength={2000} className={`${field} resize-none`} value={b.idea} placeholder={t.ideaPh} onChange={(e) => set("idea", e.target.value)} />
                         {err("idea")}
                       </div>
                     </fieldset>
                   )}
 
                   {step === 3 && (
-                    <fieldset className="space-y-5">
-                      <legend className="mb-6 text-2xl font-semibold tracking-tight sm:text-3xl">{t.contactQ}</legend>
-                      <div className="grid gap-5 sm:grid-cols-2">
+                    <fieldset className="space-y-8">
+                      <legend className="mb-8 text-3xl font-semibold tracking-tight sm:text-5xl">{t.contactQ}</legend>
+                      <div className="grid gap-8 sm:grid-cols-2">
                         <div>
                           <label htmlFor="lead-name" className={label}>{t.name}</label>
                           <input id="lead-name" className={field} value={b.name} maxLength={120} onChange={(e) => set("name", e.target.value)} autoComplete="name" />
@@ -392,16 +386,12 @@ export default function LeadForm() {
                         </div>
                         <div>
                           <span className={label}>{t.prefer}</span>
-                          <div className="flex flex-wrap gap-2">
-                            {t.prefers.map((n, i) => (
-                              <button key={i} type="button" aria-pressed={b.prefer === i} onClick={() => set("prefer", i)} className={chip(b.prefer === i)}>
-                                {n}
-                              </button>
-                            ))}
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            {t.prefers.map((n, i) => opt(b.prefer === i, () => set("prefer", i), n, i))}
                           </div>
                         </div>
                       </div>
-                      <div className="space-y-3 pt-1">
+                      <div className="space-y-3">
                         <label className="flex cursor-pointer items-start gap-3 text-sm text-fg/75">
                           <input type="checkbox" className="lead-check mt-0.5" checked={b.consent} onChange={(e) => set("consent", e.target.checked)} />
                           <span>
@@ -427,59 +417,57 @@ export default function LeadForm() {
                     </fieldset>
                   )}
 
-                  <div className="mt-10 flex items-center justify-between gap-4">
+                  <div className="mt-12 flex items-center gap-3">
                     <button
                       type="button"
                       onClick={() => go(step - 1)}
-                      className={`text-sm font-semibold text-fg/55 transition-colors hover:text-fg ${step === 0 ? "invisible" : ""}`}
+                      aria-label={t.back}
+                      className={`flex h-12 w-12 items-center justify-center rounded-full border border-white/15 text-fg/70 transition-colors hover:border-white/40 hover:text-fg ${step === 0 ? "hidden" : ""}`}
                     >
-                      &larr; {t.back}
+                      <span aria-hidden>&larr;</span>
                     </button>
-                    {step < 3 ? (
-                      <button type="button" onClick={next} className="lead-next group inline-flex items-center gap-2 rounded-full bg-fg px-7 py-3.5 text-sm font-semibold text-bg shadow-[0_0_40px_rgba(124,92,255,0.45)] transition-transform hover:scale-[1.03]">
-                        {t.next}
-                        <span aria-hidden className="transition-transform group-hover:translate-x-1">&rarr;</span>
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={submit}
-                        disabled={status === "sending"}
-                        className="lead-next group inline-flex items-center gap-2 rounded-full bg-fg px-7 py-3.5 text-sm font-semibold text-bg shadow-[0_0_40px_rgba(34,211,238,0.5)] transition-transform hover:scale-[1.03] disabled:opacity-60"
-                      >
-                        {status === "sending" ? t.sending : t.send}
-                        <span aria-hidden className="transition-transform group-hover:translate-x-1">&rarr;</span>
-                      </button>
-                    )}
+                    <button
+                      type="button"
+                      onClick={step < 3 ? next : submit}
+                      disabled={status === "sending"}
+                      className="lead-next group inline-flex h-12 items-center gap-3 rounded-full pl-7 pr-2 text-sm font-semibold text-[#07061a] transition-transform hover:scale-[1.02] disabled:opacity-60"
+                    >
+                      {step < 3 ? t.next : status === "sending" ? t.sending : t.send}
+                      <span aria-hidden className="flex h-8 w-8 items-center justify-center rounded-full bg-[#07061a] text-fg transition-transform group-hover:translate-x-0.5">
+                        &rarr;
+                      </span>
+                    </button>
+                    <span aria-hidden className="ml-2 hidden font-mono text-[0.625rem] uppercase tracking-[0.18em] text-fg/30 lg:inline">
+                      Enter &crarr;
+                    </span>
                   </div>
                 </div>
               )}
             </div>
-
-            {/* Live brief */}
-            <aside className="relative hidden border-l border-white/[0.07] bg-white/[0.015] p-8 lg:block">
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-fg/45">{t.summary}</span>
-                <span className="flex items-center gap-1.5 font-mono text-[0.625rem] text-accent-5">
-                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent-5" />
-                  live
-                </span>
-              </div>
-              {summary.length === 0 ? (
-                <p className="mt-6 text-sm leading-relaxed text-fg/35">{t.empty}</p>
-              ) : (
-                <dl className="mt-6 space-y-4">
-                  {summary.map(([k, v]) => (
-                    <div key={k} className="lead-line">
-                      <dt className="font-mono text-[0.625rem] uppercase tracking-[0.18em] text-fg/35">{k}</dt>
-                      <dd className="mt-1 line-clamp-3 break-words text-sm text-fg/85">{v}</dd>
-                    </div>
-                  ))}
-                </dl>
-              )}
-              <div aria-hidden className="pointer-events-none absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-accent/20 blur-3xl" />
-            </aside>
           </div>
+
+          {/* Live brief, styled as a receipt */}
+          <aside className="relative hidden border-l border-dashed border-white/[0.09] p-8 lg:block">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-fg/45">{t.summary}</span>
+              <span className="flex items-center gap-1.5 font-mono text-[0.625rem] text-accent-5">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent-5" />
+                live
+              </span>
+            </div>
+            {summary.length === 0 ? (
+              <p className="mt-8 text-sm leading-relaxed text-fg/35">{t.empty}</p>
+            ) : (
+              <dl className="mt-6 divide-y divide-dashed divide-white/[0.08]">
+                {summary.map(([k, v]) => (
+                  <div key={k} className="lead-line py-3">
+                    <dt className="font-mono text-[0.625rem] uppercase tracking-[0.18em] text-fg/35">{k}</dt>
+                    <dd className="mt-1 line-clamp-3 break-words text-sm text-fg/85">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+          </aside>
         </div>
       </div>
     </div>

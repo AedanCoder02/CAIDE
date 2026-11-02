@@ -1,21 +1,39 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#7c5cff"/>
-      <stop offset="0.55" stop-color="#3b82f6"/>
-      <stop offset="1" stop-color="#22d3ee"/>
+    <linearGradient id="au" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c084fc"/>
+      <stop offset="0.3" stop-color="#a5b4fc"/>
+      <stop offset="0.55" stop-color="#5eead4"/>
+      <stop offset="0.8" stop-color="#34d399"/>
+      <stop offset="1" stop-color="#10b981"/>
     </linearGradient>
-    <radialGradient id="glow" cx="0.25" cy="0.15" r="0.9">
-      <stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/>
-      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="aurora" cx="0.85" cy="1" r="0.7">
-      <stop offset="0" stop-color="#10b981" stop-opacity="0.75"/>
+    <linearGradient id="sweep" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.35"/>
+      <stop offset="0.45" stop-color="#22d3ee" stop-opacity="0"/>
+      <stop offset="0.7" stop-color="#e879f9" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#e879f9" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.85" r="0.6">
+      <stop offset="0" stop-color="#10b981" stop-opacity="0.35"/>
       <stop offset="1" stop-color="#10b981" stop-opacity="0"/>
     </radialGradient>
+    <linearGradient id="st" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.35" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="0.7" stop-color="#ffffff" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.9"/>
+    </linearGradient>
+    <filter id="soft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="0.45"/></filter>
+    <clipPath id="c"><path d="M48.85 17.39 A22 23.5 0 1 0 48.85 47.61 L41.06 39.91 A11.2 12.6 0 1 1 41.06 25.09 Z"/></clipPath>
   </defs>
-  <rect width="64" height="64" rx="15" fill="url(#bg)"/>
-  <rect width="64" height="64" rx="15" fill="url(#aurora)"/>
-  <rect width="64" height="64" rx="15" fill="url(#glow)"/>
-  <path d="M42.6 21.4 A15 15 0 1 0 42.6 42.6" fill="none" stroke="#ffffff" stroke-width="7.5" stroke-linecap="round"/>
+  <rect width="64" height="64" rx="14" fill="#04030a"/>
+  <rect width="64" height="64" rx="14" fill="url(#glow)"/>
+  <g clip-path="url(#c)">
+    <rect width="64" height="64" fill="url(#au)"/>
+    <rect width="64" height="64" fill="url(#sweep)"/>
+    <g filter="url(#soft)">
+    <rect x="9.0" y="4" width="1.3" height="56" fill="#a7f3d0" opacity="0.14"/><rect x="11.0" y="4" width="2.4" height="56" fill="#f0abfc" opacity="0.08"/><rect x="15.9" y="4" width="0.9" height="56" fill="url(#st)" opacity="0.08"/><rect x="17.5" y="4" width="0.6" height="56" fill="#a7f3d0" opacity="0.35"/><rect x="19.8" y="4" width="0.9" height="56" fill="url(#st)" opacity="0.35"/><rect x="22.1" y="4" width="0.9" height="56" fill="url(#st)" opacity="0.08"/><rect x="23.9" y="4" width="0.6" height="56" fill="#f0abfc" opacity="0.35"/><rect x="26.5" y="4" width="0.6" height="56" fill="url(#st)" opacity="0.35"/><rect x="28.8" y="4" width="0.6" height="56" fill="url(#st)" opacity="0.35"/><rect x="31.0" y="4" width="2.4" height="56" fill="#f0abfc" opacity="0.28"/><rect x="35.8" y="4" width="1.3" height="56" fill="url(#st)" opacity="0.2"/><rect x="39.1" y="4" width="0.9" height="56" fill="#f0abfc" opacity="0.08"/><rect x="42.4" y="4" width="1.8" height="56" fill="url(#st)" opacity="0.2"/><rect x="45.6" y="4" width="1.3" height="56" fill="#a7f3d0" opacity="0.14"/><rect x="49.4" y="4" width="0.6" height="56" fill="#f0abfc" opacity="0.35"/><rect x="51.3" y="4" width="1.8" height="56" fill="#a7f3d0" opacity="0.35"/><rect x="53.9" y="4" width="1.3" height="56" fill="url(#st)" opacity="0.28"/>
+    </g>
+    <circle cx="37.3" cy="53.9" r="0.5" fill="#ecfeff" opacity="0.8"/><circle cx="39.8" cy="52.9" r="0.5" fill="#ecfeff" opacity="0.5"/><circle cx="47.9" cy="47.6" r="0.6" fill="#ecfeff" opacity="0.5"/><circle cx="31.8" cy="46.2" r="0.5" fill="#ecfeff" opacity="0.5"/><circle cx="40.6" cy="48.0" r="0.5" fill="#ecfeff" opacity="0.5"/><circle cx="20.0" cy="48.0" r="0.5" fill="#ecfeff" opacity="0.5"/><circle cx="43.5" cy="52.6" r="0.5" fill="#ecfeff" opacity="0.8"/><circle cx="49.5" cy="50.8" r="0.5" fill="#ecfeff" opacity="0.5"/><circle cx="19.4" cy="45.8" r="0.35" fill="#ecfeff" opacity="0.5"/>
+  </g>
 </svg>

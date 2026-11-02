@@ -16,12 +16,10 @@ const beam = (vars: Record<string, string>) => vars as React.CSSProperties;
 // brightness breathing speeds. Each beam runs on its own clock so the rig never
 // repeats in lockstep.
 const BEAMS = [
-  { x: "4%", w: "26rem", h: 262, from: "-22deg", to: "6deg", sway: "9s", hue: "13s", breath: "5s", delay: "-2s" },
-  { x: "20%", w: "18rem", h: 190, from: "-8deg", to: "16deg", sway: "7s", hue: "11s", breath: "3.6s", delay: "-5s" },
-  { x: "38%", w: "30rem", h: 318, from: "-14deg", to: "12deg", sway: "11s", hue: "17s", breath: "6.5s", delay: "-1s" },
-  { x: "56%", w: "22rem", h: 275, from: "12deg", to: "-10deg", sway: "8s", hue: "15s", breath: "4.2s", delay: "-6s" },
-  { x: "72%", w: "28rem", h: 328, from: "18deg", to: "-14deg", sway: "10s", hue: "12s", breath: "5.6s", delay: "-3s" },
-  { x: "88%", w: "20rem", h: 200, from: "6deg", to: "-22deg", sway: "7.5s", hue: "14s", breath: "4.8s", delay: "-7s" },
+  { x: "10%", w: "26rem", h: 262, from: "-22deg", to: "6deg", sway: "9s", hue: "13s", breath: "5s", delay: "-2s" },
+  { x: "36%", w: "30rem", h: 318, from: "-14deg", to: "12deg", sway: "11s", hue: "17s", breath: "6.5s", delay: "-1s" },
+  { x: "64%", w: "22rem", h: 190, from: "12deg", to: "-10deg", sway: "8s", hue: "15s", breath: "4.2s", delay: "-6s" },
+  { x: "90%", w: "28rem", h: 328, from: "18deg", to: "-22deg", sway: "10s", hue: "12s", breath: "5.6s", delay: "-3s" },
 ];
 
 export default function Cta() {
@@ -94,8 +92,8 @@ export default function Cta() {
         <div className="stage-haze absolute inset-0" />
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#05030f] to-transparent" />
         <div
-          className="absolute left-1/2 top-1/2 h-[22rem] w-[44rem] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
-          style={{ background: "radial-gradient(ellipse, rgba(5,3,15,0.85), transparent 70%)" }}
+          className="absolute left-1/2 top-1/2 h-[30rem] w-[56rem] max-w-full -translate-x-1/2 -translate-y-1/2"
+          style={{ background: "radial-gradient(closest-side, rgba(5,3,15,0.85), transparent)" }}
         />
       </div>
 

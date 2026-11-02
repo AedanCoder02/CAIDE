@@ -266,10 +266,23 @@ body {
   margin-left: calc(var(--w) / -2);
   transform-origin: top center;
   mix-blend-mode: screen;
+  will-change: transform, opacity;
   animation:
     stage-sway var(--sway) ease-in-out infinite alternate,
     stage-hue var(--hue) ease-in-out infinite alternate,
     stage-breath var(--breath) ease-in-out infinite alternate;
+}
+
+/* Phones: no hue drift (it repaints the blurred cones every frame) and lighter blur. */
+@media (max-width: 767px) {
+  .stage-beam {
+    mix-blend-mode: normal;
+    animation:
+      stage-sway var(--sway) ease-in-out infinite alternate,
+      stage-breath var(--breath) ease-in-out infinite alternate;
+  }
+  .stage-halo { filter: blur(22px); }
+  .stage-pool { filter: blur(16px); }
 }
 
 .stage-halo,
@@ -373,16 +386,16 @@ body {
 
 @keyframes stage-breath {
   0% {
-    --glow: 0.55;
+    opacity: 0.55;
   }
   70% {
-    --glow: 1;
+    opacity: 0.95;
   }
   85% {
-    --glow: 0.8;
+    opacity: 0.75;
   }
   100% {
-    --glow: 1.15;
+    opacity: 1;
   }
 }
 
@@ -479,21 +492,29 @@ body {
   right: -50%;
   bottom: -2px;
   height: 55%;
-  background-image:
-    linear-gradient(rgba(124, 92, 255, 0.5) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(124, 92, 255, 0.5) 1px, transparent 1px);
-  background-size: 64px 64px;
+  overflow: hidden;
   transform: perspective(420px) rotateX(62deg);
   transform-origin: bottom center;
   -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 85%);
   mask-image: linear-gradient(to top, #000 0%, transparent 85%);
-  animation: grid-move 2.4s linear infinite;
   pointer-events: none;
+}
+
+.grid-floor::before {
+  content: "";
+  position: absolute;
+  inset: -64px 0 0;
+  background-image:
+    linear-gradient(rgba(124, 92, 255, 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 92, 255, 0.5) 1px, transparent 1px);
+  background-size: 64px 64px;
+  will-change: transform;
+  animation: grid-move 2.4s linear infinite;
 }
 
 @keyframes grid-move {
   to {
-    background-position: 0 64px;
+    transform: translateY(64px);
   }
 }
 
@@ -639,8 +660,8 @@ footer .footer-reveal { text-shadow: 0 1px 12px rgb(3 3 8 / 0.85), 0 0 2px rgb(3
 /* Lead brief form */
 .lead-step-in { animation: lead-step-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
 @keyframes lead-step-in {
-  from { opacity: 0; transform: translateX(calc(var(--dir, 1) * 2.5rem)); filter: blur(4px); }
-  to { opacity: 1; transform: none; filter: none; }
+  from { opacity: 0; transform: translateX(calc(var(--dir, 1) * 2.5rem)); }
+  to { opacity: 1; transform: none; }
 }
 .lead-rail {
   background: linear-gradient(90deg, #7c5cff, #22d3ee);
@@ -649,7 +670,16 @@ footer .footer-reveal { text-shadow: 0 1px 12px rgb(3 3 8 / 0.85), 0 0 2px rgb(3
 }
 .lead-line { animation: lead-line 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
 @keyframes lead-line { from { opacity: 0; transform: translateY(6px); } }
-.lead-chip:active { transform: scale(0.96); }
+.lead-opt:active { transform: scale(0.97); }
+/* Static hairline border: brighter at the top, fading down. */
+.lead-shell {
+  background: linear-gradient(170deg, rgb(124 92 255 / 0.7), rgb(34 211 238 / 0.35) 30%, rgb(255 255 255 / 0.06) 60%);
+  box-shadow: 0 50px 140px -50px rgb(124 92 255 / 0.55);
+}
+.lead-next {
+  background: linear-gradient(100deg, #f3f3f7, #c4b5fd 55%, #67e8f9);
+  box-shadow: 0 0 36px rgb(124 92 255 / 0.4);
+}
 .lead-check {
   appearance: none;
   flex-shrink: 0;
@@ -675,7 +705,7 @@ footer .footer-reveal { text-shadow: 0 1px 12px rgb(3 3 8 / 0.85), 0 0 2px rgb(3
 }
 .lead-check:checked { background: #22d3ee; border-color: #22d3ee; box-shadow: 0 0 12px rgb(34 211 238 / 0.5); }
 .lead-check:checked::after { transform: rotate(-45deg) scale(1); }
-.lead-check:focus-visible, .lead-chip:focus-visible, .lead-next:focus-visible { outline: 2px solid #22d3ee; outline-offset: 3px; }
+.lead-check:focus-visible, .lead-opt:focus-visible, .lead-next:focus-visible { outline: 2px solid #22d3ee; outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
   .lead-step-in, .lead-line { animation: none; }
   .lead-rail { transition: none; }
