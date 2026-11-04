@@ -53,6 +53,26 @@ const sections: LegalSection[] = [
     ),
   },
   {
+    id: "contact-consent",
+    title: "How we contact you after a brief",
+    body: (
+      <>
+        <p>
+          When you send a brief and tick the consent box, you agree that we may contact you about that brief and the
+          services it relates to, using the details you give us: by email, and, if you give a phone number, by WhatsApp,
+          text message, or phone call. Some of these calls and messages may be handled by our AI assistant, which uses
+          an AI-generated voice or text, and we will say so when it does.
+        </p>
+        <p>
+          You can withdraw this consent at any time by replying &ldquo;STOP&rdquo; to a message, asking us during a
+          call, using the unsubscribe link in our emails, or writing to {mail}. We will then stop contacting you by
+          that channel. Your carrier&rsquo;s message and data rates may apply. Consent is not a condition of buying
+          anything from us.
+        </p>
+      </>
+    ),
+  },
+  {
     id: "ip",
     title: "Intellectual property",
     body: (
@@ -76,15 +96,79 @@ const sections: LegalSection[] = [
     title: "Acceptable use",
     body: (
       <>
-        <p>When using the site, you agree not to:</p>
+        <p>
+          You may use the site only for lawful purposes and in good faith. When using the site, its brief form, or any
+          channel through which we talk to you, you agree not to:
+        </p>
         <ul>
-          <li>break any law or infringe anyone&rsquo;s rights;</li>
-          <li>attempt to gain unauthorized access to the site, its hosting, or related systems;</li>
+          <li>break any law or regulation, or infringe anyone&rsquo;s intellectual property, privacy, or other rights;</li>
+          <li>use the site for fraud, phishing, scams, impersonation, money laundering, or any other deceptive or criminal activity;</li>
+          <li>attempt to gain unauthorized access to the site, its hosting, or related systems, or probe, scan, or test their security without our written permission;</li>
           <li>introduce malware or interfere with the site&rsquo;s operation, for example through denial-of-service attacks;</li>
-          <li>scrape or harvest the site at a volume that degrades it for others;</li>
-          <li>use the site, its brief form, or our contact details to send spam, automated submissions, or misleading messages.</li>
+          <li>scrape or harvest the site at a volume that degrades it for others, or copy it to build a competing or look-alike service;</li>
+          <li>use the site, its brief form, or our contact details to send spam, automated submissions, or misleading messages;</li>
+          <li>submit content that is unlawful, defamatory, harassing, hateful, or sexually exploits minors, or personal data about others that you have no right to share;</li>
+          <li>misrepresent who you are or who you act for.</li>
         </ul>
+        <p>
+          We may block access, ignore or delete briefs, stop communicating, and report activity to the authorities when
+          we reasonably believe these rules have been broken.
+        </p>
       </>
+    ),
+  },
+  {
+    id: "lawful-projects",
+    title: "Projects we will not take on",
+    body: (
+      <>
+        <p>
+          We build only for lawful purposes. We may decline any brief, and stop any project at any stage, if we
+          reasonably believe it is meant for an illegal, fraudulent, deceptive, or harmful purpose. That includes, for
+          example, scams or phishing, malware or tools to break into systems, sites that impersonate another person or
+          brand, the sale of illegal goods or services, unlicensed gambling, content that sexually exploits minors, and
+          material that promotes violence or hatred.
+        </p>
+        <p>
+          Clients are responsible for the content they supply and for using what we build in a lawful way, including
+          holding any licences and permissions their business needs. CAIDE is not responsible for how a client or anyone
+          else uses work after it is delivered, and does not review a client&rsquo;s business for legal compliance.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "indemnity",
+    title: "Your responsibility to us",
+    body: (
+      <p>
+        To the extent the law allows, you agree to cover CAIDE for any claims, losses, fines, and reasonable legal costs
+        that arise because you broke these terms, broke the law while using the site, or supplied content or data you had
+        no right to supply. This does not apply where the loss was caused by our own fault, and it does not limit
+        rights you have as a consumer that cannot be waived.
+      </p>
+    ),
+  },
+  {
+    id: "ai-and-advice",
+    title: "AI assistance and no professional advice",
+    body: (
+      <p>
+        Parts of the site and of our communications, including replies, proposals, mock-ups, and calls, may be prepared
+        or handled with the help of AI tools and are reviewed by our team where it matters. Content on the site and in
+        early conversations is general information, not legal, tax, financial, or other professional advice, and you
+        should not rely on it as such.
+      </p>
+    ),
+  },
+  {
+    id: "security-reports",
+    title: "Reporting abuse or security issues",
+    body: (
+      <p>
+        If you find a security weakness in the site, or see it being misused, please tell us at {mail} instead of
+        testing or exploiting it further. We welcome good-faith reports and will look into them.
+      </p>
     ),
   },
   {
@@ -214,12 +298,14 @@ export default function TermsPage() {
       title="The ground rules,"
       accent="kept clear."
       intro="The terms that apply when you use this website. Client projects are covered by their own written agreements."
-      updated="1 November 2026"
+      updated="4 November 2026"
       summary={[
         "The site is information about our services, not a binding offer.",
         "Every project runs under its own written agreement.",
+        "Sending a brief lets us contact you about it by email, WhatsApp, or phone; you can stop that anytime.",
         "Our design and code are ours; portfolio projects belong to their owners.",
         "Use the site lawfully and don't try to break it.",
+        "We only build for lawful purposes and can refuse or stop any project that isn't.",
       ]}
       sections={sections}
     />
