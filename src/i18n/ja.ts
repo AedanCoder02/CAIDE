@@ -191,7 +191,7 @@ const ja: Dict = {
     phone: "電話またはWhatsApp(任意)",
     prefer: "ご希望の連絡方法",
     prefers: ["メール", "WhatsApp", "電話"],
-    consent: "CAIDEがこの内容を保存し、入力した連絡先へメール・WhatsApp・電話(AIアシスタントによる連絡を含む)で連絡することに同意します。詳しくは",
+    consent: "以下に同意します:",
     termsLink: "利用規約",
     linkJoin: "と",
     privacyLink: "プライバシーポリシー",
