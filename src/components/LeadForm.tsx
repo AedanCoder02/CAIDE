@@ -396,6 +396,10 @@ export default function LeadForm() {
                           <input type="checkbox" className="lead-check mt-0.5" checked={b.consent} onChange={(e) => set("consent", e.target.checked)} />
                           <span>
                             {t.consent}{" "}
+                            <SiteLink href="/terms" target="_blank" className="text-fg underline decoration-accent-2/60 underline-offset-2">
+                              {t.termsLink}
+                            </SiteLink>
+                            {t.linkJoin}
                             <SiteLink href="/privacy" target="_blank" className="text-fg underline decoration-accent-2/60 underline-offset-2">
                               {t.privacyLink}
                             </SiteLink>

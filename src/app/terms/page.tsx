@@ -53,6 +53,26 @@ const sections: LegalSection[] = [
     ),
   },
   {
+    id: "contact-consent",
+    title: "How we contact you after a brief",
+    body: (
+      <>
+        <p>
+          When you send a brief and tick the consent box, you agree that we may contact you about that brief and the
+          services it relates to, using the details you give us: by email, and, if you give a phone number, by WhatsApp,
+          text message, or phone call. Some of these calls and messages may be handled by our AI assistant, which uses
+          an AI-generated voice or text, and we will say so when it does.
+        </p>
+        <p>
+          You can withdraw this consent at any time by replying &ldquo;STOP&rdquo; to a message, asking us during a
+          call, using the unsubscribe link in our emails, or writing to {mail}. We will then stop contacting you by
+          that channel. Your carrier&rsquo;s message and data rates may apply. Consent is not a condition of buying
+          anything from us.
+        </p>
+      </>
+    ),
+  },
+  {
     id: "ip",
     title: "Intellectual property",
     body: (
@@ -214,10 +234,11 @@ export default function TermsPage() {
       title="The ground rules,"
       accent="kept clear."
       intro="The terms that apply when you use this website. Client projects are covered by their own written agreements."
-      updated="1 November 2026"
+      updated="4 November 2026"
       summary={[
         "The site is information about our services, not a binding offer.",
         "Every project runs under its own written agreement.",
+        "Sending a brief lets us contact you about it by email, WhatsApp, or phone; you can stop that anytime.",
         "Our design and code are ours; portfolio projects belong to their owners.",
         "Use the site lawfully and don't try to break it.",
       ]}
