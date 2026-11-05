@@ -29,7 +29,7 @@ export default function LangSwitcher() {
         type="button"
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label={`${t.nav.language}: ${LOCALE_INFO[locale].name}`}
+        aria-label={`${LOCALE_INFO[locale].code}, ${t.nav.language}: ${LOCALE_INFO[locale].name}`}
         onClick={() => setOpen((o) => !o)}
         className="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-2 font-mono text-xs font-semibold tracking-wide text-fg/80 transition-colors hover:border-fg/40 hover:text-fg"
       >

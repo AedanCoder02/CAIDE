@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { SITE } from "@/i18n/config";
 
 export const dynamic = "force-static";
 
@@ -28,5 +29,6 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: TRAINING_CRAWLERS, disallow: "/" },
       { userAgent: "*", allow: "/", disallow: "/api/" },
     ],
+    sitemap: `${SITE}/sitemap.xml`,
   };
 }

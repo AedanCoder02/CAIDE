@@ -22,7 +22,9 @@ const geistMono = Geist_Mono({
 });
 
 // Page titles, descriptions and share previews come from each page (see i18n/metadata.ts).
-export const metadata: Metadata = { metadataBase: new URL(SITE) };
+// NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION is the token Google Search Console gives for the HTML tag method.
+const gsc = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+export const metadata: Metadata = { metadataBase: new URL(SITE), ...(gsc ? { verification: { google: gsc } } : {}) };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

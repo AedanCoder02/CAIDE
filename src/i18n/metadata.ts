@@ -28,3 +28,49 @@ export function homeMetadata(l: Locale, url: string): Metadata {
     twitter: { card: "summary_large_image", title: t.title, description: t.description, images: [image.url] },
   };
 }
+
+/** Canonical address and share preview for an English-only legal page. */
+export function legalMetadata(path: string, title: string, description: string): Metadata {
+  const url = `${SITE}/${path}/`;
+  const image = { url: `${SITE}/og/en.png`, width: 1200, height: 630 };
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: { type: "website", siteName: "CAIDE", url, title, description, locale: "en_US", images: [image] },
+    twitter: { card: "summary_large_image", title, description, images: [image.url] },
+  };
+}
+
+/** Structured data (schema.org) for the home page: who CAIDE is and what the site is. */
+export function homeSchema(l: Locale, url: string) {
+  const t = DICTS[l].meta;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ProfessionalService",
+        "@id": `${SITE}/#org`,
+        name: "CAIDE",
+        url: `${SITE}/`,
+        logo: `${SITE}/apple-icon.png`,
+        image: `${SITE}/og/${l}.png`,
+        description: t.description,
+        areaServed: "Worldwide",
+        knowsLanguage: LOCALES.map((x) => LOCALE_INFO[x].html),
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${SITE}/#site`,
+        name: "CAIDE",
+        url: `${SITE}/`,
+        inLanguage: LOCALES.map((x) => LOCALE_INFO[x].html),
+        publisher: { "@id": `${SITE}/#org` },
+      },
+      { "@type": "WebPage", url, name: t.title, description: t.description, inLanguage: LOCALE_INFO[l].html, isPartOf: { "@id": `${SITE}/#site` } },
+    ],
+  };
+}
+
+/** JSON-LD as a safe inline string ("<" escaped so the text can never close the script tag). */
+export const jsonLd = (data: unknown) => JSON.stringify(data).replace(/</g, "\\u003c");
