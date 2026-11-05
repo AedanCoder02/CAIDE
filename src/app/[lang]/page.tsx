@@ -3,7 +3,7 @@ import HomePage from "@/components/HomePage";
 import { LangProvider } from "@/i18n/LangProvider";
 import { LOCALES, SITE, type Locale } from "@/i18n/config";
 import { DICTS } from "@/i18n/dicts";
-import { homeMetadata } from "@/i18n/metadata";
+import { homeMetadata, homeSchema, jsonLd } from "@/i18n/metadata";
 
 export function generateStaticParams() {
   return LOCALES.map((lang) => ({ lang }));
@@ -22,6 +22,7 @@ export default async function LangHome({ params }: PageProps<"/[lang]">) {
   if (!isLocale(lang)) notFound();
   return (
     <LangProvider initial={{ locale: lang, t: DICTS[lang] }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(homeSchema(lang, `${SITE}/${lang}/`)) }} />
       <HomePage />
     </LangProvider>
   );

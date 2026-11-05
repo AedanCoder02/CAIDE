@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { legalMetadata } from "@/i18n/metadata";
 import LegalPage, { type LegalSection } from "@/components/LegalPage";
 
-export const metadata: Metadata = {
-  title: "Cookie Policy — CAIDE",
-  description: "What CAIDE stores on your device, the cookie-free analytics we use only with your consent, and how to change your choice.",
-};
+export const metadata: Metadata = legalMetadata("cookies", "Cookie Policy — CAIDE", "What CAIDE stores on your device, the cookie-free analytics we use only with your consent, and how to change your choice.");
 
 const EMAIL = "hello@caide.dev";
 const mail = <a href={`mailto:${EMAIL}`}>{EMAIL}</a>;
