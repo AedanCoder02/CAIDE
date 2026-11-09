@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { legalMetadata } from "@/i18n/metadata";
 import LegalPage, { type LegalSection } from "@/components/LegalPage";
 
-export const metadata: Metadata = {
-  title: "Terms of Use — CAIDE",
-  description: "The terms that apply when you use the CAIDE website.",
-};
+export const metadata: Metadata = legalMetadata("terms", "Terms of Use — CAIDE", "The terms that apply when you use the CAIDE website.");
 
 const EMAIL = "hello@caide.dev";
 const mail = <a href={`mailto:${EMAIL}`}>{EMAIL}</a>;

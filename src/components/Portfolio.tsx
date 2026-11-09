@@ -303,6 +303,7 @@ export default function Portfolio() {
                             width={p.image.width}
                             height={p.image.height}
                             alt={t.alt.replace("{name}", p.name)}
+                            loading="lazy"
                             decoding="async"
                             className="work-shot block h-auto w-full"
                           />
