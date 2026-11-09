@@ -210,7 +210,7 @@ const zh: Dict = {
     doneSub: "谢谢您,{name}。我们会仔细阅读,并通过 {email} 回复实施方案、时间和报价。",
     mailTitle: "最后一步。",
     mailSub: "您的邮件应用已打开,需求内容已填好。点击发送,其余交给我们。",
-    error: "需求未能提交。请重试,或发送邮件至 hello@caide.dev。",
+    error: "需求未能提交。请重试,或发送邮件至 contact@caide.agency。",
     again: "再提交一个需求",
     after: ["我们阅读您的需求", "我们回复方案和报价", "由您决定,没有压力"],
     or: "更喜欢直接发邮件?",

@@ -236,11 +236,11 @@ function LegalBody({ doc, eyebrow, title, accent, intro, updated, summary, secti
                     <p className="mt-1 text-sm text-fg/55">Write to us and a real person will answer.</p>
                   </div>
                   <a
-                    href="mailto:hello@caide.dev"
+                    href="mailto:contact@caide.agency"
                     className="inline-flex w-fit items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-bg transition-transform duration-300 hover:scale-[1.03]"
                     style={{ background: color, boxShadow: `0 0 30px -4px ${color}` }}
                   >
-                    hello@caide.dev
+                    contact@caide.agency
                   </a>
                 </div>
               </div>

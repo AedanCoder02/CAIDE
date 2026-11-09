@@ -37,7 +37,7 @@ DELETE FROM leads WHERE created_at < datetime('now','-24 months');
 3. To get each brief by email:
    - Go to **Email Service**, then **Email Routing**, and verify your inbox.
    - Uncomment `send_email` in `wrangler.jsonc`, and set `LEAD_FROM` and `LEAD_TO`.
-   - Replace `hello@caide.dev` across the site with the real inbox.
+   - The site already uses `contact@caide.agency` (the real inbox, 2026-11-09).
 4. Zone security, all free:
    - SSL **Full (strict)** and **Always Use HTTPS**.
    - **Bot Fight Mode**.
