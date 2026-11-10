@@ -17,7 +17,7 @@ gsap.registerPlugin(ScrollTrigger);
 export type LegalSection = { id: string; title: string; body: React.ReactNode };
 
 type Props = {
-  doc: "privacy" | "terms" | "cookies";
+  doc: "privacy" | "terms" | "cookies" | "refunds" | "dpa" | "msa";
   eyebrow: string;
   title: string;
   accent: string;
@@ -29,8 +29,11 @@ type Props = {
 
 const DOCS = [
   { key: "privacy", href: "/privacy", label: "Privacy Policy", color: "#7c5cff" },
-  { key: "terms", href: "/terms", label: "Terms of Use", color: "#22d3ee" },
+  { key: "terms", href: "/terms", label: "Terms of Service", color: "#22d3ee" },
   { key: "cookies", href: "/cookies", label: "Cookie Policy", color: "#ec4899" },
+  { key: "refunds", href: "/refunds", label: "Refund Policy", color: "#f59e0b" },
+  { key: "msa", href: "/msa", label: "Master Services Agreement", color: "#34d399" },
+  { key: "dpa", href: "/dpa", label: "Data Processing Agreement", color: "#60a5fa" },
 ] as const;
 
 export default function LegalPage(props: Props) {
@@ -151,7 +154,7 @@ function LegalBody({ doc, eyebrow, title, accent, intro, updated, summary, secti
                   className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-30 blur-3xl"
                   style={{ background: color }}
                 />
-                <p className="relative font-mono text-xs uppercase tracking-[0.3em] text-fg/50">The short version</p>
+                <p className="relative font-mono text-xs uppercase tracking-[0.3em] text-fg/50">Summary of key provisions</p>
                 <ul className="relative mt-6 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
                   {summary.map((s, i) => (
                     <li key={i} className="flex gap-3">

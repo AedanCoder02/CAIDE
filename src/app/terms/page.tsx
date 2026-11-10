@@ -3,7 +3,7 @@ import Link from "next/link";
 import { legalMetadata } from "@/i18n/metadata";
 import LegalPage, { type LegalSection } from "@/components/LegalPage";
 
-export const metadata: Metadata = legalMetadata("terms", "Terms of Use — CAIDE", "The terms that apply when you use the CAIDE website.");
+export const metadata: Metadata = legalMetadata("terms", "Terms of Service — CAIDE", "The terms governing access to and use of the CAIDE website.");
 
 const EMAIL = "contact@caide.agency";
 const mail = <a href={`mailto:${EMAIL}`}>{EMAIL}</a>;
@@ -11,61 +11,72 @@ const mail = <a href={`mailto:${EMAIL}`}>{EMAIL}</a>;
 const sections: LegalSection[] = [
   {
     id: "agreement",
-    title: "Agreement to these terms",
+    title: "Acceptance of these terms",
     body: (
       <>
         <p>
-          These Terms of Use govern your use of this website, operated by <strong>CAIDE Operations</strong>, an
-          independent software engineering practice within the Kryptyk / AP Division (&ldquo;CAIDE&rdquo;,
-          &ldquo;we&rdquo;, &ldquo;us&rdquo;). We serve clients worldwide, and these terms are written to work
-          alongside the consumer and business laws of the countries our visitors come from. By using the site you agree
-          to them. If you do not agree, please do not use the site.
+          The following Terms of Service (the &ldquo;Terms&rdquo;) govern access to and use of this website, which is
+          operated by <strong>CAIDE Operations</strong>, an independent software engineering practice within the
+          Kryptyk / AP Division (&ldquo;CAIDE&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;). Services are offered
+          worldwide, and these Terms are intended to operate alongside the consumer and commercial laws of the
+          jurisdictions from which the website is accessed.
         </p>
         <p>
-          Our <Link href="/privacy">Privacy Policy</Link> and <Link href="/cookies">Cookie Policy</Link> explain how we
-          handle information and form part of these terms.
+          By accessing or using the website, the user (&ldquo;you&rdquo;) acknowledges having read and accepted these
+          Terms. Any person who does not accept these Terms must not access or use the website.
+        </p>
+        <p>
+          The <Link href="/privacy">Privacy Policy</Link>, the <Link href="/cookies">Cookie Policy</Link> and the{" "}
+          <Link href="/refunds">Refund Policy</Link> form an integral part of these Terms. Client engagements are
+          additionally governed by the <Link href="/msa">Master Services Agreement</Link> and, where personal data is
+          processed on a client&rsquo;s behalf, the <Link href="/dpa">Data Processing Agreement</Link>.
         </p>
       </>
     ),
   },
   {
     id: "services",
-    title: "Information, not an offer",
+    title: "Informational nature of the website",
     body: (
       <>
         <p>
-          The site describes our services and past work for general information. Nothing on it is an offer, quote, or
-          guarantee of availability, pricing, timelines, or results. Examples, figures, and system diagrams on the site
-          (including the &ldquo;How it works&rdquo; section) are illustrative models, not data from a specific client.
+          The content of the website describes our services and prior work for general informational purposes only.
+          No content on the website constitutes an offer, quotation, or guarantee of availability, pricing, timelines,
+          or results. Examples, figures, and system diagrams presented on the website, including those in the
+          &ldquo;How it works&rdquo; section, are illustrative models and do not represent data from any specific
+          client.
         </p>
         <p>
-          Any project we take on is governed by a separate written agreement, such as a proposal, statement of work, or
-          services contract. If that agreement conflicts with these terms, the agreement wins.
+          Every engagement is governed by a separate written agreement, namely the{" "}
+          <Link href="/msa">Master Services Agreement</Link> together with a proposal or statement of work. In the
+          event of any conflict between such an agreement and these Terms, the agreement shall prevail.
         </p>
         <p>
-          Sending a project brief through the site does not create a contract or oblige either of us to work together.
-          Please share only information you are entitled to share, and nothing confidential you are not ready to
-          disclose. We treat briefs as described in our <Link href="/privacy">Privacy Policy</Link>.
+          The submission of a project brief through the website does not create a contract and does not oblige either
+          party to enter into an engagement. You shall submit only information that you are entitled to disclose, and
+          no confidential information that you are not prepared to disclose. Briefs are handled as set out in the{" "}
+          <Link href="/privacy">Privacy Policy</Link>.
         </p>
       </>
     ),
   },
   {
     id: "contact-consent",
-    title: "How we contact you after a brief",
+    title: "Communications following a brief",
     body: (
       <>
         <p>
-          When you send a brief and tick the consent box, you agree that we may contact you about that brief and the
-          services it relates to, using the details you give us: by email, and, if you give a phone number, by WhatsApp,
-          text message, or phone call. Some of these calls and messages may be handled by our AI assistant, which uses
-          an AI-generated voice or text, and we will say so when it does.
+          By submitting a brief and ticking the consent box, you consent to being contacted regarding that brief and
+          the services to which it relates, using the contact details you provide: by email and, where a telephone
+          number is provided, by WhatsApp, text message, or telephone call. Certain calls and messages may be handled
+          by our AI assistant using an AI-generated voice or text, and this will be disclosed at the start of any such
+          interaction.
         </p>
         <p>
-          You can withdraw this consent at any time by replying &ldquo;STOP&rdquo; to a message, asking us during a
-          call, using the unsubscribe link in our emails, or writing to {mail}. We will then stop contacting you by
-          that channel. Your carrier&rsquo;s message and data rates may apply. Consent is not a condition of buying
-          anything from us.
+          This consent may be withdrawn at any time by replying &ldquo;STOP&rdquo; to a message, by stating so during a
+          call, by using the unsubscribe link in our emails, or by writing to {mail}. Upon withdrawal, contact through
+          the relevant channel shall cease. Standard carrier message and data rates may apply. Consent is not a
+          condition of purchasing any service.
         </p>
       </>
     ),
@@ -76,15 +87,15 @@ const sections: LegalSection[] = [
     body: (
       <>
         <p>
-          The site&rsquo;s design, text, graphics, animations, code, and the CAIDE name and logo belong to CAIDE or its
-          licensors and are protected by intellectual property laws. You may view the site and share links to it. You
-          may not copy, reproduce, republish, or create derivative works from its content or design for commercial
-          purposes without our written permission.
+          The design, text, graphics, animations, source code, and the CAIDE name and logo are the property of CAIDE or
+          its licensors and are protected by intellectual property laws. You are permitted to view the website and to
+          share links to it. Any copying, reproduction, republication, or creation of derivative works from its content
+          or design for commercial purposes without prior written permission is prohibited.
         </p>
         <p>
-          Projects shown in our portfolio, including their names, logos, screenshots, and content, belong to their
-          respective owners and appear here to show work we contributed to. Their appearance does not grant you any
-          right to use them.
+          Projects displayed in the portfolio, including their names, logos, screenshots, and content, are the property
+          of their respective owners and are displayed solely to evidence work to which CAIDE contributed. Their display
+          grants no right of use to any third party.
         </p>
       </>
     ),
@@ -95,77 +106,81 @@ const sections: LegalSection[] = [
     body: (
       <>
         <p>
-          You may use the site only for lawful purposes and in good faith. When using the site, its brief form, or any
-          channel through which we talk to you, you agree not to:
+          The website may be used only for lawful purposes and in good faith. Any use of the website, its brief form,
+          or any channel through which we communicate with you in a manner infringing the following policies is
+          prohibited. In particular, you shall not:
         </p>
         <ul>
-          <li>break any law or regulation, or infringe anyone&rsquo;s intellectual property, privacy, or other rights;</li>
-          <li>use the site for fraud, phishing, scams, impersonation, money laundering, or any other deceptive or criminal activity;</li>
-          <li>attempt to gain unauthorized access to the site, its hosting, or related systems, or probe, scan, or test their security without our written permission;</li>
-          <li>introduce malware or interfere with the site&rsquo;s operation, for example through denial-of-service attacks;</li>
-          <li>scrape or harvest the site at a volume that degrades it for others, or copy it to build a competing or look-alike service;</li>
-          <li>use the site, its brief form, or our contact details to send spam, automated submissions, or misleading messages;</li>
-          <li>submit content that is unlawful, defamatory, harassing, hateful, or sexually exploits minors, or personal data about others that you have no right to share;</li>
-          <li>misrepresent who you are or who you act for.</li>
+          <li>violate any law or regulation, or infringe any intellectual property, privacy, or other right of any person;</li>
+          <li>use the website for fraud, phishing, scams, impersonation, money laundering, or any other deceptive or criminal activity;</li>
+          <li>attempt to gain unauthorized access to the website, its hosting, or related systems, or probe, scan, or test their security without prior written permission;</li>
+          <li>introduce malware or interfere with the operation of the website, including by denial-of-service attacks;</li>
+          <li>scrape or harvest the website at a volume that degrades its availability, or copy it to build a competing or imitative service;</li>
+          <li>use the website, its brief form, or our contact details to send unsolicited, automated, or misleading messages;</li>
+          <li>submit content that is unlawful, defamatory, harassing, or hateful, that sexually exploits minors, or that contains personal data of others which you have no right to disclose;</li>
+          <li>misrepresent your identity or the identity of any person or organization on whose behalf you act.</li>
         </ul>
         <p>
-          We may block access, ignore or delete briefs, stop communicating, and report activity to the authorities when
-          we reasonably believe these rules have been broken.
+          Where we reasonably believe that these policies have been infringed, we reserve the right to block access,
+          disregard or delete briefs, cease communication, and report the activity to the competent authorities.
         </p>
       </>
     ),
   },
   {
     id: "lawful-projects",
-    title: "Projects we will not take on",
+    title: "Prohibited engagements",
     body: (
       <>
         <p>
-          We build only for lawful purposes. We may decline any brief, and stop any project at any stage, if we
-          reasonably believe it is meant for an illegal, fraudulent, deceptive, or harmful purpose. That includes, for
-          example, scams or phishing, malware or tools to break into systems, sites that impersonate another person or
-          brand, the sale of illegal goods or services, unlicensed gambling, content that sexually exploits minors, and
-          material that promotes violence or hatred.
+          CAIDE undertakes work for lawful purposes only. We reserve the right to decline any brief, and to suspend or
+          terminate any engagement at any stage, where we reasonably believe it is intended for an illegal, fraudulent,
+          deceptive, or harmful purpose. Such purposes include, without limitation: scams or phishing; malware or tools
+          designed to gain unauthorized access to systems; websites that impersonate another person or brand; the sale
+          of illegal goods or services; unlicensed gambling; content that sexually exploits minors; and material that
+          promotes violence or hatred.
         </p>
         <p>
-          Clients are responsible for the content they supply and for using what we build in a lawful way, including
-          holding any licences and permissions their business needs. CAIDE is not responsible for how a client or anyone
-          else uses work after it is delivered, and does not review a client&rsquo;s business for legal compliance.
+          Clients remain solely responsible for the content they supply and for the lawful use of all deliverables,
+          including holding any licences and permissions required by their business. CAIDE accepts no responsibility for
+          the use of any deliverable by a client or third party after delivery and does not assess a client&rsquo;s
+          business for legal compliance.
         </p>
       </>
     ),
   },
   {
     id: "indemnity",
-    title: "Your responsibility to us",
+    title: "Indemnification",
     body: (
       <p>
-        To the extent the law allows, you agree to cover CAIDE for any claims, losses, fines, and reasonable legal costs
-        that arise because you broke these terms, broke the law while using the site, or supplied content or data you had
-        no right to supply. This does not apply where the loss was caused by our own fault, and it does not limit
-        rights you have as a consumer that cannot be waived.
+        To the extent permitted by law, you shall indemnify CAIDE against all claims, losses, fines, and reasonable
+        legal costs arising from your breach of these Terms, your violation of any law in connection with the website,
+        or your submission of content or data which you had no right to submit. This indemnity does not apply to losses
+        caused by our own fault and does not limit any non-waivable right available to you as a consumer.
       </p>
     ),
   },
   {
     id: "ai-and-advice",
-    title: "AI assistance and no professional advice",
+    title: "Use of AI and absence of professional advice",
     body: (
       <p>
-        Parts of the site and of our communications, including replies, proposals, mock-ups, and calls, may be prepared
-        or handled with the help of AI tools and are reviewed by our team where it matters. Content on the site and in
-        early conversations is general information, not legal, tax, financial, or other professional advice, and you
-        should not rely on it as such.
+        Parts of the website and of our communications, including replies, proposals, mock-ups, and calls, may be
+        prepared or handled with the assistance of AI tools and are reviewed by our team where material. Content on the
+        website and in preliminary communications constitutes general information only and does not constitute legal,
+        tax, financial, or other professional advice, and shall not be relied upon as such.
       </p>
     ),
   },
   {
     id: "security-reports",
-    title: "Reporting abuse or security issues",
+    title: "Reporting of abuse and security vulnerabilities",
     body: (
       <p>
-        If you find a security weakness in the site, or see it being misused, please tell us at {mail} instead of
-        testing or exploiting it further. We welcome good-faith reports and will look into them.
+        Any person who identifies a security vulnerability in the website, or observes its misuse, is requested to
+        report it to {mail} and to refrain from further testing or exploitation. Reports made in good faith will be
+        investigated.
       </p>
     ),
   },
@@ -174,21 +189,20 @@ const sections: LegalSection[] = [
     title: "Third-party websites",
     body: (
       <p>
-        The site links to external websites, including live client projects. We do not control those sites and are not
-        responsible for their content, availability, or practices. Visiting them is at your own discretion and subject
-        to their own terms.
+        The website contains links to external websites, including live client projects. CAIDE does not control and is
+        not responsible for the content, availability, or practices of such websites. Access to them is at your own
+        discretion and subject to their respective terms.
       </p>
     ),
   },
   {
     id: "disclaimer",
-    title: "Disclaimer",
+    title: "Disclaimer of warranties",
     body: (
       <p>
-        We work to keep the site accurate and available, but it is provided &ldquo;as is&rdquo; and &ldquo;as
-        available&rdquo;. To the fullest extent permitted by law, we make no warranties of any kind, express or implied,
-        about the site, including warranties of accuracy, fitness for a particular purpose, or uninterrupted, error-free
-        operation.
+        The website is provided on an &ldquo;as is&rdquo; and &ldquo;as available&rdquo; basis. To the fullest extent
+        permitted by law, CAIDE makes no warranty of any kind, express or implied, concerning the website, including any
+        warranty of accuracy, fitness for a particular purpose, or uninterrupted or error-free operation.
       </p>
     ),
   },
@@ -198,30 +212,30 @@ const sections: LegalSection[] = [
     body: (
       <>
         <p>
-          To the fullest extent permitted by law, CAIDE is not liable for any indirect, incidental, special,
-          consequential, or punitive damages, or for loss of profits, data, or goodwill, arising from your use of, or
-          inability to use, the site. Because the site is provided free of charge, our total liability arising from the
-          site is limited to one hundred US dollars (USD 100).
+          To the fullest extent permitted by law, CAIDE shall not be liable for any indirect, incidental, special,
+          consequential, or punitive damages, or for any loss of profits, data, or goodwill, arising from the use of, or
+          inability to use, the website. As the website is provided free of charge, the total liability of CAIDE arising
+          from the website is limited to one hundred US dollars (USD 100).
         </p>
         <p>
-          Nothing in these terms limits liability that cannot be limited by law, such as liability for fraud or, where
-          applicable, for death or personal injury caused by negligence, and nothing affects rights you have as a
-          consumer that cannot be waived.
+          Nothing in these Terms limits any liability that cannot be limited by law, including liability for fraud or,
+          where applicable, for death or personal injury caused by negligence, and nothing affects any non-waivable
+          right available to you as a consumer.
         </p>
       </>
     ),
   },
   {
     id: "law",
-    title: "Governing law",
+    title: "Governing law and disputes",
     body: (
       <p>
-        These terms are governed by the laws of the place where CAIDE Operations is based, without regard to its
-        conflict-of-law rules. If you use the site as a consumer, you also keep the protection of the mandatory laws
-        of the country where you live, including the right to bring proceedings in your local courts where that law
-        provides it (for example, in the European Union, the United Kingdom, Australia, or Brazil). Before starting
-        any formal dispute, we ask that you contact us at {mail} so we can try to resolve the issue informally within
-        30 days.
+        These Terms are governed by the laws of the jurisdiction in which CAIDE Operations is established, without
+        regard to its conflict-of-law rules. Where you use the website as a consumer, you retain the protection of the
+        mandatory laws of your country of residence, including any right to bring proceedings before your local courts
+        where such law provides it (for example, in the European Union, the United Kingdom, Australia, or Brazil).
+        Before initiating any formal dispute, you agree to notify CAIDE at {mail} and to allow 30 days for an informal
+        resolution.
       </p>
     ),
   },
@@ -231,60 +245,64 @@ const sections: LegalSection[] = [
     body: (
       <>
         <p>
-          The site is available worldwide, but we do not claim that its content is appropriate or lawful in every
-          country. If you access it from outside the place where we are based, you do so on your own initiative and
-          are responsible for complying with your local laws.
+          The website is accessible worldwide; however, CAIDE makes no representation that its content is appropriate
+          or lawful in every jurisdiction. Persons accessing the website from outside the jurisdiction in which CAIDE is
+          established do so on their own initiative and are responsible for compliance with local law.
         </p>
         <p>
-          We comply with applicable export control and sanctions laws, and we do not provide services to people or
-          organizations where that would breach those laws.
+          CAIDE complies with applicable export control and sanctions laws and does not provide services to any person
+          or organization where doing so would breach such laws.
         </p>
         <p>
-          These terms are written in English. If we provide a translation, the English version applies where they
-          differ, unless your local law requires otherwise.
+          These Terms are drafted in English. Where a translation is provided, the English version prevails in the event
+          of any inconsistency, unless local law requires otherwise.
         </p>
       </>
     ),
   },
   {
     id: "general",
-    title: "General",
+    title: "General provisions",
     body: (
       <ul>
         <li>
-          <strong>Force majeure:</strong> we are not responsible for delays or failures caused by events outside our
-          reasonable control, such as outages of hosting providers, network failures, or natural disasters.
+          <strong>Force majeure:</strong> CAIDE shall not be liable for any delay or failure caused by events beyond its
+          reasonable control, including outages of hosting providers, network failures, or natural disasters.
         </li>
         <li>
-          <strong>No waiver:</strong> if we do not enforce a provision right away, we have not given up the right to
-          enforce it later.
+          <strong>No waiver:</strong> any failure or delay in enforcing a provision of these Terms shall not constitute
+          a waiver of the right to enforce it.
         </li>
         <li>
-          <strong>Assignment:</strong> we may transfer these terms as part of a reorganization or sale of the business;
-          your rights under them will not be reduced.
+          <strong>Assignment:</strong> CAIDE may assign these Terms as part of a reorganization or sale of the business,
+          provided that your rights under them are not diminished.
         </li>
         <li>
-          <strong>Entire agreement:</strong> these terms, together with our Privacy Policy and Cookie Policy, are the
-          whole agreement between you and us about use of the site.
+          <strong>Severability:</strong> if any provision of these Terms is held unenforceable, the remaining provisions
+          shall continue in full force and effect.
+        </li>
+        <li>
+          <strong>Entire agreement:</strong> these Terms, together with the policies incorporated by reference above,
+          constitute the entire agreement between you and CAIDE concerning use of the website.
         </li>
       </ul>
     ),
   },
   {
     id: "changes",
-    title: "Changes",
+    title: "Amendments",
     body: (
       <p>
-        We may update these terms as the site and our services evolve. The &ldquo;Last updated&rdquo; date shows the
-        current version, and continuing to use the site after a change means you accept the updated terms. If any part
-        of these terms is found unenforceable, the rest stays in effect.
+        CAIDE may amend these Terms as the website and its services evolve. The &ldquo;Last updated&rdquo; date
+        identifies the version in force. Continued use of the website following an amendment constitutes acceptance of
+        the amended Terms.
       </p>
     ),
   },
   {
     id: "contact",
     title: "Contact",
-    body: <p>Questions about these terms can be sent to {mail}.</p>,
+    body: <p>Enquiries concerning these Terms may be addressed to {mail}.</p>,
   },
 ];
 
@@ -293,17 +311,17 @@ export default function TermsPage() {
     <LegalPage
       doc="terms"
       eyebrow="Legal · Terms"
-      title="The ground rules,"
-      accent="kept clear."
-      intro="The terms that apply when you use this website. Client projects are covered by their own written agreements."
-      updated="4 November 2026"
+      title="Terms of"
+      accent="Service."
+      intro="The following document sets out the terms governing access to and use of this website. Client engagements are governed by the Master Services Agreement."
+      updated="10 November 2026"
       summary={[
-        "The site is information about our services, not a binding offer.",
-        "Every project runs under its own written agreement.",
-        "Sending a brief lets us contact you about it by email, WhatsApp, or phone; you can stop that anytime.",
-        "Our design and code are ours; portfolio projects belong to their owners.",
-        "Use the site lawfully and don't try to break it.",
-        "We only build for lawful purposes and can refuse or stop any project that isn't.",
+        "The website is informational and does not constitute a binding offer.",
+        "Every engagement is governed by the Master Services Agreement and a statement of work.",
+        "Submitting a brief authorizes contact regarding that brief by email, WhatsApp, or telephone, revocable at any time.",
+        "The website's design and code belong to CAIDE; portfolio projects belong to their owners.",
+        "Use of the website in a manner infringing the acceptable use policy is prohibited.",
+        "CAIDE may decline or terminate any engagement intended for an unlawful purpose.",
       ]}
       sections={sections}
     />

@@ -11,6 +11,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     home(`${SITE}/`),
     ...LOCALES.map((l) => home(`${SITE}/${l}/`)),
-    ...["privacy", "terms", "cookies"].map((p) => ({ url: `${SITE}/${p}/`, changeFrequency: "yearly" as const, priority: 0.3 })),
+    ...["privacy", "terms", "cookies", "refunds", "msa", "dpa"].map((p) => ({ url: `${SITE}/${p}/`, changeFrequency: "yearly" as const, priority: 0.3 })),
   ];
 }

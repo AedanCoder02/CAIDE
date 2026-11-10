@@ -365,6 +365,9 @@ const en = {
     privacy: "Privacy",
     terms: "Terms",
     cookies: "Cookies",
+    refunds: "Refunds",
+    msa: "MSA",
+    dpa: "DPA",
     top: "Back to top",
   },
   legal: {
