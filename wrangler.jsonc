@@ -7,7 +7,11 @@
   "name": "caide",
   "main": "./worker/index.ts",
   "compatibility_date": "2026-10-30",
-  "workers_dev": true,
+  // Production is served only on the custom domain, where the zone's WAF, rate-limit and bot rules apply.
+  // workers.dev and preview URLs bypass those rules, so both stay off.
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "caide.agency", "custom_domain": true }],
   "assets": {
     "directory": "./out",
     "binding": "ASSETS",

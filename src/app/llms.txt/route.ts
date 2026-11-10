@@ -26,8 +26,11 @@ export function GET() {
     "## Legal",
     "",
     `- [Privacy Policy](${SITE}/privacy/)`,
-    `- [Terms of Use](${SITE}/terms/)`,
+    `- [Terms of Service](${SITE}/terms/)`,
     `- [Cookie Policy](${SITE}/cookies/)`,
+    `- [Refund Policy](${SITE}/refunds/)`,
+    `- [Master Services Agreement](${SITE}/msa/)`,
+    `- [Data Processing Agreement](${SITE}/dpa/)`,
     "",
   ].join("\n");
   return new Response(body, { headers: { "Content-Type": "text/plain; charset=utf-8" } });

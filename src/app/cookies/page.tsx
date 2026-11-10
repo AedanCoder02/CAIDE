@@ -3,7 +3,7 @@ import Link from "next/link";
 import { legalMetadata } from "@/i18n/metadata";
 import LegalPage, { type LegalSection } from "@/components/LegalPage";
 
-export const metadata: Metadata = legalMetadata("cookies", "Cookie Policy — CAIDE", "What CAIDE stores on your device, the cookie-free analytics we use only with your consent, and how to change your choice.");
+export const metadata: Metadata = legalMetadata("cookies", "Cookie Policy — CAIDE", "The storage technologies used on the CAIDE website, the consent-based analytics in use, and the means of changing consent.");
 
 const EMAIL = "contact@caide.agency";
 const mail = <a href={`mailto:${EMAIL}`}>{EMAIL}</a>;
@@ -11,39 +11,42 @@ const mail = <a href={`mailto:${EMAIL}`}>{EMAIL}</a>;
 const sections: LegalSection[] = [
   {
     id: "summary",
-    title: "Our approach",
+    title: "Scope and principles",
     body: (
       <>
         <p>
-          We measure only what helps us improve this website, and only if you say yes. We do not use advertising
-          trackers, we do not build profiles of visitors, and we never sell data.
+          The following Cookie Policy sets out the cookies and similar technologies used on this website, the purposes
+          for which they are used, and the means by which consent may be given, refused, or withdrawn. Measurement is
+          limited to that which serves the improvement of the website and is conducted only with consent. No
+          advertising trackers are used, no visitor profiles are built, and no data is sold.
         </p>
         <p>
-          When you first visit, a small panel asks for your choice. Until you accept, nothing optional runs. You can
-          change your mind at any time with the <strong>Cookie settings</strong> link at the bottom of every page.
+          On first visit, a consent panel requests the visitor&rsquo;s choice. No optional technology runs before consent
+          is given. Consent may be changed at any time through the <strong>Cookie settings</strong> link at the foot of
+          every page.
         </p>
       </>
     ),
   },
   {
     id: "what-are-cookies",
-    title: "What cookies are",
+    title: "Definitions",
     body: (
       <>
         <p>
-          Cookies are small text files a website stores in your browser. Similar technologies, such as local storage,
-          session storage, and tracking pixels, can store or read information on your device in comparable ways. This
-          policy covers all of them. They are commonly grouped into:
+          Cookies are small text files stored by a website in the user&rsquo;s browser. Similar technologies, such as
+          local storage, session storage, and tracking pixels, store or read information on a device in a comparable
+          manner. This policy applies to all such technologies, which are classified as follows:
         </p>
         <ul>
           <li>
-            <strong>Essential:</strong> needed for the site to work or to remember a choice you made.
+            <strong>Essential:</strong> strictly necessary for the operation of the website or to record a choice made by the user.
           </li>
           <li>
-            <strong>Analytics:</strong> measure how visitors use a site so it can be improved.
+            <strong>Analytics:</strong> measurement of website usage for the purpose of its improvement.
           </li>
           <li>
-            <strong>Marketing:</strong> measure or target advertising.
+            <strong>Marketing:</strong> measurement or targeting of advertising.
           </li>
         </ul>
       </>
@@ -51,120 +54,122 @@ const sections: LegalSection[] = [
   },
   {
     id: "what-we-use",
-    title: "What this site uses",
+    title: "Technologies in use",
     body: (
       <>
         <table className="legal-table">
           <thead>
             <tr>
               <th>Category</th>
-              <th>What it is</th>
-              <th>When it runs</th>
+              <th>Description</th>
+              <th>Conditions of use</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>Essential</td>
               <td>
-                One local storage entry, <code>caide-consent</code>, that records your choice and the date you made it. It
-                stays on your device and is never sent to us. It expires after 12 months, when we ask again.
+                A single local storage entry, <code>caide-consent</code>, recording the consent choice and its date. It
+                remains on the device, is never transmitted to CAIDE, and expires after 12 months, after which consent
+                is requested again.
               </td>
-              <td>Always, once you make a choice</td>
+              <td>Always, once a choice has been made</td>
             </tr>
             <tr>
               <td>Essential (security)</td>
               <td>
-                Our host, Cloudflare, may set strictly necessary security cookies such as <code>__cf_bm</code> (bot
-                protection, expires after 30 minutes of inactivity) or <code>cf_clearance</code> (proof a security check
-                was passed). They are not used to track you across sites.
+                The hosting provider, Cloudflare, may set strictly necessary security cookies such as{" "}
+                <code>__cf_bm</code> (bot protection, expiring after 30 minutes of inactivity) or{" "}
+                <code>cf_clearance</code> (evidence that a security check was passed). They are not used for
+                cross-site tracking.
               </td>
-              <td>Only when Cloudflare&rsquo;s protection needs them</td>
+              <td>Only where required by Cloudflare&rsquo;s security protections</td>
             </tr>
             <tr>
               <td>Essential (spam protection)</td>
               <td>
-                Cloudflare Turnstile, a privacy-preserving check that loads only on the last step of the project brief
-                form, to keep automated spam out. It does not read what you type into the form.
+                Cloudflare Turnstile, a privacy-preserving check loaded only on the final step of the project brief form
+                to prevent automated abuse. It does not read the content entered in the form.
               </td>
-              <td>Only when you reach the form&rsquo;s contact step</td>
+              <td>Only on reaching the contact step of the form</td>
             </tr>
             <tr>
               <td>Analytics</td>
               <td>
-                Cloudflare Web Analytics. It counts page views and measures page speed. It sets no cookies, uses no
-                local storage, and does not fingerprint visitors by IP address, browser, or any other data.
+                Cloudflare Web Analytics, which counts page views and measures page performance. It sets no cookies,
+                uses no local storage, and does not fingerprint visitors by IP address, browser, or any other data.
               </td>
-              <td>Only after you select Accept or turn Analytics on</td>
+              <td>Only after Accept is selected or Analytics is enabled</td>
             </tr>
             <tr>
               <td>Marketing</td>
-              <td>None. We run no advertising, retargeting, or conversion tags.</td>
-              <td>Never today</td>
+              <td>None. No advertising, retargeting, or conversion tags are used.</td>
+              <td>Not in use</td>
             </tr>
           </tbody>
         </table>
         <p>
-          To show the site in your language, the page reads your browser&rsquo;s language and time zone settings on your
-          device. They are not stored or sent anywhere. If you pick a language yourself, that choice is kept only in the
-          page address (for example <code>/es/</code>).
+          To display the website in the appropriate language, the browser&rsquo;s language and time zone settings are
+          read on the device. These are neither stored nor transmitted. A language selected manually is retained only
+          in the page address (for example <code>/es/</code>).
         </p>
       </>
     ),
   },
   {
     id: "why",
-    title: "Why we use analytics",
+    title: "Purposes of analytics",
     body: (
       <>
-        <p>With your consent, analytics tell us things like:</p>
+        <p>Subject to consent, analytics are used to determine:</p>
         <ul>
-          <li>which pages and sections visitors actually read, so we can improve the ones that do not help;</li>
-          <li>how fast pages load on real devices, so we can fix slow ones;</li>
-          <li>which countries and languages visitors come from, so we translate and describe our work better.</li>
+          <li>which pages and sections are read, for the improvement of those which are not;</li>
+          <li>page load performance on real devices, for the correction of slow pages;</li>
+          <li>the countries and languages of visitors, for the improvement of translations and descriptions.</li>
         </ul>
         <p>
-          The reports we see are totals. They never tell us who you are, and we do not combine them with anything you
-          send us through the contact form.
+          Reports consist of aggregated totals only. They do not identify any visitor and are not combined with any
+          information submitted through the brief form.
         </p>
       </>
     ),
   },
   {
     id: "choices",
-    title: "Your choices",
+    title: "Consent options",
     body: (
       <>
         <ul>
           <li>
-            <strong>Accept:</strong> turns on Analytics. Marketing stays off.
+            <strong>Accept:</strong> enables Analytics. Marketing remains disabled.
           </li>
           <li>
-            <strong>Only essential:</strong> nothing optional runs.
+            <strong>Only essential:</strong> no optional technology runs.
           </li>
           <li>
-            <strong>Customize:</strong> turn each category on or off.
+            <strong>Customize:</strong> each category may be enabled or disabled individually.
           </li>
         </ul>
         <p>
-          Rejecting is as easy as accepting, and the site works the same either way. To change your choice later, use
-          <strong> Cookie settings</strong> in the footer. If you withdraw consent, the analytics script is removed when
-          the page reloads. You can also clear the <code>caide-consent</code> entry by clearing this site&rsquo;s data in
-          your browser, and we will ask again.
+          Refusal is as simple as acceptance, and the website functions identically in either case. Consent may be
+          changed at any time through <strong>Cookie settings</strong> in the footer. Upon withdrawal of consent, the
+          analytics script is removed on the next page load. Clearing this website&rsquo;s data in the browser removes
+          the <code>caide-consent</code> entry, after which consent is requested again.
         </p>
         <p>
-          We honor Global Privacy Control signals: if your browser sends one, we treat it as a refusal of marketing,
-          whatever the panel says.
+          Global Privacy Control signals are honored: where a browser sends such a signal, it is treated as a refusal
+          of marketing, irrespective of the choice made in the panel.
         </p>
       </>
     ),
   },
   {
     id: "external",
-    title: "External sites",
+    title: "Third-party websites",
     body: (
       <p>
-        Our portfolio links to live client projects and other external websites. When you open them, they may set
-        their own cookies under their own policies. Those cookies are not controlled by us.
+        The portfolio links to live client projects and other external websites, which may set their own cookies under
+        their own policies. Such cookies are not controlled by CAIDE.
       </p>
     ),
   },
@@ -174,8 +179,8 @@ const sections: LegalSection[] = [
     body: (
       <>
         <p>
-          You can also view, block, and delete cookies and site data in your browser settings at any time. These guides
-          explain how in the most common browsers:
+          Cookies and site data may also be viewed, blocked, and deleted at any time through browser settings. The
+          following guides describe the procedure for the most common browsers:
         </p>
         <ul>
           <li>
@@ -204,44 +209,44 @@ const sections: LegalSection[] = [
   },
   {
     id: "laws",
-    title: "Laws we follow",
+    title: "Applicable law",
     body: (
       <>
-        <p>Cookie and tracking rules differ by region. We follow the strictest of them, including:</p>
+        <p>Cookie and tracking rules differ by jurisdiction. CAIDE complies with the strictest of them, including:</p>
         <ul>
           <li>
-            the EU ePrivacy Directive and GDPR, and the UK PECR and UK GDPR: nothing non-essential runs before you
-            consent, and refusing is as easy as accepting;
+            the EU ePrivacy Directive and GDPR, and the UK PECR and UK GDPR: no non-essential technology runs before
+            consent, and refusal is as simple as acceptance;
           </li>
           <li>
             Brazil&rsquo;s LGPD, Canada&rsquo;s PIPEDA and Quebec Law 25, and similar laws that require clear notice and
             consent;
           </li>
           <li>
-            US state privacy laws, such as California&rsquo;s CCPA/CPRA: we do not sell or share personal information for
-            targeted advertising, and we recognize Global Privacy Control signals.
+            US state privacy laws, such as California&rsquo;s CCPA/CPRA: personal information is not sold or shared for
+            targeted advertising, and Global Privacy Control signals are recognized.
           </li>
         </ul>
         <p>
-          More detail on how we handle personal information is in our <Link href="/privacy">Privacy Policy</Link>.
+          The processing of personal information is set out in full in the <Link href="/privacy">Privacy Policy</Link>.
         </p>
       </>
     ),
   },
   {
     id: "changes",
-    title: "If this changes",
+    title: "Amendments",
     body: (
       <p>
-        If we ever add a new tool that stores or reads information on your device, we will list it here first and ask
-        for your consent before it runs, where the law requires it.
+        Any new technology that stores or reads information on a device will be listed in this policy before its
+        introduction and, where required by law, will run only after consent has been obtained.
       </p>
     ),
   },
   {
     id: "contact",
     title: "Contact",
-    body: <p>Questions about this policy can be sent to {mail}.</p>,
+    body: <p>Enquiries concerning this policy may be addressed to {mail}.</p>,
   },
 ];
 
@@ -250,15 +255,15 @@ export default function CookiesPage() {
     <LegalPage
       doc="cookies"
       eyebrow="Legal · Cookies"
-      title="Only what helps,"
-      accent="only with your yes."
-      intro="What this site stores on your device, the cookie-free analytics we use only if you agree, and how to change your choice at any time."
-      updated="1 November 2026"
+      title="Cookie"
+      accent="Policy."
+      intro="The following document sets out the technologies this website stores on or reads from a device, the consent-based analytics in use, and the means of changing consent at any time."
+      updated="10 November 2026"
       summary={[
-        "No advertising trackers, ever. No profiles, no data sales.",
-        "Analytics are cookie-free and run only after you accept.",
-        "One small entry on your device remembers your choice.",
-        "Change your mind any time with Cookie settings in the footer.",
+        "No advertising trackers, visitor profiles, or data sales.",
+        "Analytics are cookie-free and run only after consent.",
+        "A single local entry records the consent choice.",
+        "Consent may be changed at any time through Cookie settings in the footer.",
       ]}
       sections={sections}
     />

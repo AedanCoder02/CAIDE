@@ -38,12 +38,27 @@ DELETE FROM leads WHERE created_at < datetime('now','-24 months');
    - Go to **Email Service**, then **Email Routing**, and verify your inbox.
    - Uncomment `send_email` in `wrangler.jsonc`, and set `LEAD_FROM` and `LEAD_TO`.
    - The site already uses `contact@caide.agency` (the real inbox, 2026-11-09).
-4. Zone security, all free:
-   - SSL **Full (strict)** and **Always Use HTTPS**.
-   - **Bot Fight Mode**.
-   - One WAF rate-limit rule on `/api/lead`.
-   - **DNSSEC**.
-   - A DMARC record.
+4. Zone security: see **Edge security** below.
+
+## Edge security (caide.agency, Free plan)
+Production is served only on `caide.agency`. `workers_dev` and `preview_urls` are off in `wrangler.jsonc`, because those hostnames bypass the zone's WAF, rate-limit and bot rules. The Worker has no origin server, so there is no origin IP to hide or lock down.
+
+`scripts/cloudflare-edge.mjs` applies the baseline:
+- the Free Managed Ruleset;
+- 5 WAF custom rules that block SQL injection and XSS strings in query strings, path traversal and vulnerability probes, unused HTTP methods, and API requests without a user agent;
+- 1 rate-limiting rule: more than 5 POSTs to `/api/*` from one IP in 10 seconds is blocked for 10 seconds;
+- SSL Full (strict), Always Use HTTPS, minimum TLS 1.2.
+
+The script replaces every rule in those three phases, so rules added by hand there are removed. Run it without `--apply` first to see the current and planned rules.
+
+Run it from GitHub: **Actions**, then **Cloudflare edge rules**, then **Run workflow**. It needs two repository secrets:
+- `CLOUDFLARE_API_TOKEN`: a token scoped to the caide.agency zone, with Zone WAF Edit and Zone Settings Edit.
+- `CLOUDFLARE_ZONE_ID`: from the zone's Overview page.
+
+Set by hand in the dashboard:
+- **Bot Fight Mode**: Security, then Settings, then Bot traffic.
+- **DNSSEC** and a **DMARC** record.
+- **Turnstile**: add `caide.agency` to the widget's hostnames before setting `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, or the brief form will fail.
 
 ## Local test
 ```

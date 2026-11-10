@@ -1,0 +1,83 @@
+name: AI review
+
+# Claude reviews every PR and posts inline comments. Critical findings fail this check,
+# warnings are informational. Make "AI review / review" a required status check on the
+# default branch so a PR cannot merge until it passes.
+# Needs the repository secret CLAUDE_CODE_OAUTH_TOKEN (from `claude setup-token`).
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: ai-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: claude
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+            BASE: ${{ github.event.pull_request.base.ref }}
+
+            The PR branch is checked out. Read the diff with `gh pr diff` and open surrounding files as needed.
+
+            Review for architecture and correctness, not syntax. Focus on:
+            - business-logic correctness: does the change do what the PR says, for every input;
+            - security: SQL injection vectors (string-built queries, unparameterized input), XSS, missing
+              authentication or authorization checks, secrets in code, unsafe redirects, missing input validation;
+            - unhandled edge cases: empty, null, duplicate, concurrent, partial-failure and retry paths;
+            - performance: N+1 queries, queries or network calls inside loops, unbounded reads, missing indexes;
+            - architecture: wrong layer, leaked abstractions, state that will not survive serverless or multiple instances.
+            Ignore formatting, naming and style preferences entirely.
+
+            Any change that touches authentication, sessions, payments or billing, or deletion of data
+            must get an inline comment saying so, even when it looks correct, so a human reviews it.
+
+            Severity:
+            - critical: exploitable vulnerability, data loss or corruption, auth or payment bypass, or a bug that
+              breaks a core flow in production. Only use critical when you can name the concrete failure.
+            - warning: everything else worth fixing.
+
+            Post each finding as an inline comment with `mcp__github_inline_comment__create_inline_comment`
+            (confirmed: true), starting with [CRITICAL] or [WARNING]. Then post one summary with `gh pr comment`.
+            Do not post comments for things that are fine.
+
+            Return the counts in the structured output.
+          claude_args: |
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Read,Grep,Glob"
+            --json-schema '{"type":"object","properties":{"critical":{"type":"integer","minimum":0},"warnings":{"type":"integer","minimum":0},"summary":{"type":"string"}},"required":["critical","warnings","summary"]}'
+
+      - name: Gate on critical findings
+        env:
+          RESULT: ${{ steps.claude.outputs.structured_output }}
+        run: |
+          if [ -z "$RESULT" ]; then
+            echo "::error::The AI review returned no result, so the PR is not cleared."
+            exit 1
+          fi
+          CRITICAL=$(printf '%s' "$RESULT" | jq -r '.critical')
+          WARNINGS=$(printf '%s' "$RESULT" | jq -r '.warnings')
+          printf '%s' "$RESULT" | jq -r '.summary' >> "$GITHUB_STEP_SUMMARY"
+          echo "Critical: $CRITICAL, warnings: $WARNINGS"
+          if [ "$CRITICAL" != "0" ]; then
+            echo "::error::$CRITICAL critical finding(s). Fix them and push to re-run the review."
+            exit 1
+          fi

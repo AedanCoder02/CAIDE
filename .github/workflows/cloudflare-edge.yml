@@ -1,0 +1,25 @@
+name: Cloudflare edge rules
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Apply the rules (unchecked prints the plan only)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  edge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/cloudflare-edge.mjs ${{ inputs.apply && '--apply' || '' }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}

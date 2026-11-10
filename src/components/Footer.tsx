@@ -110,6 +110,9 @@ export default function Footer({ home = true }: { home?: boolean }) {
             <SiteLink href="/privacy" className="transition-colors hover:text-fg">{t.privacy}</SiteLink>
             <SiteLink href="/terms" className="transition-colors hover:text-fg">{t.terms}</SiteLink>
             <SiteLink href="/cookies" className="transition-colors hover:text-fg">{t.cookies}</SiteLink>
+            <SiteLink href="/refunds" className="transition-colors hover:text-fg">{t.refunds}</SiteLink>
+            <SiteLink href="/msa" className="transition-colors hover:text-fg">{t.msa}</SiteLink>
+            <SiteLink href="/dpa" className="transition-colors hover:text-fg">{t.dpa}</SiteLink>
             <button type="button" onClick={openConsentSettings} className="transition-colors hover:text-fg">{dict.consent.settings}</button>
           </nav>
           <a href="#top" className="inline-flex items-center gap-1.5 transition-colors hover:text-fg">
