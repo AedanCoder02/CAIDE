@@ -210,7 +210,7 @@ const ptBR: Dict = {
     doneSub: "Obrigado, {name}. Vamos ler e responder para {email} com como faríamos, o prazo e o preço.",
     mailTitle: "Último passo.",
     mailSub: "Seu app de e-mail abriu com o briefing pronto. Toque em enviar e seguimos daí.",
-    error: "Não foi possível enviar o briefing. Tente de novo ou escreva para hello@caide.dev.",
+    error: "Não foi possível enviar o briefing. Tente de novo ou escreva para contact@caide.agency.",
     again: "Começar outro briefing",
     after: ["Lemos o seu briefing", "Respondemos com plano e preço", "Você decide, sem pressão"],
     or: "Prefere um e-mail simples?",

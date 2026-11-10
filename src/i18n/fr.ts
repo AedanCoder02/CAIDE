@@ -210,7 +210,7 @@ const fr: Dict = {
     doneSub: "Merci, {name}. Nous allons le lire et répondre à {email} avec notre approche, un délai et un prix.",
     mailTitle: "Dernière étape.",
     mailSub: "Votre messagerie s'est ouverte avec le brief prêt. Appuyez sur envoyer et nous prenons le relais.",
-    error: "Votre brief n'a pas pu être envoyé. Réessayez ou écrivez à hello@caide.dev.",
+    error: "Votre brief n'a pas pu être envoyé. Réessayez ou écrivez à contact@caide.agency.",
     again: "Commencer un autre brief",
     after: ["Nous lisons votre brief", "Nous répondons avec un plan et un prix", "Vous décidez, sans pression"],
     or: "Vous préférez un simple e-mail ?",

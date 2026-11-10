@@ -114,10 +114,10 @@ export default function Cta() {
         <p className="cta-reveal mt-8 text-sm text-fg/50">
           {lead.or}{" "}
           <a
-            href={`mailto:hello@caide.dev?subject=${encodeURIComponent(t.primarySubject)}`}
+            href={`mailto:contact@caide.agency?subject=${encodeURIComponent(t.primarySubject)}`}
             className="font-semibold text-fg/80 underline decoration-white/25 underline-offset-4 transition-colors hover:text-fg hover:decoration-accent-2"
           >
-            hello@caide.dev
+            contact@caide.agency
           </a>
         </p>
       </div>

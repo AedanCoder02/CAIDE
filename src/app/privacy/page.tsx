@@ -5,7 +5,7 @@ import LegalPage, { type LegalSection } from "@/components/LegalPage";
 
 export const metadata: Metadata = legalMetadata("privacy", "Privacy Policy — CAIDE", "How CAIDE collects, uses, and protects personal information.");
 
-const EMAIL = "hello@caide.dev";
+const EMAIL = "contact@caide.agency";
 const mail = <a href={`mailto:${EMAIL}`}>{EMAIL}</a>;
 
 const sections: LegalSection[] = [

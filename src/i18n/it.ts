@@ -210,7 +210,7 @@ const it: Dict = {
     doneSub: "Grazie, {name}. Lo leggeremo e risponderemo a {email} con come lo realizzeremmo, i tempi e il prezzo.",
     mailTitle: "Ultimo passo.",
     mailSub: "La tua app email si è aperta con il brief pronto. Premi invia e pensiamo noi al resto.",
-    error: "Impossibile inviare il brief. Riprova o scrivi a hello@caide.dev.",
+    error: "Impossibile inviare il brief. Riprova o scrivi a contact@caide.agency.",
     again: "Inizia un altro brief",
     after: ["Leggiamo il tuo brief", "Rispondiamo con piano e prezzo", "Decidi tu, senza pressioni"],
     or: "Preferisci una semplice email?",

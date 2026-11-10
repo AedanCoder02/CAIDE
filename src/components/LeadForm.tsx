@@ -9,7 +9,7 @@ import { useLang } from "@/i18n/LangProvider";
 // visitor's email app instead, so no enquiry is ever lost.
 const ENDPOINT = process.env.NEXT_PUBLIC_LEAD_ENDPOINT ?? "";
 const TURNSTILE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
-const INBOX = "hello@caide.dev";
+const INBOX = "contact@caide.agency";
 
 type Brief = {
   needs: number[];

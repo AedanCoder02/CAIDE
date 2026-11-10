@@ -78,11 +78,11 @@ export default function Footer({ home = true }: { home?: boolean }) {
               {t.blurb}
             </p>
             <a
-              href="mailto:hello@caide.dev"
+              href="mailto:contact@caide.agency"
               className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-2.5 text-sm font-semibold text-fg transition-colors hover:border-fg/40"
             >
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent-5 shadow-[0_0_8px_#10b981]" />
-              hello@caide.dev
+              contact@caide.agency
             </a>
           </div>
 

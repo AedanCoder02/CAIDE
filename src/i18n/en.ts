@@ -334,7 +334,7 @@ const en = {
     doneSub: "Thank you, {name}. We'll read it and reply to {email} with how we'd build it, a timeline, and a price.",
     mailTitle: "One last step.",
     mailSub: "Your email app opened with the brief ready. Press send and we'll take it from there.",
-    error: "Your brief could not be sent. Please try again, or write to hello@caide.dev.",
+    error: "Your brief could not be sent. Please try again, or write to contact@caide.agency.",
     again: "Start another brief",
     after: ["We read your brief", "We reply with a plan and price", "You decide, no pressure"],
     or: "Prefer a plain email?",
