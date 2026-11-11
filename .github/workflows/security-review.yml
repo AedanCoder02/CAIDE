@@ -70,7 +70,7 @@ jobs:
         run: |
           # The action hides Claude's output, so a rejected token or API error shows up only as
           # "did not return structured_output". Print the run's final result message instead.
-          jq -r '[.[] | select(.type == "result")] | last | "is_error=\(.is_error) turns=\(.num_turns) cost=\(.total_cost_usd)\n\(.result // "no result text")"' "$EXEC_FILE" || cat "$EXEC_FILE" | head -c 2000
+          jq -r '[.[] | select(.type == "result")] | last | "is_error=\(.is_error) api_error_status=\(.api_error_status) turns=\(.num_turns) cost=\(.total_cost_usd)\n\(.result // "no result text")"' "$EXEC_FILE" || cat "$EXEC_FILE" | head -c 2000
 
       - name: Gate on HIGH findings
         env:
