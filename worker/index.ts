@@ -87,7 +87,7 @@ async function handleLead(req: Request, env: Env, ctx: Ctx): Promise<Response> {
 
   // Spam trap. Phone autofill sometimes fills it with the visitor's business name, so a filled trap
   // only flags the brief as suspect. Dropping it lost a real customer's brief (2026-11-11).
-  const trap = clean(b.company, 200);
+  const trap = clean(b.company, 80);
 
   const lead = {
     name: clean(b.name, 120),
@@ -102,7 +102,7 @@ async function handleLead(req: Request, env: Env, ctx: Ctx): Promise<Response> {
     timeline: clean(b.timeline, 80),
     brand: clean(b.brand, 80),
     budget: clean(b.budget, 80),
-    idea: (trap ? `[Spam trap filled: "${trap}". Check before replying.]\n` : "") + cleanText(b.idea, 2000),
+    idea: ((trap ? `[Spam trap filled: "${trap}". Check before replying.]\n` : "") + cleanText(b.idea, 2000)).slice(0, 2000),
     locale: clean(b.locale, 10),
     updates: b.updates === true,
   };
@@ -126,15 +126,18 @@ async function handleLead(req: Request, env: Env, ctx: Ctx): Promise<Response> {
       .run();
   }
 
-  if (env.OS_BRIEF_URL && env.OS_BRIEF_SECRET) {
-    // After the response, so a slow or down CAIDE-OS never fails the visitor; D1 keeps the brief either way.
+  if (env.OS_BRIEF_URL?.startsWith("https://") && env.OS_BRIEF_SECRET) {
+    // After the response, so a slow or down CAIDE-OS never fails the visitor; D1 keeps the brief either
+    // way. Failures go to the Worker logs (observability is on) so a broken handoff is visible.
     ctx.waitUntil(
       fetch(env.OS_BRIEF_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${env.OS_BRIEF_SECRET}` },
         body: JSON.stringify({ id, created_at: now, ...lead, needs: lead.needs.join(", "), suspect: !!trap }),
         signal: AbortSignal.timeout(10000),
-      }).catch(() => {}),
+      })
+        .then(r => { if (!r.ok) console.error(`brief ${id}: CAIDE-OS answered ${r.status}`); })
+        .catch(e => console.error(`brief ${id}: CAIDE-OS unreachable: ${e}`)),
     );
   }
 
@@ -160,7 +163,7 @@ async function handleLead(req: Request, env: Env, ctx: Ctx): Promise<Response> {
       to: env.LEAD_TO,
       from: { email: env.LEAD_FROM, name: "CAIDE briefs" },
       replyTo: lead.email,
-      subject: `New brief: ${lead.business || lead.name}`.slice(0, 150),
+      subject: `${trap ? "[Possible spam] " : ""}New brief: ${lead.business || lead.name}`.slice(0, 150),
       text,
     });
   }
