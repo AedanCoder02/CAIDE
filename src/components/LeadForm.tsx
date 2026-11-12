@@ -148,7 +148,6 @@ export default function LeadForm() {
 
   const submit = async () => {
     if (!validate(3)) return;
-    if (honeypot.current?.value) return setStatus("sent"); // bots get a fake success
     const payload = {
       ...labels,
       business: b.business.trim(),
@@ -163,6 +162,8 @@ export default function LeadForm() {
       locale,
       page: window.location.pathname,
       turnstile: token,
+      // Spam trap. Phone autofill can fill it for real people, so the server flags the brief, never drops it.
+      company: honeypot.current?.value ?? "",
     };
 
     const mailFallback = () => {

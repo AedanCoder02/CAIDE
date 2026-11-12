@@ -21,7 +21,12 @@ interface Env {
   TURNSTILE_SECRET?: string;
   EMAIL?: SendEmail;
   DB?: D1;
+  // CAIDE-OS intake (POST /api/leads/brief). Set both as Worker secrets to turn on forwarding.
+  OS_BRIEF_URL?: string;
+  OS_BRIEF_SECRET?: string;
 }
+
+type Ctx = { waitUntil: (p: Promise<unknown>) => void };
 
 const MAX_BODY = 16_000; // bytes
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -57,7 +62,7 @@ async function verifyTurnstile(secret: string, token: string, ip: string | null)
   return out.success === true;
 }
 
-async function handleLead(req: Request, env: Env): Promise<Response> {
+async function handleLead(req: Request, env: Env, ctx: Ctx): Promise<Response> {
   if (req.method !== "POST") return json(405, { ok: false, error: "method" });
 
   // Only accept JSON from the site's own pages.
@@ -80,8 +85,11 @@ async function handleLead(req: Request, env: Env): Promise<Response> {
     return json(400, { ok: false, error: "json" });
   }
 
-  // Honeypot: real visitors never fill it. Pretend success.
-  if (clean(b.company, 200)) return json(200, { ok: true });
+  // Spam trap. Phone autofill sometimes fills it with the visitor's business name, so a filled trap
+  // only flags the brief as suspect. Dropping it lost a real customer's brief (2026-11-11).
+  // Its value is never stored or forwarded: it is text a bot chose, and the brief is read by agents.
+  const trap = clean(b.company, 80) !== "";
+  const trapNote = trap ? "[Spam trap filled. Check before replying.]\n" : "";
 
   const lead = {
     name: clean(b.name, 120),
@@ -96,7 +104,7 @@ async function handleLead(req: Request, env: Env): Promise<Response> {
     timeline: clean(b.timeline, 80),
     brand: clean(b.brand, 80),
     budget: clean(b.budget, 80),
-    idea: cleanText(b.idea, 2000),
+    idea: trapNote + cleanText(b.idea, 2000 - trapNote.length),
     locale: clean(b.locale, 10),
     updates: b.updates === true,
   };
@@ -118,6 +126,21 @@ async function handleLead(req: Request, env: Env): Promise<Response> {
     )
       .bind(id, now, lead.locale, lead.name, lead.email, lead.phone, lead.prefer, lead.business, lead.industry, lead.location, lead.site, lead.needs.join(", "), lead.timeline, lead.brand, lead.budget, lead.idea, lead.updates ? 1 : 0, now)
       .run();
+  }
+
+  if (env.OS_BRIEF_URL?.startsWith("https://") && env.OS_BRIEF_SECRET) {
+    // After the response, so a slow or down CAIDE-OS never fails the visitor; D1 keeps the brief either
+    // way. Failures go to the Worker logs (observability is on) so a broken handoff is visible.
+    ctx.waitUntil(
+      fetch(env.OS_BRIEF_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${env.OS_BRIEF_SECRET}` },
+        body: JSON.stringify({ id, created_at: now, ...lead, needs: lead.needs.join(", "), suspect: trap }),
+        signal: AbortSignal.timeout(10000),
+      })
+        .then(r => { if (!r.ok) console.error(`brief ${id}: CAIDE-OS answered ${r.status}`); })
+        .catch(e => console.error(`brief ${id}: CAIDE-OS unreachable: ${e}`)),
+    );
   }
 
   if (env.EMAIL && env.LEAD_TO && env.LEAD_FROM) {
@@ -142,7 +165,7 @@ async function handleLead(req: Request, env: Env): Promise<Response> {
       to: env.LEAD_TO,
       from: { email: env.LEAD_FROM, name: "CAIDE briefs" },
       replyTo: lead.email,
-      subject: `New brief: ${lead.business || lead.name}`.slice(0, 150),
+      subject: `${trap ? "[Possible spam] " : ""}New brief: ${lead.business || lead.name}`.slice(0, 150),
       text,
     });
   }
@@ -151,11 +174,11 @@ async function handleLead(req: Request, env: Env): Promise<Response> {
 }
 
 const worker = {
-  async fetch(req: Request, env: Env): Promise<Response> {
+  async fetch(req: Request, env: Env, ctx: Ctx): Promise<Response> {
     const { pathname } = new URL(req.url);
     if (pathname === "/api/lead") {
       try {
-        return await handleLead(req, env);
+        return await handleLead(req, env, ctx);
       } catch {
         return json(500, { ok: false, error: "server" });
       }
