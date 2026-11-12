@@ -88,6 +88,7 @@ async function handleLead(req: Request, env: Env, ctx: Ctx): Promise<Response> {
   // Spam trap. Phone autofill sometimes fills it with the visitor's business name, so a filled trap
   // only flags the brief as suspect. Dropping it lost a real customer's brief (2026-11-11).
   const trap = clean(b.company, 80);
+  const trapNote = trap ? `[Spam trap filled: "${trap}". Check before replying.]\n` : "";
 
   const lead = {
     name: clean(b.name, 120),
@@ -102,7 +103,7 @@ async function handleLead(req: Request, env: Env, ctx: Ctx): Promise<Response> {
     timeline: clean(b.timeline, 80),
     brand: clean(b.brand, 80),
     budget: clean(b.budget, 80),
-    idea: ((trap ? `[Spam trap filled: "${trap}". Check before replying.]\n` : "") + cleanText(b.idea, 2000)).slice(0, 2000),
+    idea: trapNote + cleanText(b.idea, 2000 - trapNote.length),
     locale: clean(b.locale, 10),
     updates: b.updates === true,
   };
