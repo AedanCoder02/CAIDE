@@ -87,8 +87,9 @@ async function handleLead(req: Request, env: Env, ctx: Ctx): Promise<Response> {
 
   // Spam trap. Phone autofill sometimes fills it with the visitor's business name, so a filled trap
   // only flags the brief as suspect. Dropping it lost a real customer's brief (2026-11-11).
-  const trap = clean(b.company, 80);
-  const trapNote = trap ? `[Spam trap filled: "${trap}". Check before replying.]\n` : "";
+  // Its value is never stored or forwarded: it is text a bot chose, and the brief is read by agents.
+  const trap = clean(b.company, 80) !== "";
+  const trapNote = trap ? "[Spam trap filled. Check before replying.]\n" : "";
 
   const lead = {
     name: clean(b.name, 120),
@@ -134,7 +135,7 @@ async function handleLead(req: Request, env: Env, ctx: Ctx): Promise<Response> {
       fetch(env.OS_BRIEF_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${env.OS_BRIEF_SECRET}` },
-        body: JSON.stringify({ id, created_at: now, ...lead, needs: lead.needs.join(", "), suspect: !!trap }),
+        body: JSON.stringify({ id, created_at: now, ...lead, needs: lead.needs.join(", "), suspect: trap }),
         signal: AbortSignal.timeout(10000),
       })
         .then(r => { if (!r.ok) console.error(`brief ${id}: CAIDE-OS answered ${r.status}`); })
