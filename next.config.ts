@@ -7,8 +7,9 @@ import type { NextConfig } from "next";
 // default config below.
 const isGithubPages = process.env.GITHUB_PAGES === "true";
 // Cloudflare (Workers static assets, see wrangler.jsonc) serves the same static
-// export from the domain root, so it needs no basePath.
-const isCloudflare = process.env.CLOUDFLARE === "true";
+// export from the domain root, so it needs no basePath. Workers Builds always sets WORKERS_CI=1,
+// so a Cloudflare build is static even when its build command is plain `npm run build`.
+const isCloudflare = process.env.CLOUDFLARE === "true" || process.env.WORKERS_CI === "1";
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -18,6 +19,7 @@ const nextConfig: NextConfig = {
         ...(isGithubPages ? { basePath: "/CAIDE", assetPrefix: "/CAIDE" } : {}),
         trailingSlash: true,
         images: { unoptimized: true },
+        ...(isCloudflare ? { env: { NEXT_PUBLIC_LEAD_ENDPOINT: process.env.NEXT_PUBLIC_LEAD_ENDPOINT ?? "/api/lead" } } : {}),
       }
     : {
         cacheComponents: true,
