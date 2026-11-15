@@ -1,13 +1,13 @@
 name: Security review
 
-# Dedicated security pass on every PR, modelled on anthropics/claude-code-security-review.
+# Dedicated security pass on request (label "claude-review"), modelled on anthropics/claude-code-security-review.
 # That action only accepts an Anthropic API key; CAIDE runs Claude through OAuth only, so the
 # same audit runs here through claude-code-action with CLAUDE_CODE_OAUTH_TOKEN.
 # HIGH findings fail this check. Make "Security review / security" a required status check.
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+    types: [opened, synchronize, reopened, ready_for_review, labeled]
 
 permissions:
   contents: read
@@ -20,7 +20,10 @@ concurrency:
 
 jobs:
   security:
-    if: github.event.pull_request.draft == false && github.event.pull_request.user.login != 'dependabot[bot]'
+    # Runs only on request, to spare the Claude subscription: add the label "claude-review" to the PR
+    # (remove and add it again to re-run). On every other event the job is skipped, which a required
+    # status check counts as passed. gemini-review.yml covers every push.
+    if: github.event.action == 'labeled' && github.event.label.name == 'claude-review' && github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
